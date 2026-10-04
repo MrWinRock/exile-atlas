@@ -1,0 +1,71 @@
+name: exile-atlas
+
+x-app: &app
+  image: ${EXILE_ATLAS_IMAGE:?Set EXILE_ATLAS_IMAGE to the published GHCR digest}
+  env_file: .env
+  environment:
+    DATABASE_URL: postgres://atlas:${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD}@postgres:5432/atlas
+    REDIS_URL: redis://redis:6379
+  init: true
+
+services:
+  web:
+    <<: *app
+    restart: unless-stopped
+    ports:
+      - "${TAILNET_IP:?Set the VPS Tailscale IPv4 address}:${WEB_PORT:-3210}:3000"
+    depends_on:
+      db-setup: { condition: service_completed_successfully }
+      redis: { condition: service_healthy }
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "bun",
+          "-e",
+          "const r = await fetch('http://127.0.0.1:3000/api/status'); if (!r.ok) process.exit(1)",
+        ]
+      interval: 15s
+      timeout: 5s
+      start_period: 30s
+      retries: 5
+  worker:
+    <<: *app
+    restart: unless-stopped
+    command: ["bun", "run", "worker"]
+    depends_on:
+      db-setup: { condition: service_completed_successfully }
+      redis: { condition: service_healthy }
+  db-setup:
+    <<: *app
+    restart: "no"
+    command: ["bun", "run", "db:setup"]
+    depends_on:
+      postgres: { condition: service_healthy }
+  postgres:
+    image: postgres:18-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: atlas
+      POSTGRES_USER: atlas
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD}
+    volumes: ["postgres-data:/var/lib/postgresql"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U atlas -d atlas"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+  redis:
+    image: redis:8-alpine
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes: ["redis-data:/data"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  postgres-data:
+  redis-data:

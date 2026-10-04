@@ -1,0 +1,9 @@
+# Host-run Bun app; only PostgreSQL and Redis run in Docker.
+# Use with compose.yaml and the isolated poe2api-dev project name.
+services:
+  postgres:
+    ports: ["127.0.0.1:5432:5432"]
+    restart: unless-stopped
+  redis:
+    ports: ["127.0.0.1:6379:6379"]
+    restart: unless-stopped

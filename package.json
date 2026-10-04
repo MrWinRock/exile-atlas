@@ -1,0 +1,53 @@
+{
+  "name": "exile-atlas",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "bun --bun next dev --hostname 127.0.0.1",
+    "build": "bun --bun next build --webpack",
+    "start": "bun --bun next start --hostname 0.0.0.0",
+    "test": "bun test ./tests",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "prepare:assets": "bun run scripts/prepare.ts",
+    "worker": "bun run src/worker/index.ts",
+    "db:setup": "bun run src/server/db/setup.ts",
+    "infra:up": "docker compose -p poe2api-dev -f compose.yaml -f compose.dev.yaml up -d --wait postgres redis",
+    "infra:down": "docker compose -p poe2api-dev -f compose.yaml -f compose.dev.yaml down",
+    "infra:status": "docker compose -p poe2api-dev -f compose.yaml -f compose.dev.yaml ps",
+    "test:e2e": "playwright test"
+  },
+  "dependencies": {
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "lucide-react": "latest",
+    "@tanstack/react-query": "latest",
+    "@tanstack/react-table": "latest",
+    "zustand": "latest",
+    "zod": "latest",
+    "react-hook-form": "latest",
+    "drizzle-orm": "latest",
+    "postgres": "latest",
+    "bullmq": "latest",
+    "ioredis": "latest",
+    "oauth4webapi": "latest",
+    "pixi.js": "latest",
+    "echarts": "latest",
+    "@monaco-editor/react": "latest",
+    "monaco-editor": "latest",
+    "pino": "latest"
+  },
+  "devDependencies": {
+    "@playwright/test": "latest",
+    "@tailwindcss/postcss": "latest",
+    "@types/bun": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "eslint": "^9.39.1",
+    "eslint-config-next": "latest",
+    "prettier": "^3.9.9",
+    "tailwindcss": "latest",
+    "typescript": "^5.9.3"
+  }
+}

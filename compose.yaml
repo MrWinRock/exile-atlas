@@ -1,0 +1,46 @@
+services:
+  web:
+    build: .
+    ports: ["127.0.0.1:3000:3000"]
+    env_file: .env.local
+    environment:
+      DATABASE_URL: postgres://atlas:${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in your shell or .env}@postgres:5432/atlas
+      REDIS_URL: redis://redis:6379
+    depends_on:
+      postgres: { condition: service_healthy }
+      redis: { condition: service_healthy }
+  worker:
+    build: .
+    command: ["bun", "run", "worker"]
+    profiles: ["history"]
+    env_file: .env.local
+    environment:
+      DATABASE_URL: postgres://atlas:${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in your shell or .env}@postgres:5432/atlas
+      REDIS_URL: redis://redis:6379
+    depends_on:
+      postgres: { condition: service_healthy }
+      redis: { condition: service_healthy }
+  postgres:
+    image: postgres:18-alpine
+    environment:
+      POSTGRES_DB: atlas
+      POSTGRES_USER: atlas
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in your shell or .env}
+    volumes: ["postgres-data:/var/lib/postgresql"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U atlas -d atlas"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+  redis:
+    image: redis:8-alpine
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes: ["redis-data:/data"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+volumes:
+  postgres-data:
+  redis-data:
