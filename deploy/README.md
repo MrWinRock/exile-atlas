@@ -60,10 +60,12 @@ After a **failed deployment**, `.env` still records the most recent healthy rele
 
 ## Current setup state
 
-Live site: https://labs.tail262442.ts.net:3211/ (connect to the tailnet first). Stack: `/opt/stacks/exile-atlas/docker-compose.yml`.
+Public site: https://poe2.nonglabs.cloud/. Private site: https://labs.tail262442.ts.net:3211/ (connect to the tailnet for this URL). Stack: `/opt/stacks/exile-atlas/docker-compose.yml`.
 
-[Build and deployment run 37219711411](https://github.com/MrWinRock/exile-atlas/actions/runs/37219711411) passed: tests, lint, type checks, image publication, GitHub OIDC login, private SSH, GHCR pull, database setup and application startup. Deployed app commit: `c5e38a8`. Image digest: `sha256:2fea814356c7b9e080421f8af632e7f01d9c7d75426c73d51978a7b9b1cf12fe`.
+[Build and deployment run 37222384627](https://github.com/MrWinRock/exile-atlas/actions/runs/37222384627) passed: 62 regression tests, lint, type checks, image publication, GitHub OIDC login, private SSH, GHCR pull, database setup and application startup. Deployed app commit: `fc416b8`. Image digest: `sha256:50f2af99da95889039cdf710a4a1bd63021c09af493068d622ccd607e890f0d0`.
 
 Follow-up fixed direct Compose commands by persisting the last healthy image into `.env` and retiring the competing root `compose.yaml` to `deploy/legacy-compose.yaml`. After automatic redeployment, a fresh SSH session verified plain `docker compose ps`, the root `docker-compose.yml`, mode-600 `.env`, the published digest and the loopback-only backend binding. HTTPS API status is verified from the connected Windows peer with normal certificate validation; web/PostgreSQL/Redis are healthy and worker is running. Both database services have no host ports and retained their existing volumes. Temporary local deployment-key copies were removed; the private key is retained only as the encrypted GitHub repository secret. GGG OAuth remains unconfigured.
+
+Public rollout verified NPM-to-web connectivity on `shared`, HTTP 200 from the actual public HTTPS domain, guest save/reload/export in a fresh browser, and Redis concurrency/expiry. Only web joins `shared`; other app services have no restarts. The final runtime excludes the vulnerable development glob tooling and includes the patched installed DOMPurify dependency. The editor's embedded sanitizer caveat remains documented in the review above. Public GGG login stays unavailable and cross-origin account writes return 403.
 
 ![Planner served through the tailnet HTTPS domain](../docs/tailnet-https-preview.png)
