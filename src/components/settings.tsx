@@ -2,16 +2,7 @@
 /* eslint-disable @next/next/no-html-link-for-pages -- OAuth must use a full browser navigation, with no prefetch or RSC interception. */
 import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import {
-  ArrowUpRight,
-  Database,
-  ExternalLink,
-  LockKeyhole,
-  LogOut,
-  ShieldCheck,
-  Terminal,
-  Trash2,
-} from "lucide-react";
+import { ArrowUpRight, LockKeyhole, LogOut, ShieldCheck, Trash2 } from "lucide-react";
 import { api, useStatus } from "@/lib/client";
 import { useWorkspace } from "@/lib/workspace-store";
 import { Badge, Button, Loading, Notice, PageTitle, SectionHeader } from "./ui";
@@ -42,7 +33,7 @@ export function Settings() {
       <PageTitle
         eyebrow="WORKSPACE / SETTINGS"
         title="Your workspace, your way."
-        description="Manage account access, see service readiness, and keep your drafts under your control."
+        description="Manage your account connection and the drafts saved in this browser."
       />
       {isLoading ? (
         <Loading />
@@ -77,8 +68,8 @@ export function Settings() {
                   </a>
                 ) : (
                   <Notice>
-                    Local editors and public tools are available now. Complete the application
-                    configuration below to enable account access.
+                    GGG account connection is not available yet. You can use the planner, build
+                    library and filter editor without signing in.
                   </Notice>
                 )}
                 <div className="scope-list">
@@ -95,105 +86,42 @@ export function Settings() {
                     Online loot filters
                   </span>
                 </div>
-                <p className="fine-print">
-                  GGG currently cannot process new application registrations. This connection
-                  requires an existing approved client. You can revoke access from your Path of
-                  Exile profile at any time.
-                </p>
-                <a
-                  href="https://www.pathofexile.com/developer/docs/authorization"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-link"
-                >
-                  How account authorization works <ExternalLink size={13} />
-                </a>
+                {status.connected && (
+                  <p className="fine-print">
+                    You can revoke access from your Path of Exile profile at any time.
+                  </p>
+                )}
               </section>
               <section className="panel">
-                <SectionHeader title="Service readiness" aside={<Terminal size={19} />} />
-                {[
-                  ["Runtime", status.runtime, true],
-                  [
-                    "GGG OAuth",
-                    status.oauthConfigured ? "Configured" : "Setup required",
-                    status.oauthConfigured,
-                  ],
-                  [
-                    "PostgreSQL",
-                    status.databaseConfigured ? "Configured" : "Optional for local tools",
-                    status.databaseConfigured,
-                  ],
-                  [
-                    "Redis & worker",
-                    status.redisConfigured ? "Configured" : "Optional for local tools",
-                    status.redisConfigured,
-                  ],
-                ].map(([name, value, ready]) => (
-                  <div className="service-row" key={String(name)}>
-                    <span className={ready ? "status-light" : "inactive-light"} />
-                    <strong>{name}</strong>
-                    <span>{value}</span>
-                  </div>
-                ))}
-                <p className="fine-print">
-                  Readiness shows configuration presence. A running database and worker are required
-                  to collect historical trends.
+                <SectionHeader title="Browser workspace" />
+                <p className="muted">
+                  {store.builds.length} saved builds and {store.filters.length} filter drafts are
+                  stored in this browser. Export files to keep a portable backup.
                 </p>
+                {confirmClear ? (
+                  <div className="button-group">
+                    <Notice error>This removes all drafts from this browser.</Notice>
+                    <Button
+                      onClick={() => {
+                        store.clearDrafts();
+                        setConfirmClear(false);
+                        setMessage("Browser drafts cleared.");
+                      }}
+                    >
+                      Clear all drafts
+                    </Button>
+                    <Button variant="secondary" onClick={() => setConfirmClear(false)}>
+                      Keep drafts
+                    </Button>
+                  </div>
+                ) : (
+                  <Button variant="secondary" onClick={() => setConfirmClear(true)}>
+                    <Trash2 size={15} />
+                    Clear browser drafts
+                  </Button>
+                )}
               </section>
             </div>
-            <section className="panel configuration-panel">
-              <SectionHeader title="Application configuration" aside={<Badge>SERVER ONLY</Badge>} />
-              <p className="muted">
-                Copy <code>.env.example</code> to <code>.env.local</code>, fill the required values,
-                then restart the app. Credentials stay on the server.
-              </p>
-              {status.setupIssues.length > 0 && (
-                <ul className="setup-list">
-                  {status.setupIssues.map((issue) => (
-                    <li key={issue}>{issue}</li>
-                  ))}
-                </ul>
-              )}
-              <pre className="data-pre">{`APP_URL=https://your-domain.example\nPOE_CLIENT_ID=your-registered-client\nPOE_CLIENT_SECRET=your-client-secret\nPOE_CONTACT=you@example.com\nPOE_REDIRECT_URI=https://your-domain.example/api/auth/callback\nTOKEN_ENCRYPTION_KEY=<64 hexadecimal characters>\nDATABASE_URL=postgres://…\nREDIS_URL=redis://…`}</pre>
-              <div className="configuration-note">
-                <Database size={18} />
-                <p>
-                  Run <code>bun run db:setup</code> to create the schema. Run{" "}
-                  <code>bun run worker</code> to collect currency history. League and ladder access
-                  additionally need <code>service:leagues</code> and{" "}
-                  <code>service:leagues:ladder</code> scopes.
-                </p>
-              </div>
-            </section>
-            <section className="panel">
-              <SectionHeader title="Browser workspace" />
-              <p className="muted">
-                {store.builds.length} saved builds and {store.filters.length} filter drafts are
-                stored in this browser. Export files to keep a portable backup.
-              </p>
-              {confirmClear ? (
-                <div className="button-group">
-                  <Notice error>This removes all drafts from this browser.</Notice>
-                  <Button
-                    onClick={() => {
-                      store.clearDrafts();
-                      setConfirmClear(false);
-                      setMessage("Browser drafts cleared.");
-                    }}
-                  >
-                    Clear all drafts
-                  </Button>
-                  <Button variant="secondary" onClick={() => setConfirmClear(false)}>
-                    Keep drafts
-                  </Button>
-                </div>
-              ) : (
-                <Button variant="secondary" onClick={() => setConfirmClear(true)}>
-                  <Trash2 size={15} />
-                  Clear browser drafts
-                </Button>
-              )}
-            </section>
           </>
         )
       )}

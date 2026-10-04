@@ -39,14 +39,16 @@ test("filter generation, persistence and disconnected sync state", async ({ page
   await expect(page.getByLabel("Filter name", { exact: true })).toHaveValue("My leveling filter");
   await expect(page.getByRole("button", { name: "Sync to GGG", exact: true })).toBeDisabled();
 });
-test("unauthenticated account tools explain setup and do not display fabricated data", async ({
+test("unauthenticated account tools show visitor settings without developer setup notes", async ({
   page,
 }) => {
   await page.goto("/characters");
   await expect(page.getByRole("heading", { name: "Bring your exile along." })).toBeVisible();
   await page.getByRole("link", { name: "Set up account connection" }).click();
-  await expect(page.getByRole("heading", { name: "Application configuration" })).toBeVisible();
-  await expect(page.getByText("Bun", { exact: false }).first()).toBeVisible();
+  await expect(page.getByRole("heading", { name: "GGG account connection" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Browser workspace" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Application configuration" })).toHaveCount(0);
+  await expect(page.getByRole("heading", { name: "Service readiness" })).toHaveCount(0);
 });
 test("layout stays within the viewport", async ({ page }) => {
   await page.goto("/");

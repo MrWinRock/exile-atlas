@@ -51,11 +51,28 @@ Run `bun run worker` in another terminal to collect currency history. Check cont
 
 GGG currently cannot process new application registrations. You need an existing approved confidential OAuth client. The UI stays explicit about disconnected features; it does not substitute sample account data.
 
+Registration requirements and the authorization flow are documented in [GGG's authorization guide](https://www.pathofexile.com/developer/docs/authorization).
+
 1. Copy `.env.example` to `.env.local`.
 2. Set `APP_URL` to your registered HTTPS domain and `POE_REDIRECT_URI` to its `/api/auth/callback` URL. GGG does not accept localhost callbacks for confidential clients.
 3. Set `POE_CLIENT_ID`, `POE_CLIENT_SECRET`, `POE_CONTACT`, and a random 32-byte `TOKEN_ENCRYPTION_KEY` encoded as 64 hexadecimal characters.
 4. Set `DATABASE_URL`, then run `bun run db:setup`.
 5. Restart the application and use **Settings → Connect with Path of Exile**.
+
+For local development, keep these values in the server-only `.env.local` copied from the root `.env.example`. Replace every placeholder with your own configuration; the HTTPS hostname must match the registered application:
+
+```dotenv
+APP_URL=https://your-domain.example
+POE_CLIENT_ID=your-registered-client
+POE_CLIENT_SECRET=your-client-secret
+POE_CONTACT=you@example.com
+POE_REDIRECT_URI=https://your-domain.example/api/auth/callback
+TOKEN_ENCRYPTION_KEY=<64 hexadecimal characters>
+DATABASE_URL=postgres://atlas:YOUR_PASSWORD@127.0.0.1:5432/atlas
+REDIS_URL=redis://127.0.0.1:6379
+```
+
+For the deployed VPS, edit `/opt/stacks/exile-atlas/.env` instead of creating `.env.local`. Follow [deploy/README.md](deploy/README.md) and its environment template; the production Compose file supplies the internal PostgreSQL and Redis connection URLs. Credentials stay on the server, and populated environment files must stay out of Git.
 
 Required account scopes: `account:profile account:characters account:item_filter`. League services need `service:leagues` and `service:leagues:ladder` via client credentials. Never expose secrets as `NEXT_PUBLIC_*` variables. Use HTTPS and persist the same encryption key across restarts. Changing it invalidates saved encrypted tokens.
 
@@ -70,6 +87,8 @@ bun run worker
 ```
 
 The separate Bun/BullMQ process backfills up to 24 completed hours at startup, then runs at minute 5 of each UTC hour. Snapshots expire after 90 days. GGG may remove older upstream history; the worker logs failures and retries with backoff. Keep one deployment's web and worker processes on the same Redis instance.
+
+The `/api/status` configuration flags are setup diagnostics. `databaseConfigured` and `redisConfigured` indicate that connection values are present; `oauthConfigured` indicates that the required setup values pass local validation. These flags do not verify a running database, a working Redis connection, a running worker, or GGG approval. Historical trends require the database schema, PostgreSQL, Redis and the worker to be running. The VPS deployment runs schema setup and the worker through Compose services.
 
 ## Verification
 
