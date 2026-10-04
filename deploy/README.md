@@ -28,6 +28,14 @@ Browser build saves are private to that browser and hostname. They do not requir
 
 Public data requests are limited to 60 per visitor per minute and 600 per minute across the app, using Redis counters. The health/status route stays available. Currency reads cover the last 30 days; missing public upstream records are cached for 60 seconds, and concurrent identical reads share the first fetched result. These limits protect the upstream data services while guest build saves stay entirely in the browser. Export `.build` files for backups or moving builds to another browser.
 
+The runtime image installs production dependencies separately, excluding the ESLint-only `braces` dependency. The full development dependency audit still reports its unpatched advisory. The installed DOMPurify dependency is pinned to `3.4.16`; Monaco's prebuilt assets retain an older embedded copy whose affected `IN_PLACE` mode is not used by this editor. See [the public-access review](../docs/public-access-review.md) for the exact scope and remaining dependency caveat.
+
+For a fresh-browser guest save, reload and export check against the public site:
+
+```sh
+E2E_BASE_URL=https://poe2.nonglabs.cloud bun run test:e2e --project=desktop --grep 'build drafts survive'
+```
+
 Deployment runs on a GitHub-hosted runner. It joins the tailnet as an ephemeral `tag:ci` device using Tailscale OIDC, then uses the dedicated repository SSH key to connect as `nongwin` on private port 2222. The key disables forwarding and PTY allocation. The verified VPS Ed25519 host key is pinned in `deploy/known_hosts`; host-key changes must be verified through the existing trusted administration connection before updating that file. The workflow has no pull-request trigger.
 
 Set repository variables `TS_OAUTH_CLIENT_ID` and `TS_AUDIENCE`, and secret `DEPLOY_SSH_KEY`. The Tailscale trust credential needs Auth Keys write access for `tag:ci`, whose tailnet policy must permit TCP 2222 to the VPS. This repository's verified immutable subject is `repo:MrWinRock@78248227/exile-atlas@1404447651:ref:refs/heads/master`. Generate a dedicated Ed25519 key, keep its private half in the GitHub secret, and supply its public half as `EXILE_DEPLOY_PUBLIC_KEY` when running `deploy/bootstrap.sh` on the VPS. Bootstrap creates fresh secrets only when `.env` does not exist and preserves other authorized keys.

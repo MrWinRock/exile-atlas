@@ -1,0 +1,18 @@
+# Public access review — 2026-10-05
+
+Exile Atlas can serve guest tools at `https://poe2.nonglabs.cloud` without GGG registration. GGG login, connected characters and account filter synchronization remain unavailable because no approved OAuth client is configured. API account reads and writes still require an authenticated session; mutations also check the configured public origin.
+
+Visitors save builds, filter drafts and passive selections in their own browser storage. Build files can be exported and imported without login. Saves are private to the browser and hostname; they are not cloud backups, a public build gallery or synchronization between devices. Clearing site data removes those saves. The focused browser test verifies a saved build survives reload and its exported JSON retains the name, author and skill.
+
+Only `exile-atlas-web-1` joins the existing external `shared` network, with stable upstream alias `exile-atlas` and HTTP container port `3000`. PostgreSQL, Redis, worker and schema setup stay on the application's default network. The web backend still publishes only `127.0.0.1:3210`; private HTTPS at `https://labs.tail262442.ts.net:3211` remains available. Public SSL terminates in Nginx Proxy Manager. `APP_URL` uses the public origin; deployment health checks use the separate `TAILNET_URL`.
+
+The review found no visitor-selected upstream hostname, arbitrary database-record access, exposed secret or anonymous database build-write route. Public API requests are limited to 60 per visitor per minute and 600 per app per minute, with atomic Redis counters. The proxy identity comes only from a valid NPM-overwritten `X-Real-IP` when `TRUST_PROXY=true`; arbitrary forwarded chains are ignored. Health/status is exempt. Currency reads are bounded to 30 days, public upstream 404s have a 60-second negative cache, and concurrent identical reads reuse the first fetched result.
+
+The production Redis probe accepted exactly 60 of 80 simultaneous requests, returned 429 for the remaining 20 and accepted a request after its isolated counter expired. NPM reached the builds page on `http://exile-atlas:3000` with HTTP 200. The public HTTPS guest save/reload/export test passed in a fresh browser session.
+
+Dependency audit scope:
+
+- The full development audit reports `braces@3.0.3` through ESLint's glob tooling. No patched version was published at review time. Production dependency installation excludes `braces`, `eslint` and `eslint-config-next`, verified in a nonroot Docker container. CI accepts only the authorized master branch, with no pull-request deployment trigger. [Braces advisory](https://github.com/advisories/GHSA-vfj7-8cjw-p6xm)
+- The installed DOMPurify dependency is overridden to patched `3.4.16`. Monaco `0.57.0` also embeds DOMPurify `3.4.15` in its prebuilt editor assets; the override does not change those assets. The reported issue requires `IN_PLACE: true` plus a node-removing after-sanitize hook. Monaco's resolved sanitizer configuration never enables that mode, and this application supplies plaintext filter content with no custom sanitizer configuration. No reachable path for this advisory was found. A future Monaco package update should replace the embedded copy. [Maintainer advisory](https://github.com/cure53/DOMPurify/security/advisories/GHSA-p98j-92pf-mc4p)
+
+Validation: 62 unit/regression tests, lint and route type checks pass; the guest save/reload/export browser check passes on both the local app and public HTTPS domain. The production-only dependency stage excludes the vulnerable development chain and loads the actual Next configuration under the nonroot Bun user. Final runtime rollout is recorded in the deployment guide.

@@ -2,6 +2,9 @@
   "name": "exile-atlas",
   "version": "0.1.0",
   "private": true,
+  "overrides": {
+    "dompurify": "3.4.16"
+  },
   "scripts": {
     "dev": "bun --bun next dev --hostname 127.0.0.1",
     "build": "bun --bun next build --webpack",
