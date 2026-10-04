@@ -67,20 +67,29 @@ jobs:
   deploy:
     needs: publish
     if: github.ref == 'refs/heads/master' && vars.TAILNET_DEPLOY_ENABLED == 'true'
-    runs-on: [self-hosted, Linux, X64, exile-atlas]
+    runs-on: ubuntu-latest
     timeout-minutes: 20
     permissions:
       contents: read
       packages: read
+      id-token: write
     steps:
       - name: Check out deployment files
         uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
           persist-credentials: false
-      - name: Pull and deploy the published digest
+      - name: Join the tailnet using GitHub OIDC
+        uses: tailscale/github-action@d1b6cd204f8dceda5b3eaad7f1f767be390056cd # v4
+        with:
+          oauth-client-id: ${{ vars.TS_OAUTH_CLIENT_ID }}
+          audience: ${{ vars.TS_AUDIENCE }}
+          tags: tag:ci
+          ping: 100.106.177.94
+      - name: Pull and deploy the published digest over private SSH
         shell: bash
         env:
           EXILE_ATLAS_IMAGE: ${{ needs.publish.outputs.image }}@${{ needs.publish.outputs.digest }}
           GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GHCR_USER: ${{ github.actor }}
-        run: bash deploy/update.sh /opt/stacks/exile-atlas
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+        run: bash deploy/ssh-deploy.sh

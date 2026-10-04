@@ -8,11 +8,13 @@ The VPS stack lives at `/opt/stacks/exile-atlas`. It pulls a published image dig
 
 On the authorized VPS, verify Docker Compose, Tailscale, curl, Python 3, openssl and flock are installed; verify the selected port is free and the runner user can run Docker. Create `/opt/stacks/exile-atlas` owned by the deployment user, copy `.env.example` into its `.env`, and restrict the environment to mode 600. Generate a fresh PostgreSQL password and token-encryption key using `openssl rand -hex 32`; never print them or commit the populated environment. Set `APP_URL`, `TAILNET_IP` and `WEB_PORT` to the actual tailnet endpoint. Preserve these values and data volumes across updates.
 
-Register a dedicated **repository-specific** GitHub Actions Linux runner on this VPS, labelled `exile-atlas`, as the deployment user with Docker access. Keep runner files/work directories separate from the stack. Install its official systemd service. GitHub registration tokens must be passed without logging them. This runner runs trusted master deployment jobs; the workflow has no pull-request trigger. Repository access controls determine who can execute code on the deployment host.
+Deployment runs on a GitHub-hosted runner. It joins the tailnet as an ephemeral `tag:ci` device using Tailscale OIDC, then uses the dedicated repository SSH key to connect as `nongwin` on private port 2222. The key disables forwarding and PTY allocation. The verified VPS Ed25519 host key is pinned in `deploy/known_hosts`; host-key changes must be verified through the existing trusted administration connection before updating that file. The workflow has no pull-request trigger.
 
-Once the runner and environment are ready, set repository Actions variable `TAILNET_DEPLOY_ENABLED=true`. The deploy job uses its short-lived, repository-scoped `GITHUB_TOKEN` to pull the package; a permanent registry PAT is unnecessary. Registry credentials use a temporary Docker config which is cleaned after the job. Packages can retain their default private visibility.
+Set repository variables `TS_OAUTH_CLIENT_ID` and `TS_AUDIENCE`, and secret `DEPLOY_SSH_KEY`. The Tailscale trust credential needs Auth Keys write access for `tag:ci`, whose tailnet policy must permit TCP 2222 to the VPS. This repository's verified immutable subject is `repo:MrWinRock@78248227/exile-atlas@1404447651:ref:refs/heads/master`. Generate a dedicated Ed25519 key, keep its private half in the GitHub secret, and supply its public half as `EXILE_DEPLOY_PUBLIC_KEY` when running `deploy/bootstrap.sh` on the VPS. Bootstrap creates fresh secrets only when `.env` does not exist and preserves other authorized keys.
 
-On ARM64, update the hosted image platform and deployment runner architecture together before enabling deployment. The initial configuration targets Linux AMD64/X64; confirm the actual VPS architecture during setup.
+Once the environment and key are ready, set repository variable `TAILNET_DEPLOY_ENABLED=true`. `deploy/ssh-deploy.sh` copies only the deployment Compose and update script, then passes the job's short-lived, repository-scoped registry token through encrypted SSH stdin. A permanent registry PAT is unnecessary. Registry credentials use a temporary Docker config which is cleaned after the job. Packages can retain their default private visibility.
+
+The VPS architecture was verified as x86_64; the published app image targets Linux AMD64.
 
 ## Deployment and rollback
 
@@ -30,4 +32,4 @@ After a **failed deployment**, recover with the digest in `image.env`: it still 
 
 ## Current setup state
 
-The GitHub repository and master branch are identified. VPS deployment is pending working SSH authentication; initial connection attempts with the two available local keys were rejected. No VPS changes have been made yet.
+The registry publish passed. SSH works as `nongwin`; the initially supplied `nonglab` username was incorrect. The stack directory, protected server environment, and dedicated deployment key are prepared. OIDC-based deployment is ready for verification through GitHub Actions.

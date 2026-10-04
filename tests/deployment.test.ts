@@ -27,3 +27,17 @@ test("deployment refuses mutable tags and images from another repository", () =>
     expect(result.stderr).toContain("Use an immutable digest from ghcr.io/mrwinrock/exile-atlas");
   }
 });
+
+test("private SSH deployment rejects unsafe image and registry arguments before connecting", () => {
+  for (const input of [
+    { image: "ghcr.io/mrwinrock/exile-atlas:master", user: "MrWinRock", error: "Use an immutable digest" },
+    { image: "ghcr.io/mrwinrock/exile-atlas@sha256:" + "a".repeat(64), user: "user'; echo unsafe", error: "Invalid registry user" },
+  ]) {
+    const result = spawnSync(bash, ["deploy/ssh-deploy.sh"], {
+      encoding: "utf8",
+      env: { ...process.env, EXILE_ATLAS_IMAGE: input.image, GHCR_USER: input.user },
+    });
+    expect(result.status).toBe(1);
+    expect(result.stderr).toContain(input.error);
+  }
+});
