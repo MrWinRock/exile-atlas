@@ -32,4 +32,8 @@ After a **failed deployment**, recover with the digest in `image.env`: it still 
 
 ## Current setup state
 
-The registry publish passed. SSH works as `nongwin`; the initially supplied `nonglab` username was incorrect. The stack directory, protected server environment, and dedicated deployment key are prepared. OIDC-based deployment is ready for verification through GitHub Actions.
+Live site: http://100.106.177.94:3210/ (connect to the tailnet first). Stack: `/opt/stacks/exile-atlas/compose.yaml`.
+
+[Build and deployment run 37217272177](https://github.com/MrWinRock/exile-atlas/actions/runs/37217272177) passed: GitHub OIDC login, private SSH, GHCR pull, database setup and application startup. Deployed app commit: `752a1fc7478f4847b33dc1731964f9115300a691`. Image digest: `sha256:10ab7b6f6febbecf4769591f11b0d79f048dba7be2f64615cc898fd2a4bc1b32`.
+
+Verified from the connected Windows peer: API status HTTP 200 with Bun 1.4.2, configured PostgreSQL/Redis, and the official passive planner rendered in the browser. The history API returned 24 persisted snapshots. Web/PostgreSQL/Redis are healthy; worker is running; all four have zero restarts. Docker inspection confirms the only published app port is `100.106.177.94:3210` and both database services have no host ports. Temporary local deployment-key copies were removed; the private key is retained only as the encrypted GitHub repository secret. GGG OAuth remains unconfigured.

@@ -7,12 +7,14 @@
 **Requirements:** Existing public repository MrWinRock/exile-atlas; master is the requested branch. SSH target nongwin@100.106.177.94:2222 (corrected using the user-referenced Labs VPS setup and verified by login). Do not replace other stacks, expose databases, copy local secrets/drafts, enable GGG login without approved credentials, or enable deployment on pull requests.
 
 - [x] Prepare a digest-based production Compose stack, deployment script, server environment template and operations guide; validate Compose and shell syntax.
-- [x] Add SHA-pinned master/manual GitHub workflow: Bun checks, image build/publish, then a deployment job enabled only after its dedicated runner is ready. Generate Next route types before CI typecheck.
+- [x] Add SHA-pinned master/manual GitHub workflow: Bun checks, image build/publish, then a deployment job enabled only after its SSH key and server environment are ready. Generate Next route types before CI typecheck.
 - [x] Inspect VPS architecture, ports, Docker/Tailscale and stack-directory ownership. Prepare fresh server-only secrets and a dedicated SSH key; keep GitHub tokens out of logs/files.
 - [x] Commit the existing application plus deployment files without ignored/private files; push master and set it as repository default. Verify Actions and GHCR artifact.
-- [ ] Deploy under /opt/stacks/exile-atlas, initialize the schema, confirm container health/history, verify tailnet-only binding and actual website/API access, and record deployment/redeployment/rollback details.
+- [x] Deploy under /opt/stacks/exile-atlas, initialize the schema, confirm container health/history, verify tailnet-only binding and actual website/API access, and record deployment/redeployment/rollback details.
 
 Initial findings: repository exists and is empty; GitHub CLI has repository/workflow access. Both currently discovered SSH keys were rejected by the VPS. User was asked for the correct key path/alias; server-dependent tasks remain pending that information.
+
+Completion: workflow 37217272177 passed publication and deployment of commit 752a1fc. Web/PostgreSQL/Redis healthy, worker running, zero restarts; 24 history snapshots persisted. Connected Windows peer reached API status and rendered the official planner. Exact tailnet binding and persistent database mounts verified. No database host ports. Deployment image digest: sha256:10ab7b6f6febbecf4769591f11b0d79f048dba7be2f64615cc898fd2a4bc1b32. Live URL: http://100.106.177.94:3210/. Local temporary SSH keys removed. Independent review found no actionable issues; 44 tests / 143 assertions, lint, typecheck and shell syntax checks passed.
 
 Follow-up: the referenced Labs VPS task established the correct username nongwin. SSH verified successfully, including a new dedicated key with forwarding/PTY disabled. VPS is x86_64 with Docker 29.6.1, Compose v5.3.1 and Tailscale 100.106.177.94; port 3210 is free. The user provided a new OIDC credential and tag:ci, selecting GitHub-hosted deployment instead of a persistent VPS runner. Server-only .env is mode 600 with fresh secrets. GitHub variables and the encrypted SSH secret are configured. Initial registry digest: sha256:ab81e5d50b89ea3ecc99008677bf434ad6ac689759d2945d016b55c34356d8d7.
 
