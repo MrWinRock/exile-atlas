@@ -23,14 +23,34 @@ export EXILE_ATLAS_IMAGE
 exec 9>"$stack/.deploy.lock"
 flock -w 600 9
 script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-install -m 644 "$script_dir/compose.yaml" "$stack/compose.yaml"
+install -m 644 "$script_dir/compose.yaml" "$stack/docker-compose.yml"
+# Compose prefers compose.yaml; retire the legacy name after installing the
+# requested filename so plain commands always use the current definition.
+if [[ -f "$stack/compose.yaml" ]]; then
+  mv -- "$stack/compose.yaml" "$stack/deploy/legacy-compose.yaml"
+fi
 
 compose() {
   local args=(--project-directory "$stack" --env-file "$stack/.env")
-  if [[ -f "$stack/image.env" ]]; then args+=(--env-file "$stack/image.env"); fi
-  docker compose "${args[@]}" -f "$stack/compose.yaml" "$@"
+  docker compose "${args[@]}" -f "$stack/docker-compose.yml" "$@"
 }
 compose config --quiet
+
+readarray -t endpoint < <(compose config --format json | python3 -c '
+import json,sys
+from urllib.parse import urlsplit
+web=json.load(sys.stdin)["services"]["web"]
+url=web["environment"]["APP_URL"]
+parsed=urlsplit(url)
+assert parsed.scheme == "https" and parsed.hostname == "labs.tail262442.ts.net", "Configure the private HTTPS APP_URL"
+assert parsed.port and 1 <= parsed.port <= 65535, "Configure a dedicated HTTPS port"
+binding=web["ports"][0]
+assert binding["host_ip"] == "127.0.0.1", "Keep the app backend on loopback"
+print(url)
+print(parsed.port)
+print(binding["published"])
+')
+app_url="${endpoint[0]:?Configure APP_URL}"
 
 # Isolate temporary registry credentials from the VPS user's Docker login.
 if [[ -n "${GHCR_TOKEN:-}" ]]; then
@@ -53,11 +73,9 @@ else
 fi
 compose up -d --wait --wait-timeout 180 web worker
 
-app_url="$(compose config --format json | python3 -c 'import json,sys; print(json.load(sys.stdin)["services"]["web"]["environment"]["APP_URL"])')"
+tailscale serve --bg --https="${endpoint[1]}" "http://127.0.0.1:${endpoint[2]}"
 curl --fail --silent --show-error --retry 5 --retry-delay 2 --retry-connrefused "$app_url/api/status"
 printf '\n'
 
-if [[ -f "$stack/image.env" ]]; then cp -- "$stack/image.env" "$stack/previous-image.env"; fi
-printf 'EXILE_ATLAS_IMAGE=%s\n' "$EXILE_ATLAS_IMAGE" > "$stack/image.env.tmp"
-mv -- "$stack/image.env.tmp" "$stack/image.env"
+python3 "$script_dir/record-image.py" "$stack" "$EXILE_ATLAS_IMAGE"
 compose ps
