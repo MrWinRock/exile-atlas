@@ -1,6 +1,8 @@
 import { expect, test } from "@playwright/test";
+import { readFile } from "node:fs/promises";
 test("build drafts survive reload and export the documented object", async ({ page }) => {
   await page.goto("/builds");
+  await expect(page.getByLabel("Build name", { exact: true })).toHaveValue("Untitled build");
   await page.getByLabel("Build name", { exact: true }).fill("My Titan guide");
   await page.getByLabel("Author", { exact: true }).fill("An exile");
   await page
@@ -11,13 +13,20 @@ test("build drafts survive reload and export the documented object", async ({ pa
   await page.getByRole("button", { name: "Save build", exact: true }).click();
   await expect(page.getByText("Build saved to your library in this browser.")).toBeVisible();
   await page.reload();
-  await page.getByRole("button", { name: /My Titan guide/ }).click();
+  await page.getByRole("button", { name: /^My Titan guide/ }).click();
   await expect(page.getByLabel("Build name", { exact: true })).toHaveValue("My Titan guide");
   await expect(page.getByText("SkillGemEarthquake", { exact: true })).toBeVisible();
   const downloadPromise = page.waitForEvent("download");
   await page.getByRole("button", { name: "Export .build", exact: true }).click();
   const download = await downloadPromise;
   expect(download.suggestedFilename()).toBe("My_Titan_guide.build");
+  const file = await download.path();
+  expect(file).not.toBeNull();
+  expect(JSON.parse(await readFile(file!, "utf8"))).toMatchObject({
+    name: "My Titan guide",
+    author: "An exile",
+    skills: [{ id: "Metadata/Items/Gems/SkillGemEarthquake" }],
+  });
 });
 test("filter generation, persistence and disconnected sync state", async ({ page }) => {
   await page.goto("/filters");

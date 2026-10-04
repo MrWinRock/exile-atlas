@@ -4,6 +4,86 @@ import { GET, POST } from "../src/app/api/[...path]/route";
 import { fetchJson, invalidateJson } from "../src/server/poe-client";
 import { withLock } from "../src/server/cache";
 import { getConfig } from "../src/server/config";
+import { ApiError } from "../src/server/responses";
+
+test("concurrent identical cache misses share the first upstream response", async () => {
+  const originalFetch = globalThis.fetch;
+  let calls = 0;
+  globalThis.fetch = (async () => {
+    const version = ++calls;
+    await new Promise((resolve) => setTimeout(resolve, 30));
+    return Response.json({ version });
+  }) as unknown as typeof fetch;
+  try {
+    const results = await Promise.all(
+      Array.from({ length: 5 }, () => fetchJson("https://same-miss-test.example/data")),
+    );
+    expect(results).toEqual(Array.from({ length: 5 }, () => ({ version: 1 })));
+    expect(calls).toBe(1);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
+test("public GET not-found responses are cached until invalidation or expiry", async () => {
+  const originalFetch = globalThis.fetch;
+  const originalNow = Date.now;
+  let calls = 0;
+  globalThis.fetch = (async () => {
+    calls++;
+    return new Response("upstream-private-detail", { status: 404 });
+  }) as unknown as typeof fetch;
+  const url = "https://public-not-found-test.example/missing";
+  async function missing() {
+    try {
+      await fetchJson(url);
+      throw new Error("Expected not-found response");
+    } catch (error) {
+      expect(error).toBeInstanceOf(ApiError);
+      expect((error as ApiError).status).toBe(404);
+      expect((error as ApiError).message).toBe("GGG has no data for this request.");
+    }
+  }
+  try {
+    await missing();
+    await missing();
+    expect(calls).toBe(1);
+    await invalidateJson(url);
+    await missing();
+    expect(calls).toBe(2);
+    Date.now = () => originalNow() + 61_000;
+    await missing();
+    expect(calls).toBe(3);
+  } finally {
+    globalThis.fetch = originalFetch;
+    Date.now = originalNow;
+  }
+});
+
+test("POST responses and authenticated not-found responses are never cached", async () => {
+  const originalFetch = globalThis.fetch;
+  let calls = 0;
+  globalThis.fetch = (async (_url: RequestInfo | URL, init?: RequestInit) => {
+    calls++;
+    return init?.method === "POST"
+      ? Response.json({ version: calls })
+      : new Response("private response", { status: 404 });
+  }) as unknown as typeof fetch;
+  try {
+    const url = "https://uncached-write-test.example/data";
+    expect(await fetchJson<{ version: number }>(url, undefined, 60, { method: "POST" })).toEqual({
+      version: 1,
+    });
+    expect(await fetchJson<{ version: number }>(url, undefined, 60, { method: "POST" })).toEqual({
+      version: 2,
+    });
+    for (let i = 0; i < 2; i++)
+      await expect(fetchJson(url, "account-token")).rejects.toThrow("GGG has no data");
+    expect(calls).toBe(4);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
 test("blank optional environment values keep local tools available", () => {
   const previous = {
     app: process.env.APP_URL,

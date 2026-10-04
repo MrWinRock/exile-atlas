@@ -2,6 +2,7 @@ import Redis from "ioredis";
 import { createHash, randomUUID } from "node:crypto";
 import { ApiError } from "./responses";
 let redis: Redis | undefined;
+let redisConnection: Promise<void> | undefined;
 export function getRedis() {
   if (!process.env.REDIS_URL) return undefined;
   redis ??= new Redis(process.env.REDIS_URL, {
@@ -12,9 +13,14 @@ export function getRedis() {
   });
   return redis;
 }
-async function connectedRedis() {
+export async function connectedRedis() {
   const client = getRedis();
-  if (client && client.status === "wait") await client.connect();
+  if (client && client.status === "wait") {
+    redisConnection ??= client.connect().finally(() => {
+      redisConnection = undefined;
+    });
+  }
+  if (redisConnection) await redisConnection;
   return client;
 }
 const memory = new Map<string, { data: unknown; expires: number }>();

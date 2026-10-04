@@ -15,6 +15,7 @@ import { fetchJson, invalidateJson } from "@/server/poe-client";
 import { getCurrency, getTree } from "@/server/public-data";
 import { getRecord, putRecord } from "@/server/storage";
 import { getItemCatalogue } from "@/server/item-artwork";
+import { assertPublicRequestLimit, validatePublicCurrencyHour } from "@/server/public-access";
 export const dynamic = "force-dynamic";
 type Context = { params: Promise<{ path: string[] }> };
 export async function GET(request: Request, context: Context) {
@@ -22,6 +23,7 @@ export async function GET(request: Request, context: Context) {
     const { path } = await context.params,
       url = new URL(request.url),
       c = getConfig();
+    if (path[0] !== "status") await assertPublicRequestLimit(request);
     if (path.join("/") === "auth/start") return Response.redirect(await beginOAuth());
     if (path.join("/") === "auth/callback") {
       try {
@@ -93,6 +95,7 @@ export async function GET(request: Request, context: Context) {
         const hour = url.searchParams.has("hour")
           ? Number(url.searchParams.get("hour"))
           : completedHour();
+        validatePublicCurrencyHour(hour);
         try {
           data = await getCurrency(hour);
         } catch (error) {
@@ -133,6 +136,7 @@ export async function GET(request: Request, context: Context) {
 export async function POST(request: Request, context: Context) {
   try {
     assertSameOrigin(request, getConfig().appUrl);
+    await assertPublicRequestLimit(request);
     const { path } = await context.params;
     if (path.join("/") === "auth/logout") {
       await logout();

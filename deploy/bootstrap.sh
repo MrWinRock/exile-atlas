@@ -16,7 +16,9 @@ if [[ ! -e "$stack/.env" ]]; then
   postgres_password="$(openssl rand -hex 32)"
   encryption_key="$(openssl rand -hex 32)"
   cat > "$stack/.env" <<EOF
-APP_URL=https://labs.tail262442.ts.net:3211
+APP_URL=https://poe2.nonglabs.cloud
+TAILNET_URL=https://labs.tail262442.ts.net:3211
+TRUST_PROXY=true
 WEB_PORT=3210
 POSTGRES_PASSWORD=$postgres_password
 TOKEN_ENCRYPTION_KEY=$encryption_key

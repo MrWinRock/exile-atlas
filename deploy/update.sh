@@ -36,21 +36,8 @@ compose() {
 }
 compose config --quiet
 
-readarray -t endpoint < <(compose config --format json | python3 -c '
-import json,sys
-from urllib.parse import urlsplit
-web=json.load(sys.stdin)["services"]["web"]
-url=web["environment"]["APP_URL"]
-parsed=urlsplit(url)
-assert parsed.scheme == "https" and parsed.hostname == "labs.tail262442.ts.net", "Configure the private HTTPS APP_URL"
-assert parsed.port and 1 <= parsed.port <= 65535, "Configure a dedicated HTTPS port"
-binding=web["ports"][0]
-assert binding["host_ip"] == "127.0.0.1", "Keep the app backend on loopback"
-print(url)
-print(parsed.port)
-print(binding["published"])
-')
-app_url="${endpoint[0]:?Configure APP_URL}"
+readarray -t endpoint < <(compose config --format json | python3 "$script_dir/validate-endpoints.py")
+tailnet_url="${endpoint[0]:?Configure valid APP_URL and TAILNET_URL}"
 
 # Isolate temporary registry credentials from the VPS user's Docker login.
 if [[ -n "${GHCR_TOKEN:-}" ]]; then
@@ -74,7 +61,7 @@ fi
 compose up -d --wait --wait-timeout 180 web worker
 
 tailscale serve --bg --https="${endpoint[1]}" "http://127.0.0.1:${endpoint[2]}"
-curl --fail --silent --show-error --retry 5 --retry-delay 2 --retry-connrefused "$app_url/api/status"
+curl --fail --silent --show-error --retry 5 --retry-delay 2 --retry-connrefused "$tailnet_url/api/status"
 printf '\n'
 
 python3 "$script_dir/record-image.py" "$stack" "$EXILE_ATLAS_IMAGE"

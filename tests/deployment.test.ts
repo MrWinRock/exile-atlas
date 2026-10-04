@@ -18,6 +18,19 @@ const digest = (character: string) =>
 function recordImage(stack: string, image: string) {
   return spawnSync(python, ["deploy/record-image.py", stack, image], { encoding: "utf8" });
 }
+function validateEndpoints(appUrl: string, tailnetUrl: string, hostIp = "127.0.0.1") {
+  return spawnSync(python, ["deploy/validate-endpoints.py"], {
+    encoding: "utf8",
+    input: JSON.stringify({
+      services: {
+        web: {
+          environment: { APP_URL: appUrl, TAILNET_URL: tailnetUrl },
+          ports: [{ host_ip: hostIp, published: "3210", target: 3000 }],
+        },
+      },
+    }),
+  });
+}
 function removeTestStack(stack: string) {
   const target = realpathSync(stack);
   if (dirname(target) !== realpathSync(tmpdir()) || !basename(target).startsWith("exile-atlas-"))
@@ -86,8 +99,9 @@ test.skipIf(
       join(stack, ".env"),
       [
         "EXILE_ATLAS_IMAGE=" + image,
-        "APP_URL=https://labs.tail262442.ts.net:3211",
-        "TAILNET_IP=100.106.177.94",
+        "APP_URL=https://poe2.nonglabs.cloud",
+        "TAILNET_URL=https://labs.tail262442.ts.net:3211",
+        "TRUST_PROXY=true",
         "WEB_PORT=3210",
         "POSTGRES_PASSWORD=compose-test-password",
         "TOKEN_ENCRYPTION_KEY=" + "b".repeat(64),
@@ -99,7 +113,8 @@ test.skipIf(
     for (const name of [
       "EXILE_ATLAS_IMAGE",
       "APP_URL",
-      "TAILNET_IP",
+      "TAILNET_URL",
+      "TRUST_PROXY",
       "WEB_PORT",
       "POSTGRES_PASSWORD",
     ])
@@ -110,9 +125,17 @@ test.skipIf(
       env,
     });
     expect(result.status).toBe(0);
-    const services = JSON.parse(result.stdout).services;
+    const configuration = JSON.parse(result.stdout);
+    const services = configuration.services;
     for (const name of ["web", "worker", "db-setup"]) expect(services[name].image).toBe(image);
-    expect(services.web.environment.APP_URL).toBe("https://labs.tail262442.ts.net:3211");
+    expect(services.web.environment.APP_URL).toBe("https://poe2.nonglabs.cloud");
+    expect(services.web.environment.TAILNET_URL).toBe("https://labs.tail262442.ts.net:3211");
+    expect(services.web.environment.TRUST_PROXY).toBe("true");
+    expect(configuration.networks.shared).toMatchObject({ name: "shared", external: true });
+    expect(Object.keys(services.web.networks).sort()).toEqual(["default", "shared"]);
+    expect(services.web.networks.shared.aliases).toContain("exile-atlas");
+    for (const name of ["worker", "db-setup", "postgres", "redis"])
+      expect(Object.keys(services[name].networks)).toEqual(["default"]);
     expect(services.web.ports).toHaveLength(1);
     expect(services.web.ports[0]).toMatchObject({
       host_ip: "127.0.0.1",
@@ -124,6 +147,59 @@ test.skipIf(
   } finally {
     removeTestStack(stack);
   }
+});
+
+test("deployment verifies private HTTPS independently of the public NPM origin", () => {
+  const result = validateEndpoints(
+    "https://poe2.nonglabs.cloud/",
+    "https://labs.tail262442.ts.net:3211/",
+  );
+  expect(result.status).toBe(0);
+  expect(result.stdout.replace(/\r\n/g, "\n")).toBe(
+    "https://labs.tail262442.ts.net:3211\n3211\n3210\n",
+  );
+});
+
+test("deployment rejects public URLs that are not a plain HTTPS origin", () => {
+  for (const appUrl of [
+    "http://poe2.nonglabs.cloud",
+    "https://user:secret@poe2.nonglabs.cloud",
+    "https://poe2.nonglabs.cloud/planner",
+    "https://poe2.nonglabs.cloud?query=value",
+    "https://poe2.nonglabs.cloud#fragment",
+    "https://poe2.nonglabs.cloud:0",
+    "https://poe2.nonglabs.cloud:65536",
+    "https://poe2.nonglabs.cloud:",
+    "https://poe2.nonglabs.cloud\n",
+    "https://bad host",
+  ]) {
+    const result = validateEndpoints(appUrl, "https://labs.tail262442.ts.net:3211");
+    expect(result.status).not.toBe(0);
+    expect(result.stdout).toBe("");
+    expect(result.stderr).toContain("Invalid deployment endpoints:");
+  }
+});
+
+test("deployment rejects unintended Serve endpoints and exposed host bindings", () => {
+  for (const tailnetUrl of [
+    "https://other.tail262442.ts.net:3211",
+    "https://labs.tail262442.ts.net",
+    "https://labs.tail262442.ts.net:0",
+    "https://labs.tail262442.ts.net:3211/api/status",
+  ]) {
+    const result = validateEndpoints("https://poe2.nonglabs.cloud", tailnetUrl);
+    expect(result.status).not.toBe(0);
+    expect(result.stdout).toBe("");
+    expect(result.stderr).toContain("Invalid deployment endpoints:");
+  }
+  const exposed = validateEndpoints(
+    "https://poe2.nonglabs.cloud",
+    "https://labs.tail262442.ts.net:3211",
+    "0.0.0.0",
+  );
+  expect(exposed.status).not.toBe(0);
+  expect(exposed.stdout).toBe("");
+  expect(exposed.stderr).toContain("Keep the app backend on loopback");
 });
 
 test("recording a healthy image preserves environment content and replaces duplicate image values", () => {

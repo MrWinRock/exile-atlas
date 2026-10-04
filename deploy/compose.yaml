@@ -12,6 +12,10 @@ services:
   web:
     <<: *app
     restart: unless-stopped
+    networks:
+      default:
+      shared:
+        aliases: ["exile-atlas"]
     ports:
       - "127.0.0.1:${WEB_PORT:-3210}:3000"
     depends_on:
@@ -65,6 +69,11 @@ services:
       interval: 5s
       timeout: 5s
       retries: 10
+
+networks:
+  shared:
+    external: true
+    name: shared
 
 volumes:
   postgres-data:

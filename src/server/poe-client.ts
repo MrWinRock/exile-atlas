@@ -3,7 +3,8 @@ import { ApiError } from "./responses";
 import { rateLimitDelay } from "../lib/poe";
 import { cacheDelete, cacheGet, cacheSet, fingerprint, withLock } from "./cache";
 export async function invalidateJson(url: string, token?: string) {
-  await cacheDelete(`http:${token ? fingerprint(token) : "public"}:${fingerprint(url)}`);
+  const key = `http:${token ? fingerprint(token) : "public"}:${fingerprint(url)}`;
+  await Promise.all([cacheDelete(key), cacheDelete(key + ":not-found")]);
 }
 export async function fetchJson<T>(
   url: string,
@@ -14,12 +15,25 @@ export async function fetchJson<T>(
   const config = getConfig(),
     owner = token ? fingerprint(token) : "public",
     key = `http:${owner}:${fingerprint(url)}`,
-    bucket = `limit:${fingerprint(config.clientId || "public")}:${new URL(url).host}`;
-  const cached = init.method ? null : await cacheGet<T>(key);
-  if (cached) return cached;
+    bucket = `limit:${fingerprint(config.clientId || "public")}:${new URL(url).host}`,
+    isGet = (init.method ?? "GET").toUpperCase() === "GET",
+    publicGet = isGet && !token && !new Headers(init.headers).has("Authorization"),
+    notFoundKey = key + ":not-found";
+  async function cachedResponse(): Promise<T | null> {
+    if (!isGet) return null;
+    const cached = await cacheGet<T>(key);
+    if (cached !== null) return cached;
+    if (publicGet && (await cacheGet<boolean>(notFoundKey)))
+      throw new ApiError("GGG has no data for this request.", 404);
+    return null;
+  }
+  const cached = await cachedResponse();
+  if (cached !== null) return cached;
   return withLock(
     bucket,
     async () => {
+      const latest = await cachedResponse();
+      if (latest !== null) return latest;
       const until = await cacheGet<number>(bucket);
       if (until && until > Date.now())
         throw new ApiError(
@@ -51,11 +65,14 @@ export async function fetchJson<T>(
             429,
             Math.ceil(delay / 1000) || 60,
           );
-        if (response.status === 404) throw new ApiError("GGG has no data for this request.", 404);
+        if (response.status === 404) {
+          if (publicGet) await cacheSet(notFoundKey, true, 60);
+          throw new ApiError("GGG has no data for this request.", 404);
+        }
         throw new ApiError("GGG's data service is unavailable. Try again shortly.", 502);
       }
       const data = (await response.json()) as T;
-      if (!init.method) await cacheSet(key, data, ttl);
+      if (isGet) await cacheSet(key, data, ttl);
       return data;
     },
     true,

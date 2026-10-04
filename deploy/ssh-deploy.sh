@@ -22,7 +22,7 @@ ssh_options=(-i "$key_dir/key" -o IdentitiesOnly=yes -o BatchMode=yes
   -o StrictHostKeyChecking=yes -o "UserKnownHostsFile=$script_dir/known_hosts"
   -o ConnectTimeout=20 -o ServerAliveInterval=15 -o ServerAliveCountMax=4)
 
-scp "${ssh_options[@]}" -P 2222 "$script_dir/compose.yaml" "$script_dir/update.sh" "$script_dir/record-image.py" \
+scp "${ssh_options[@]}" -P 2222 "$script_dir/compose.yaml" "$script_dir/update.sh" "$script_dir/record-image.py" "$script_dir/validate-endpoints.py" \
   nongwin@100.106.177.94:/opt/stacks/exile-atlas/deploy/
 # The short-lived registry token travels through encrypted stdin, never as a
 # command argument or a permanent credential on the deployment host.

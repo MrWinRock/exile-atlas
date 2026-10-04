@@ -1,24 +1,44 @@
-# Tailnet production deployment
+# Public and tailnet production deployment
 
 Repository: https://github.com/MrWinRock/exile-atlas. Pushes to `master` run Bun tests, lint and generated Next route type checks, build the Docker image and publish `ghcr.io/mrwinrock/exile-atlas` with `master` and full commit-SHA tags. The build performs Next production compilation inside the Dockerfile. Registry actions are pinned to commit SHAs.
 
-The VPS stack lives at `/opt/stacks/exile-atlas/docker-compose.yml`. It pulls a published image digest; it does not build source on the VPS. PostgreSQL and Redis are internal-only with named persistent volumes. A schema setup container completes before web/worker startup. Web binds only to `127.0.0.1:3210`; Tailscale Serve provides private HTTPS at `https://labs.tail262442.ts.net:3211`. GGG account OAuth remains unconfigured until an approved client is registered with its callback.
+The VPS stack lives at `/opt/stacks/exile-atlas/docker-compose.yml`. It pulls a published image digest; it does not build source on the VPS. PostgreSQL and Redis are internal-only with named persistent volumes. A schema setup container completes before web/worker startup. Web joins the existing external `shared` Docker network with alias `exile-atlas` for Nginx Proxy Manager, and also binds to `127.0.0.1:3210`. Tailscale Serve provides private HTTPS at `https://labs.tail262442.ts.net:3211` while NPM serves the public origin `https://poe2.nonglabs.cloud`. GGG account OAuth remains unconfigured until an approved client is registered with its callback. Visitors can save build drafts in their browser without GGG login.
 
 ## Server preparation
 
-On the authorized VPS, verify Docker Compose, Tailscale, curl, Python 3, openssl and flock are installed; verify the selected ports are free and the deployment user can run Docker and Tailscale Serve. Create `/opt/stacks/exile-atlas` owned by the deployment user, copy `.env.example` into its `.env`, and restrict the environment to mode 600. Generate a fresh PostgreSQL password and token-encryption key using `openssl rand -hex 32`; never print them or commit the populated environment. Set `APP_URL=https://labs.tail262442.ts.net:3211` and `WEB_PORT=3210`. Preserve these values and data volumes across updates. The update script adds only this dedicated Serve port and preserves other existing private routes.
+On the authorized VPS, verify Docker Compose, Tailscale, curl, Python 3, openssl and flock are installed; verify the selected ports are free and the deployment user can run Docker and Tailscale Serve. NPM and the web service must both join the existing Docker network `shared`. Create `/opt/stacks/exile-atlas` owned by the deployment user, copy `.env.example` into its `.env`, and restrict the environment to mode 600. Generate a fresh PostgreSQL password and token-encryption key using `openssl rand -hex 32`; never print them or commit the populated environment. Set `APP_URL=https://poe2.nonglabs.cloud`, `TAILNET_URL=https://labs.tail262442.ts.net:3211`, `TRUST_PROXY=true` and `WEB_PORT=3210`. Preserve these values and data volumes across updates. The update script adds only this dedicated Serve port and preserves other existing private routes.
+
+## Nginx Proxy Manager
+
+Create a Proxy Host using these settings:
+
+| Field | Value |
+| --- | --- |
+| Domain Names | `poe2.nonglabs.cloud` |
+| Scheme | `http` |
+| Forward Hostname / IP | `exile-atlas` |
+| Forward Port | `3000` |
+| SSL | Certificate for `poe2.nonglabs.cloud`, Force SSL |
+
+The actual Compose container name is `exile-atlas-web-1`; `exile-atlas` is its stable network alias. The host port `3210` is for loopback access and Tailscale Serve. NPM connects directly over `shared` to container port `3000`. Only the web service joins `shared`; worker, schema setup, PostgreSQL and Redis stay on the stack's default network.
+
+Point public DNS to the VPS/NPM entry point. With `TRUST_PROXY=true`, NPM must overwrite `X-Real-IP` with its client's address (`proxy_set_header X-Real-IP $remote_addr;`) to support visitor rate limits. Keep that header under NPM's control. CI checks the private `TAILNET_URL` after each deployment, so deployments work before public DNS and the NPM Proxy Host are configured.
+
+Browser build saves are private to that browser and hostname. They do not require GGG credentials, and they are not stored as public server records or synchronized between devices. Drafts from the private tailnet hostname are separate from drafts on the public hostname.
+
+Public data requests are limited to 60 per visitor per minute and 600 per minute across the app, using Redis counters. The health/status route stays available. Currency reads cover the last 30 days; missing public upstream records are cached for 60 seconds, and concurrent identical reads share the first fetched result. These limits protect the upstream data services while guest build saves stay entirely in the browser. Export `.build` files for backups or moving builds to another browser.
 
 Deployment runs on a GitHub-hosted runner. It joins the tailnet as an ephemeral `tag:ci` device using Tailscale OIDC, then uses the dedicated repository SSH key to connect as `nongwin` on private port 2222. The key disables forwarding and PTY allocation. The verified VPS Ed25519 host key is pinned in `deploy/known_hosts`; host-key changes must be verified through the existing trusted administration connection before updating that file. The workflow has no pull-request trigger.
 
 Set repository variables `TS_OAUTH_CLIENT_ID` and `TS_AUDIENCE`, and secret `DEPLOY_SSH_KEY`. The Tailscale trust credential needs Auth Keys write access for `tag:ci`, whose tailnet policy must permit TCP 2222 to the VPS. This repository's verified immutable subject is `repo:MrWinRock@78248227/exile-atlas@1404447651:ref:refs/heads/master`. Generate a dedicated Ed25519 key, keep its private half in the GitHub secret, and supply its public half as `EXILE_DEPLOY_PUBLIC_KEY` when running `deploy/bootstrap.sh` on the VPS. Bootstrap creates fresh secrets only when `.env` does not exist and preserves other authorized keys.
 
-Once the environment and key are ready, set repository variable `TAILNET_DEPLOY_ENABLED=true`. `deploy/ssh-deploy.sh` copies the deployment Compose, update script and image-recording helper, then passes the job's short-lived, repository-scoped registry token through encrypted SSH stdin. A permanent registry PAT is unnecessary. Registry credentials use a temporary Docker config which is cleaned after the job. Packages can retain their default private visibility.
+Once the environment and key are ready, set repository variable `TAILNET_DEPLOY_ENABLED=true`. `deploy/ssh-deploy.sh` copies the deployment Compose, update script, endpoint validator and image-recording helper, then passes the job's short-lived, repository-scoped registry token through encrypted SSH stdin. A permanent registry PAT is unnecessary. Registry credentials use a temporary Docker config which is cleaned after the job. Packages can retain their default private visibility.
 
 The VPS architecture was verified as x86_64; the published app image targets Linux AMD64.
 
 ## Deployment and rollback
 
-`deploy/update.sh /opt/stacks/exile-atlas` requires `EXILE_ATLAS_IMAGE=ghcr.io/mrwinrock/exile-atlas@sha256:<64 hex digits>`. In CI the workflow supplies this exact digest. It locks the stack, installs `docker-compose.yml`, validates the private endpoint, pulls images, waits for container health, configures Tailscale Serve and verifies the HTTPS API. Only after success is the image recorded atomically in `.env`, preserving other secrets. This lets plain Compose commands work without extra flags. The same digest is mirrored in `image.env`; the previous successful image is kept in `previous-image.env`. Deploying the same digest again preserves the earlier rollback target.
+`deploy/update.sh /opt/stacks/exile-atlas` requires `EXILE_ATLAS_IMAGE=ghcr.io/mrwinrock/exile-atlas@sha256:<64 hex digits>`. In CI the workflow supplies this exact digest. It locks the stack, installs `docker-compose.yml`, validates `APP_URL` as a plain HTTPS origin and `TAILNET_URL` as the dedicated private endpoint, pulls images, waits for container health, configures Tailscale Serve and verifies the API through the private HTTPS route. It does not depend on the public hostname being reachable. Only after success is the image recorded atomically in `.env`, preserving other secrets. This lets plain Compose commands work without extra flags. The same digest is mirrored in `image.env`; the previous successful image is kept in `previous-image.env`. Deploying the same digest again preserves the earlier rollback target.
 
 For manual operations on the VPS:
 
