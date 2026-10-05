@@ -77,7 +77,7 @@ export function PlannerSelect({
   function choose(index: number) {
     const option = options[index];
     if (!option) return;
-    onChange(option.value);
+    if (option.value !== value) onChange(option.value);
     setOpen(false);
     trigger.current?.focus();
   }

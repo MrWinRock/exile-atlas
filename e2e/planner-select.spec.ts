@@ -2,18 +2,35 @@ import { expect, test } from "@playwright/test";
 import type { Tree } from "../src/lib/tree";
 
 const tree: Tree = {
-  nodes: [6, 7, 8].map((index) => ({
-    hash: `start-${index}`,
-    id: `start-${index}`,
-    name: "Class start",
-    kind: "start",
-    x: 2000 * (index - 7),
-    y: -1600,
-    out: [],
-    stats: [],
-    classStarts: [index],
-  })),
-  edges: [],
+  nodes: [
+    ...[6, 7, 8].map((index) => ({
+      hash: `start-${index}`,
+      id: `start-${index}`,
+      name: "Class start",
+      kind: "start" as const,
+      x: 2000 * (index - 7),
+      y: -1600,
+      out: [],
+      stats: [],
+      classStarts: [index],
+    })),
+    ...["shared", "weapon1", "weapon2"].map((hash, index) => ({
+      hash,
+      id: hash,
+      name: `Planned passive ${index + 1}`,
+      kind: "normal" as const,
+      x: -2500 - index * 500,
+      y: -1600,
+      out: [],
+      stats: [],
+      classStarts: [],
+    })),
+  ],
+  edges: [
+    ["start-6", "shared"],
+    ["shared", "weapon1"],
+    ["shared", "weapon2"],
+  ],
   classes: [
     {
       index: 6,
@@ -101,4 +118,53 @@ test("planner custom menus close outside and remain within the viewport", async 
   await classSelect.press("Tab");
   await expect(list).toHaveCount(0);
   await expect(page.getByRole("combobox", { name: "Ascendancy", exact: true })).toBeFocused();
+});
+
+test("reselecting the current planner class preserves shared and both weapon drafts", async ({
+  page,
+}) => {
+  await page.evaluate(() =>
+    localStorage.setItem(
+      "exile-atlas-workspace-v1",
+      JSON.stringify({
+        state: {
+          allocations: ["shared"],
+          weaponSet1Allocations: ["weapon1"],
+          weaponSet2Allocations: ["weapon2"],
+          weaponSet: 2,
+          ascendancy: "",
+          classIndex: 6,
+          builds: [],
+          filters: [],
+        },
+        version: 0,
+      }),
+    ),
+  );
+  await page.reload();
+  const classSelect = page.getByRole("combobox", { name: "Class", exact: true });
+  const list = page.getByRole("listbox", { name: "Class", exact: true });
+  await expect(classSelect).toHaveText(/Warrior/);
+  await expect(page.getByTestId("regular-points-count")).toHaveText("2");
+  for (const method of ["pointer", "keyboard"]) {
+    await classSelect.click();
+    if (method === "pointer") {
+      await list.getByRole("option", { name: "Warrior", exact: true }).click();
+    } else {
+      await classSelect.press("Enter");
+    }
+    await expect(list).toHaveCount(0);
+    await expect(classSelect).toBeFocused();
+    await expect(page.getByTestId("regular-points-count")).toHaveText("2");
+    await expect(page.getByTestId("weapon-set-1-count")).toHaveText("1 / 24");
+    await expect(page.getByTestId("weapon-set-2-count")).toHaveText("1 / 24");
+    await expect(page.getByRole("tab", { name: /^Weapon set II / })).toHaveAttribute(
+      "aria-selected",
+      "true",
+    );
+  }
+  await page.reload();
+  await expect(page.getByTestId("regular-points-count")).toHaveText("2");
+  await expect(page.getByTestId("weapon-set-1-count")).toHaveText("1 / 24");
+  await expect(page.getByTestId("weapon-set-2-count")).toHaveText("1 / 24");
 });
