@@ -55,3 +55,45 @@ export function normalizeMarket(value: unknown): Market {
     raw,
   };
 }
+
+export type ExchangeComparison = {
+  market: Market;
+  buyVolume: number;
+  sellVolume: number;
+  low: number | null;
+  high: number | null;
+  complete: boolean;
+};
+
+export function compareExchangePair(
+  markets: Market[],
+  buyId: string,
+  sellId: string,
+  league: string,
+): ExchangeComparison | null {
+  if (!buyId || !sellId || buyId === sellId) return null;
+  const market = markets.find(
+    (row) =>
+      row.league === league &&
+      ((row.baseId === buyId && row.quoteId === sellId) ||
+        (row.baseId === sellId && row.quoteId === buyId)),
+  );
+  if (!market) return null;
+
+  // GGG reports paired quantities at each endpoint, not a scalar price.
+  const ratios = [market.raw.lowest_ratio, market.raw.highest_ratio].flatMap((quantities) => {
+    const buy = quantities[buyId],
+      sell = quantities[sellId];
+    if (!Number.isFinite(buy) || !Number.isFinite(sell) || buy <= 0 || sell <= 0) return [];
+    const price = sell / buy;
+    return Number.isFinite(price) && price > 0 ? [price] : [];
+  });
+  return {
+    market,
+    buyVolume: market.raw.volume_traded[buyId] ?? 0,
+    sellVolume: market.raw.volume_traded[sellId] ?? 0,
+    low: ratios.length ? Math.min(...ratios) : null,
+    high: ratios.length ? Math.max(...ratios) : null,
+    complete: ratios.length === 2,
+  };
+}

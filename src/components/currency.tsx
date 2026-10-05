@@ -8,6 +8,7 @@ import { downloadFile } from "@/lib/build";
 import { Badge, Button, Empty, Field, Loading, Notice, PageTitle, SectionHeader } from "./ui";
 import { Chart } from "./chart";
 import { ItemImage, useItemImages } from "./artwork";
+import { CurrencyComparison } from "./currency-comparison";
 type Digest = {
   hour: number;
   nextChangeId: number;
@@ -201,6 +202,7 @@ export function Currency() {
               </div>
               <Badge tone="green">GGG PUBLIC DATA</Badge>
             </div>
+            <CurrencyComparison markets={query.data.markets} hour={hour} />
             <section className="panel">
               <SectionHeader
                 title="Ratio ranges in this digest"
