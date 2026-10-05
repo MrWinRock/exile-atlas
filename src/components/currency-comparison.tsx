@@ -11,6 +11,12 @@ type ExchangeItem = { id: string; name: string; icon?: string };
 type Side = "buy" | "sell";
 const priceFormat = new Intl.NumberFormat("en-US", { maximumSignificantDigits: 6 });
 
+function formatRange(low: number, high: number) {
+  return low === high
+    ? priceFormat.format(low)
+    : `${priceFormat.format(low)} – ${priceFormat.format(high)}`;
+}
+
 function ItemPicker({
   side,
   items,
@@ -105,6 +111,7 @@ export function CurrencyComparison({ markets, hour }: { markets: Market[]; hour:
   const { find } = useItemImages();
   const [selection, setSelection] = useState({ buyId: "", sellId: "", league: "" });
   const [picker, setPicker] = useState<Side | null>(null);
+  const [buyAmount, setBuyAmount] = useState("1");
   const { items, leagues, defaultMarket } = useMemo(() => {
     const unique = new Map<string, ExchangeItem>();
     for (const market of markets) {
@@ -136,20 +143,24 @@ export function CurrencyComparison({ markets, hour }: { markets: Market[]; hour:
   });
   const comparison = compareExchangePair(markets, buyId, sellId, league);
   const timestamp = new Date(hour * 1000).toISOString().slice(0, 16).replace("T", " ");
-  const price =
-    comparison?.low == null
-      ? null
-      : comparison.low === comparison.high
-        ? priceFormat.format(comparison.low)
-        : `${priceFormat.format(comparison.low)} – ${priceFormat.format(comparison.high!)}`;
+  const price = comparison?.low == null ? null : formatRange(comparison.low, comparison.high!);
+  const quantity = Number(buyAmount);
+  const amountLow = comparison?.low == null ? null : comparison.low * quantity;
+  const amountHigh = comparison?.high == null ? null : comparison.high * quantity;
+  const sellAmount =
+    Number.isSafeInteger(quantity) &&
+    quantity > 0 &&
+    amountLow != null &&
+    amountHigh != null &&
+    Number.isFinite(amountLow) &&
+    Number.isFinite(amountHigh)
+      ? formatRange(amountLow, amountHigh)
+      : "—";
 
   return (
     <section className={`panel ${styles.panel}`} aria-labelledby="exchange-comparison-heading">
       <div className={styles.header}>
-        <div>
-          <h2 id="exchange-comparison-heading">Compare an exchange</h2>
-          <p>Choose what you want and what you have.</p>
-        </div>
+        <h2 id="exchange-comparison-heading">Compare an exchange</h2>
         <label className={styles.league}>
           <span>League</span>
           <select
@@ -178,26 +189,45 @@ export function CurrencyComparison({ markets, hour }: { markets: Market[]; hour:
               className={`${styles.slot} ${side === "buy" ? styles.buy : styles.sell}`}
             >
               <h3>{side === "buy" ? "I want to buy" : "I have to sell"}</h3>
-              <button
-                type="button"
-                className={styles.itemButton}
-                aria-label={`Item to ${side}: ${item?.name ?? "Choose an item"}`}
-                aria-haspopup="dialog"
-                disabled={!items.length}
-                onClick={() => {
-                  setSelection({ buyId, sellId, league });
-                  setPicker(side);
-                }}
-              >
-                <span className={styles.icon}>
-                  <ItemImage src={item?.icon} name={item?.name ?? "Item"} size={56} />
-                </span>
-                <span>
-                  {item?.name ?? "Choose an item"}
-                  <small>Choose item</small>
-                </span>
-                <ChevronDown size={17} aria-hidden="true" />
-              </button>
+              <div className={styles.itemRow}>
+                <button
+                  type="button"
+                  className={styles.itemButton}
+                  aria-label={`Item to ${side}: ${item?.name ?? "Choose an item"}`}
+                  aria-haspopup="dialog"
+                  disabled={!items.length}
+                  onClick={() => {
+                    setSelection({ buyId, sellId, league });
+                    setPicker(side);
+                  }}
+                >
+                  <span className={styles.icon}>
+                    <ItemImage src={item?.icon} name={item?.name ?? "Item"} size={40} />
+                  </span>
+                  <span>{item?.name ?? "Choose an item"}</span>
+                  <ChevronDown size={17} aria-hidden="true" />
+                </button>
+                {side === "buy" ? (
+                  <input
+                    className={styles.amount}
+                    type="number"
+                    aria-label="Amount to buy"
+                    min="1"
+                    step="1"
+                    value={buyAmount}
+                    onChange={(event) => setBuyAmount(event.target.value)}
+                  />
+                ) : (
+                  <output
+                    className={`${styles.amount} ${styles.sellAmount}`}
+                    aria-label="Amount to sell"
+                    data-testid="exchange-sell-amount"
+                    aria-live="polite"
+                  >
+                    {sellAmount}
+                  </output>
+                )}
+              </div>
               <div className={styles.volume}>
                 <span>Traded this hour</span>
                 <strong>{volume == null ? "—" : volume.toLocaleString()}</strong>
@@ -205,40 +235,36 @@ export function CurrencyComparison({ markets, hour }: { markets: Market[]; hour:
             </div>
           );
         })}
-        <button
-          type="button"
-          className={styles.swap}
-          aria-label="Swap buy and sell items"
-          title="Swap buy and sell items"
-          disabled={!buyId || !sellId}
-          onClick={() => setSelection({ buyId: sellId, sellId: buyId, league })}
-        >
-          <ArrowLeftRight size={20} aria-hidden="true" />
-        </button>
+        <div className={styles.market}>
+          <span className={styles.resultLabel}>Market ratio</span>
+          <strong data-testid="exchange-price" aria-live="polite">
+            {price ? `1 : ${price}` : "—"}
+          </strong>
+          <button
+            type="button"
+            className={styles.swap}
+            aria-label="Swap buy and sell items"
+            title="Swap buy and sell items"
+            disabled={!buyId || !sellId}
+            onClick={() => setSelection({ buyId: sellId, sellId: buyId, league })}
+          >
+            <ArrowLeftRight size={18} aria-hidden="true" />
+          </button>
+        </div>
       </div>
-      <div className={styles.result} aria-live="polite" aria-atomic="true">
-        {buy && sell && price ? (
-          <>
-            <span className={styles.resultLabel}>
-              {comparison?.complete ? "Historical price range" : "Reported price"}
-            </span>
-            <strong data-testid="exchange-price">
-              1 {buy.name} = {price} {sell.name}
-            </strong>
-            {!comparison?.complete && (
-              <p>Only one ratio was reported. The price range is incomplete.</p>
-            )}
-          </>
-        ) : (
+      {(!price || !comparison?.complete) && (
+        <div className={styles.result} aria-live="polite" aria-atomic="true">
           <p>
-            {!markets.length
-              ? "No exchange items were reported in this digest."
-              : !comparison
-                ? `No trades reported for this pair in ${league} during this hour.`
-                : "Price quantities are unavailable for this pair during this hour."}
+            {price
+              ? "Only one ratio was reported. The price range is incomplete."
+              : !markets.length
+                ? "No exchange items were reported in this digest."
+                : !comparison
+                  ? `No trades reported for this pair in ${league} during this hour.`
+                  : "Price quantities are unavailable for this pair during this hour."}
           </p>
-        )}
-      </div>
+        </div>
+      )}
       <div className={styles.footer}>
         <span>{timestamp} UTC · Completed hourly trades. Actual offers can change.</span>
         <Badge tone="amber">HOURLY HISTORY</Badge>
