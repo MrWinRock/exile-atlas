@@ -2,32 +2,37 @@
 import { useEffect, useRef, useState } from "react";
 import type { Tree } from "@/lib/tree";
 import type { TreeRenderer } from "@/lib/tree-renderer";
+import { WEAPON_PASSIVE_COLORS } from "@/lib/passive-colors";
 import { Minus, Plus, Scan } from "lucide-react";
 export function TreeCanvas({
   tree,
   ascendancy,
   allocated,
+  weaponAllocated,
+  weaponSet,
   highlight,
   onSelect,
 }: {
   tree: Tree;
   ascendancy?: string;
   allocated: string[];
+  weaponAllocated?: string[];
+  weaponSet?: 1 | 2;
   highlight?: string;
   onSelect: (id: string) => void;
 }) {
   const ref = useRef<HTMLDivElement>(null),
     rendererRef = useRef<TreeRenderer | null>(null),
-    stateRef = useRef({ allocated, highlight }),
+    stateRef = useRef({ allocated, highlight, weaponAllocated, weaponSet }),
     selectRef = useRef(onSelect),
     [error, setError] = useState("");
   useEffect(() => {
     selectRef.current = onSelect;
   }, [onSelect]);
   useEffect(() => {
-    stateRef.current = { allocated, highlight };
-    rendererRef.current?.update(allocated, highlight);
-  }, [allocated, highlight]);
+    stateRef.current = { allocated, highlight, weaponAllocated, weaponSet };
+    rendererRef.current?.update(allocated, highlight, weaponAllocated, weaponSet);
+  }, [allocated, highlight, weaponAllocated, weaponSet]);
   useEffect(() => {
     const host = ref.current;
     if (!host) return;
@@ -49,7 +54,8 @@ export function TreeCanvas({
           return;
         }
         rendererRef.current = renderer;
-        renderer.update(stateRef.current.allocated, stateRef.current.highlight);
+        const state = stateRef.current;
+        renderer.update(state.allocated, state.highlight, state.weaponAllocated, state.weaponSet);
         setError("");
       })
       .catch(() => {
@@ -107,8 +113,14 @@ export function TreeCanvas({
         </span>
         <span>
           <i className="allocated" />
-          Allocated
+          {weaponSet ? "Shared" : "Allocated"}
         </span>
+        {weaponSet && (
+          <span>
+            <i style={{ backgroundColor: `#${WEAPON_PASSIVE_COLORS[weaponSet].toString(16)}` }} />
+            Weapon set {weaponSet === 1 ? "I" : "II"}
+          </span>
+        )}
       </div>
       <span className="tree-hint">SCROLL TO ZOOM · DRAG TO EXPLORE</span>
     </div>

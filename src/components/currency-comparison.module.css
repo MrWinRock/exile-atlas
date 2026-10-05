@@ -193,26 +193,34 @@
   inset: 0;
   margin: auto;
   padding: 0;
-  background: var(--surface);
+  background: radial-gradient(ellipse at top, #98744115, transparent 65%), var(--surface);
   color: var(--text);
   border: 1px solid #6a5438;
   border-radius: 7px;
-  width: min(720px, calc(100vw - 32px));
-  max-height: calc(100dvh - 48px);
+  width: min(1060px, calc(100vw - 32px));
+  max-height: calc(100dvh - 32px);
   overflow: hidden;
 }
 .picker::backdrop {
   background: #080b0dcc;
 }
 .pickerContent {
-  padding: 24px;
+  padding: 22px;
 }
 .pickerHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 16px;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
+}
+.pickerEyebrow {
+  display: block;
+  color: var(--accent);
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
 }
 .close {
   display: grid;
@@ -225,37 +233,123 @@
   color: var(--text);
 }
 .pickerHint {
-  margin-top: 12px;
+  margin-top: 14px;
   color: var(--muted);
   font-size: 10px;
+  line-height: 1.5;
+}
+.pickerSearch {
+  width: 100%;
+}
+.pickerBody {
+  display: grid;
+  grid-template-columns: 176px minmax(0, 1fr);
+  gap: 18px;
+  height: min(570px, calc(100dvh - 220px));
+  min-height: 0;
+  margin-top: 18px;
+}
+.categories {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+  padding-right: 5px;
+  border-right: 1px solid #dfb87d20;
+}
+.categories button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-shrink: 0;
+  min-height: 35px;
+  padding: 8px 10px;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  text-align: left;
+  color: var(--muted);
+  font-size: 12px;
+}
+.categories button:hover {
+  background: #dfb87d08;
+  color: var(--text);
+}
+.categories button[aria-pressed="true"] {
+  color: var(--accent);
+  border-color: #a5804866;
+  background: linear-gradient(90deg, #dfb87d15, #dfb87d05);
+}
+.categoryCount {
+  font-family: var(--sans);
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+  opacity: 0.65;
+}
+.pickerGroups {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  min-width: 0;
+  padding: 2px 6px 8px 0;
+}
+.pickerSection + .pickerSection {
+  margin-top: 22px;
+}
+.pickerSection h3 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--accent);
+  font-family: var(--serif);
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+}
+.pickerSection h3::before,
+.pickerSection h3::after {
+  content: "";
+  height: 1px;
+  background: #dfb87d26;
+  flex: 1;
 }
 .itemList {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 8px;
-  max-height: min(420px, calc(100dvh - 245px));
-  overflow-y: auto;
-  padding: 4px;
-  margin-top: 14px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 7px;
 }
 .itemList button {
   display: flex;
   align-items: center;
-  gap: 12px;
-  border: 1px solid var(--line);
-  border-radius: 4px;
-  padding: 12px;
+  gap: 9px;
+  border: 1px solid #67543877;
+  border-radius: 3px;
+  padding: 9px;
   text-align: left;
-  min-height: 64px;
-  background: #121719;
+  min-height: 58px;
+  min-width: 0;
+  background: linear-gradient(110deg, #29281f55, #101514);
 }
 .itemList button:hover:enabled {
-  border-color: var(--accent-deep);
-  background: #dfb87d0a;
+  border-color: var(--accent);
+  background: #dfb87d12;
+}
+.itemList button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.itemList button:focus-visible,
+.categories button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
 }
 .itemList button span:last-child {
   overflow-wrap: anywhere;
-  font-size: 12px;
+  font-family: var(--serif);
+  font-size: 14px;
+  line-height: 1.25;
 }
 .noResults {
   grid-column: 1 / -1;
@@ -270,6 +364,9 @@
   }
   .sellAmount {
     font-size: 21px;
+  }
+  .itemList {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 @media (max-width: 640px) {
@@ -317,12 +414,38 @@
     grid-template-columns: minmax(0, 1fr) minmax(75px, 0.6fr);
   }
   .pickerContent {
-    padding: 18px;
+    padding: 16px;
   }
   .pickerHeader h2 {
     font-size: 21px;
   }
+  .pickerBody {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    height: min(570px, calc(100dvh - 220px));
+    margin-top: 12px;
+  }
+  .categories {
+    flex-direction: row;
+    overflow-y: hidden;
+    flex-shrink: 0;
+    border-right: 0;
+    border-bottom: 1px solid #dfb87d20;
+    padding: 2px 0 8px;
+  }
+  .categories button {
+    white-space: nowrap;
+    min-height: 34px;
+  }
+  .pickerGroups {
+    flex: 1;
+    padding-right: 2px;
+  }
   .itemList {
     grid-template-columns: minmax(0, 1fr);
+  }
+  .pickerSection h3 {
+    font-size: 15px;
   }
 }

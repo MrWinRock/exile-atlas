@@ -3,6 +3,7 @@ import { connectionArc, edgeKey, isAllocatablePassive, passiveRadius, type Tree 
 import { fitTreeView } from "./tree-layout";
 import { changedAllocations, createFrameScheduler, createNodeIndex } from "./tree-rendering";
 import { createNodeAtlas } from "./tree-node-atlas";
+import { passiveEdgeColor, WEAPON_PASSIVE_COLORS } from "./passive-colors";
 
 export type TreeRenderer = Awaited<ReturnType<typeof createTreeRenderer>>;
 
@@ -51,8 +52,9 @@ export async function createTreeRenderer(
       edges = new Graphics(),
       activeEdges = new Graphics(),
       passives = new Container(),
+      weaponFrames = new Graphics(),
       selection = new Graphics();
-    world.addChild(decorations, edges, activeEdges, passives, selection);
+    world.addChild(decorations, edges, activeEdges, passives, weaponFrames, selection);
     const byId = new Map(tree.nodes.map((node) => [node.hash, node]));
     const index = createNodeIndex(tree.nodes);
     const sprites = new Map<string, { sprite: Sprite; active: Texture; inactive: Texture }>();
@@ -85,7 +87,7 @@ export async function createTreeRenderer(
         radius: 100 * (node.displayScale ?? 1),
       });
     }
-    function drawEdge(graphic: Graphics, a: string, b: string, active: boolean) {
+    function drawEdge(graphic: Graphics, a: string, b: string, active: boolean, color = 0xdab077) {
       const from = byId.get(a),
         to = byId.get(b);
       if (!from || !to || !isAllocatablePassive(from) || !isAllocatablePassive(to)) return;
@@ -94,7 +96,7 @@ export async function createTreeRenderer(
       if (arc) graphic.arc(arc.x, arc.y, arc.radius, arc.start, arc.end, arc.anticlockwise);
       graphic.lineTo(to.x, to.y).stroke({
         width: (active ? 30 : 14) * Math.min(from.displayScale ?? 1, to.displayScale ?? 1),
-        color: active ? 0xdab077 : 0x394042,
+        color: active ? color : 0x394042,
         alpha: active ? 0.9 : 0.5,
       });
     }
@@ -113,6 +115,8 @@ export async function createTreeRenderer(
     atlas.upload();
     let visible = new Set<string>(),
       chosen = new Set<string>(),
+      weaponChosen = new Set<string>(),
+      activeWeaponSet: 1 | 2 | undefined,
       selected: string | undefined;
     let frames = 0,
       alive = true;
@@ -236,19 +240,46 @@ export async function createTreeRenderer(
     return {
       fit,
       zoom,
-      update(allocated: string[], highlight?: string) {
+      update(
+        allocated: string[],
+        highlight?: string,
+        weaponAllocated?: string[],
+        weaponSet?: 1 | 2,
+      ) {
         if (!alive) return;
         const next = new Set(allocated),
-          changed = changedAllocations(chosen, next);
+          changed = changedAllocations(chosen, next),
+          nextWeapon = new Set(
+            weaponSet ? (weaponAllocated ?? []).filter((id) => next.has(id)) : [],
+          ),
+          weaponChanged =
+            activeWeaponSet !== weaponSet ||
+            changedAllocations(weaponChosen, nextWeapon).length > 0;
         for (const id of changed) {
           const entry = sprites.get(id);
           if (entry) entry.sprite.texture = next.has(id) ? entry.active : entry.inactive;
         }
-        if (changed.length) {
+        if (changed.length || weaponChanged) {
           activeEdges.clear();
           for (const [a, b] of tree.edges)
-            if (next.has(a) && next.has(b)) drawEdge(activeEdges, a, b, true);
+            if (next.has(a) && next.has(b))
+              drawEdge(activeEdges, a, b, true, passiveEdgeColor(a, b, nextWeapon, weaponSet));
           chosen = next;
+        }
+        if (weaponChanged) {
+          weaponFrames.clear();
+          if (weaponSet)
+            for (const id of nextWeapon) {
+              const node = byId.get(id);
+              if (!node || !isAllocatablePassive(node)) continue;
+              weaponFrames.circle(node.x, node.y, passiveRadius(node)).stroke({
+                width: 20 * (node.displayScale ?? 1),
+                color: WEAPON_PASSIVE_COLORS[weaponSet],
+                alpha: 1,
+              });
+            }
+          weaponChosen = nextWeapon;
+          activeWeaponSet = weaponSet;
         }
         const highlightChanged = selected !== highlight;
         if (highlightChanged) {
@@ -260,7 +291,7 @@ export async function createTreeRenderer(
               .circle(node.x, node.y, passiveRadius(node) + 70 * (node.displayScale ?? 1))
               .stroke({ width: 22 * (node.displayScale ?? 1), color: 0xeed2a6, alpha: 0.8 });
         }
-        if (changed.length || highlightChanged) scheduler.request();
+        if (changed.length || weaponChanged || highlightChanged) scheduler.request();
       },
       destroy() {
         alive = false;

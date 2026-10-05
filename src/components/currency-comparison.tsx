@@ -3,11 +3,17 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { ArrowLeftRight, ChevronDown, Search, X } from "lucide-react";
 import { compareExchangePair, currencyName, type Market } from "@/lib/currency";
+import {
+  buildCurrencyPickerGroups,
+  currencyPickerCategories,
+  currencyPickerCategoryCounts,
+  type CurrencyPickerItem,
+} from "@/lib/currency-picker";
 import { ItemImage, useItemImages } from "./artwork";
 import { Badge } from "./ui";
 import styles from "./currency-comparison.module.css";
 
-type ExchangeItem = { id: string; name: string; icon?: string };
+type ExchangeItem = CurrencyPickerItem;
 type Side = "buy" | "sell";
 const priceFormat = new Intl.NumberFormat("en-US", { maximumSignificantDigits: 6 });
 
@@ -33,9 +39,13 @@ function ItemPicker({
   const dialogRef = useRef<HTMLDialogElement>(null);
   const searchRef = useRef<HTMLInputElement>(null);
   const [search, setSearch] = useState("");
-  const visible = items.filter((item) =>
-    `${item.name} ${item.id}`.toLowerCase().includes(search.trim().toLowerCase()),
+  const [category, setCategory] = useState<string>("All");
+  const groups = useMemo(
+    () => buildCurrencyPickerGroups(items, category, search),
+    [items, category, search],
   );
+  const counts = useMemo(() => currencyPickerCategoryCounts(items), [items]);
+  const visibleCount = groups.reduce((total, group) => total + group.items.length, 0);
   useEffect(() => {
     const dialog = dialogRef.current;
     dialog?.showModal();
@@ -61,7 +71,12 @@ function ItemPicker({
     >
       <div className={styles.pickerContent}>
         <div className={styles.pickerHeader}>
-          <h2 id="exchange-picker-title">Choose an item to {side}</h2>
+          <div>
+            <span className={styles.pickerEyebrow}>
+              {side === "buy" ? "I want to buy" : "I have to sell"}
+            </span>
+            <h2 id="exchange-picker-title">Choose an item to {side}</h2>
+          </div>
           <button
             type="button"
             className={styles.close}
@@ -71,7 +86,7 @@ function ItemPicker({
             <X size={20} />
           </button>
         </div>
-        <label className="search-field">
+        <label className={`search-field ${styles.pickerSearch}`}>
           <Search size={16} aria-hidden="true" />
           <input
             ref={searchRef}
@@ -81,27 +96,59 @@ function ItemPicker({
             onChange={(event) => setSearch(event.target.value)}
           />
         </label>
-        <p className={styles.pickerHint}>
-          {visible.length} items in this digest · Select a different item for each side.
-        </p>
-        <div className={styles.itemList}>
-          {visible.map((item) => (
-            <button
-              key={item.id}
-              type="button"
-              aria-label={item.name}
-              disabled={item.id === otherId}
-              onClick={() => {
-                dialogRef.current?.close();
-                onSelect(item.id);
-              }}
-            >
-              <ItemImage src={item.icon} name={item.name} size={36} />
-              <span>{item.name}</span>
-            </button>
-          ))}
-          {!visible.length && <p className={styles.noResults}>No items match your search.</p>}
+        <div className={styles.pickerBody}>
+          <nav className={styles.categories} aria-label="Item categories">
+            {currencyPickerCategories.map((name) => (
+              <button
+                key={name}
+                type="button"
+                aria-label={name}
+                aria-pressed={category === name}
+                aria-controls="exchange-picker-groups"
+                onClick={() => setCategory(name)}
+              >
+                <span>{name}</span>
+                <span className={styles.categoryCount} aria-hidden="true">
+                  {counts[name]}
+                </span>
+              </button>
+            ))}
+          </nav>
+          <div className={styles.pickerGroups} id="exchange-picker-groups">
+            {groups.map((group, index) => (
+              <section
+                key={group.title}
+                className={styles.pickerSection}
+                aria-labelledby={`exchange-group-${index}`}
+              >
+                <h3 id={`exchange-group-${index}`}>{group.title}</h3>
+                <div className={styles.itemList}>
+                  {group.items.map((item) => (
+                    <button
+                      key={item.id}
+                      type="button"
+                      aria-label={item.name}
+                      disabled={item.id === otherId}
+                      title={item.id === otherId ? "Selected on the other side" : item.name}
+                      onClick={() => {
+                        dialogRef.current?.close();
+                        onSelect(item.id);
+                      }}
+                    >
+                      <ItemImage src={item.icon} name={item.name} size={36} />
+                      <span>{item.name}</span>
+                    </button>
+                  ))}
+                </div>
+              </section>
+            ))}
+            {!visibleCount && <p className={styles.noResults}>No items match your search.</p>}
+          </div>
         </div>
+        <p className={styles.pickerHint} aria-live="polite">
+          {visibleCount} of {items.length} items in this digest · Select a different item for each
+          side.
+        </p>
       </div>
     </dialog>
   );
@@ -120,7 +167,12 @@ export function CurrencyComparison({ markets, hour }: { markets: Market[]; hour:
         [market.quoteId, market.quote],
       ]) {
         const artwork = find(id);
-        unique.set(id, { id, name: artwork?.name ?? name, icon: artwork?.icon });
+        unique.set(id, {
+          id,
+          name: artwork?.name ?? name,
+          icon: artwork?.icon,
+          itemClass: artwork?.itemClass,
+        });
       }
     }
     return {

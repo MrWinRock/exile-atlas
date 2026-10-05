@@ -1,0 +1,120 @@
+.root {
+  position: relative;
+  display: grid;
+  gap: 8px;
+  width: 100%;
+  min-width: 0;
+}
+
+.label {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.6px;
+}
+
+.trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  min-height: 42px;
+  padding: 10px 12px;
+  border: 1px solid #343d40;
+  border-radius: 5px;
+  background: #121719;
+  color: var(--text);
+  text-align: left;
+}
+
+.trigger > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.trigger > svg {
+  color: var(--accent);
+  transition: transform 160ms ease;
+}
+
+.trigger:hover,
+.open {
+  border-color: var(--accent-deep);
+  background: #191d1c;
+}
+
+.open > svg {
+  transform: rotate(180deg);
+}
+
+.list {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  z-index: 40;
+  margin: 0;
+  padding: 5px;
+  list-style: none;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent-deep) #14191b;
+  border: 1px solid #776040;
+  border-radius: 5px;
+  background: #14191b;
+  box-shadow: 0 12px 24px #0008;
+}
+
+.above {
+  top: auto;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  min-height: 40px;
+  padding: 10px 9px;
+  border-radius: 3px;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.optionText {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.optionText > span {
+  overflow-wrap: anywhere;
+}
+
+.optionText > small {
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.option > svg {
+  color: var(--accent);
+}
+
+.active {
+  background: #292820;
+  box-shadow: inset 2px 0 var(--accent);
+}
+
+.option[aria-selected="true"] .optionText > span {
+  color: var(--accent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .trigger > svg {
+    transition: none;
+  }
+}

@@ -1,0 +1,122 @@
+.weaponPanel {
+  padding: 18px 20px;
+  margin-bottom: 24px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  background: linear-gradient(110deg, #dfb87d08, transparent 65%), var(--surface);
+}
+.weaponHeading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  color: var(--accent);
+}
+.weaponHeading > div {
+  display: grid;
+  gap: 5px;
+}
+.weaponHeading > div > strong {
+  font-family: var(--serif);
+  font-size: 19px;
+  font-weight: 400;
+  color: var(--text);
+}
+.weaponHeading > div > span {
+  color: var(--muted);
+  font-size: 11px;
+}
+.ascendancyCount {
+  margin-left: auto;
+  font-size: 11px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.ascendancyCount > strong {
+  color: var(--accent);
+  font-size: 18px;
+  font-family: var(--serif);
+  font-weight: 400;
+  padding-right: 4px;
+}
+.modes {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+.mode {
+  --mode-color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 48px;
+  padding: 11px 14px;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  color: var(--muted);
+  background: #111719;
+  text-align: left;
+}
+.mode > span {
+  font-size: 12px;
+}
+.mode > strong {
+  font-variant-numeric: tabular-nums;
+  font-size: 12px;
+  font-weight: 400;
+  white-space: nowrap;
+}
+.first {
+  --mode-color: #74c99a;
+}
+.second {
+  --mode-color: #83b9ed;
+}
+.active {
+  border-color: var(--mode-color);
+  box-shadow: inset 0 2px var(--mode-color);
+  color: var(--mode-color);
+  background: #202827;
+}
+.mode:hover {
+  color: var(--mode-color);
+}
+.weaponHint {
+  font-size: 10px;
+  line-height: 1.8;
+  color: var(--muted);
+  margin-top: 13px;
+}
+.refund {
+  margin-top: 12px;
+}
+.refundHint {
+  margin-top: 8px;
+  font-size: 9px !important;
+  color: var(--muted) !important;
+}
+@media (max-width: 720px) {
+  .weaponPanel {
+    padding: 16px;
+  }
+  .weaponHeading {
+    flex-wrap: wrap;
+  }
+  .ascendancyCount {
+    width: 100%;
+    margin-left: 30px;
+  }
+  .mode {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 12px 9px;
+    gap: 9px;
+  }
+  .mode > span {
+    font-size: 11px;
+  }
+  .modes {
+    gap: 6px;
+  }
+}
