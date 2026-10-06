@@ -5,11 +5,13 @@ import { useQueryClient } from "@tanstack/react-query";
 import { ArrowUpRight, LockKeyhole, LogOut, ShieldCheck, Trash2 } from "lucide-react";
 import { api, useStatus } from "@/lib/client";
 import { useWorkspace } from "@/lib/workspace-store";
+import { useTradeWorkspace } from "@/lib/trade-store";
 import { Badge, Button, Loading, Notice, PageTitle, SectionHeader } from "./ui";
 export function Settings() {
   const { data: status, isLoading, error } = useStatus(),
     client = useQueryClient(),
     store = useWorkspace(),
+    tradeStore = useTradeWorkspace(),
     [message, setMessage] = useState(""),
     [confirmClear, setConfirmClear] = useState(false),
     [busy, setBusy] = useState(false);
@@ -95,8 +97,9 @@ export function Settings() {
               <section className="panel">
                 <SectionHeader title="Browser workspace" />
                 <p className="muted">
-                  {store.builds.length} saved builds and {store.filters.length} filter drafts are
-                  stored in this browser. Export files to keep a portable backup.
+                  {store.builds.length} saved builds, {store.filters.length} filter drafts and{" "}
+                  {tradeStore.searches.length} trade searches are stored in this browser. Export
+                  files to keep a portable backup.
                 </p>
                 {confirmClear ? (
                   <div className="button-group">
@@ -104,6 +107,7 @@ export function Settings() {
                     <Button
                       onClick={() => {
                         store.clearDrafts();
+                        tradeStore.clearSearches();
                         setConfirmClear(false);
                         setMessage("Browser drafts cleared.");
                       }}

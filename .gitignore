@@ -4,6 +4,9 @@ node_modules/
 .env.local
 .env.*.local
 data/
+!public/data/
+!public/data/poe2-trade-stats.json
+!public/data/poe2-trade-stats.NOTICE.md
 test-results/
 playwright-report/
 *.tsbuildinfo

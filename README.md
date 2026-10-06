@@ -42,6 +42,7 @@ Run `bun run worker` in another terminal to collect currency history. Check cont
 - Filter editor: rule generator, styling preview, local syntax checks, local persistence, Monaco editor, `.filter` download, authenticated GGG create/update and full validation.
 - Passive planner: official export IDs and main-tree coordinates, searchable nodes, zoom/pan, custom class and ascendancy menus, centered ascendancy groups, connected-path allocation and refunds, `.build` export and library save. Shared, Weapon set I, and Weapon set II allocations persist in the browser. Each weapon set has a 24-point specialisation limit; shared points plus the larger set determine regular points required. Refunding a connector also refunds disconnected descendants. Keystones, jewel sockets, and ascendancy passives stay shared; ascendancy has its own root and count. Set I uses green frames and paths, Set II blue. Selecting an ascendancy focuses the camera on it; larger groups scale uniformly into the central opening. Batched artwork, viewport culling and redraws on demand keep interaction responsive; selection, allocation, and weapon-set changes retain the existing canvas.
 - Currency dashboard: completed-hour public digests, numeric buy/sell comparison, categorized item selectors with grouped currency sections, league/search and quote-currency filters, compact price ranges, peak stock, browser-saved favorites, JSON export, and collected history sparklines when the worker is configured. Item selector counts are digest item counts, not owned inventory. Automatic prices sort by direct Divine Orb value; unavailable direct values sort last.
+- Item trade: item-name/base suggestions, league and seller availability, the official site's six property-filter groups, categorized stat search, And/Or/Not/Count/Weighted Sum/If groups, disabled filters, price currencies, and browser-saved searches. Valid searches open the official PoE2 trade site with the selected criteria.
 - Account characters: authenticated profile/list/detail, equipment and skills, import passive allocations to build guides.
 - Item gallery: searchable PoE2 base items and unique variants, class/type filters, paginated artwork. Item images also appear on currencies, build gems/supports, and character equipment/socketed items.
 - Passive artwork: official active/inactive sprites on the tree canvas, search results, and node details, including jewel-socket frames. Exported mastery graphics render as faint, noninteractive cluster decorations behind real passives. Item-only records stay outside the positioned tree. Connections retain GGG's orbit geometry.
@@ -77,6 +78,22 @@ For the deployed VPS, edit `/opt/stacks/exile-atlas/.env` instead of creating `.
 Required account scopes: `account:profile account:characters account:item_filter`. League services need `service:leagues` and `service:leagues:ladder` via client credentials. Never expose secrets as `NEXT_PUBLIC_*` variables. Use HTTPS and persist the same encryption key across restarts. Changing it invalidates saved encrypted tokens.
 
 Sessions are opaque HttpOnly SameSite cookies. OAuth uses state and PKCE. Account tokens are encrypted with AES-256-GCM in PostgreSQL. Mutating API requests require the configured origin. Account fetches are cached per token; upstream request limits and cooldowns are honored. The API User-Agent identifies the application and contact.
+
+## Item trade searches
+
+Open `/trade` to prepare a search, then use **Search on official trade** to view listings and contact sellers. Sign in with GGG on the official website; the app does not need OAuth credentials for this browser handoff. Drafts and saved searches remain in this browser, and **Settings → Clear all local data** clears them alongside builds and filters. **Copy filters** provides a readable search summary.
+
+Property labels, category choices, sale types and price currencies were checked against the signed-in official PoE2 trade interface on 2026-10-06. The browser URL uses the compressed query format also used by [Path of Building Community PoE2](https://github.com/PathOfBuildingCommunity/PathOfBuilding-PoE2/blob/bb52d6b368307457eb9c54bb13f1829993d390b1/src/Classes/TradeQuery.lua#L1129). Its format and the official filter controls may change. Invalid ranges and unsupported stored filter keys block handoff rather than silently changing the requested search.
+
+The stat picker loads `public/data/poe2-trade-stats.json` when opened. It contains 8,293 entries in 10 groups from a pinned Path of Building Community PoE2 snapshot, including alternate labels and selectable skill/passive stat IDs. Search results show at most 100 rows at once. Regenerate the checked snapshot with:
+
+```powershell
+bun run scripts/prepare-trade-stats.ts
+```
+
+The generator verifies the pinned Git blob and parses literal Lua data without executing it. Source attribution and license notices are in [public/data/poe2-trade-stats.NOTICE.md](public/data/poe2-trade-stats.NOTICE.md). New modifiers can appear on the official site before this snapshot is updated.
+
+Live listing retrieval, live search and seller contact remain on the official website. The app does not proxy GGG's internal trade search/fetch endpoints or store GGG website session cookies. GGG's [supported developer API](https://www.pathofexile.com/developer/docs) does not provide live item-trade search.
 
 ## Currency history worker
 

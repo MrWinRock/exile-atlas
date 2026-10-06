@@ -7,6 +7,7 @@ import { Planner } from "@/components/planner";
 import { Builds } from "@/components/builds";
 import { Settings } from "@/components/settings";
 import { Items } from "@/components/items";
+import { Trade } from "@/components/trade";
 const sections = {
   characters: Characters,
   filters: Filters,
@@ -16,6 +17,7 @@ const sections = {
   builds: Builds,
   settings: Settings,
   items: Items,
+  trade: Trade,
 };
 export default async function Page({ params }: { params: Promise<{ section: string }> }) {
   const { section } = await params;

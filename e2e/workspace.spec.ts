@@ -1,6 +1,26 @@
 import { expect, test } from "@playwright/test";
 import { readFile } from "node:fs/promises";
 test("build drafts survive reload and export the documented object", async ({ page }) => {
+  await page.route("**/api/items", (route) =>
+    route.fulfill({
+      json: {
+        items: [
+          {
+            id: "Metadata/Items/Gems/SkillGemEarthquake",
+            name: "Earthquake",
+            itemClass: "SkillGem",
+            kind: "base",
+            width: 1,
+            height: 1,
+          },
+        ],
+        withImages: 0,
+        revision: "fixture",
+        source: "fixture",
+        fetchedAt: "2026-10-06T00:00:00Z",
+      },
+    }),
+  );
   await page.goto("/builds");
   await expect(page.getByLabel("Build name", { exact: true })).toHaveValue("Untitled build");
   await page.getByLabel("Build name", { exact: true }).fill("My Titan guide");
@@ -9,13 +29,13 @@ test("build drafts survive reload and export the documented object", async ({ pa
     .getByLabel("Skill metadata ID", { exact: true })
     .fill("Metadata/Items/Gems/SkillGemEarthquake");
   await page.getByRole("button", { name: "Add skill", exact: true }).click();
-  await expect(page.getByText("SkillGemEarthquake", { exact: true })).toBeVisible();
+  await expect(page.getByText("Earthquake", { exact: true })).toBeVisible();
   await page.getByRole("button", { name: "Save build", exact: true }).click();
   await expect(page.getByText("Build saved to your library in this browser.")).toBeVisible();
   await page.reload();
   await page.getByRole("button", { name: /^My Titan guide/ }).click();
   await expect(page.getByLabel("Build name", { exact: true })).toHaveValue("My Titan guide");
-  await expect(page.getByText("SkillGemEarthquake", { exact: true })).toBeVisible();
+  await expect(page.getByText("Earthquake", { exact: true })).toBeVisible();
   const downloadPromise = page.waitForEvent("download");
   await page.getByRole("button", { name: "Export .build", exact: true }).click();
   const download = await downloadPromise;

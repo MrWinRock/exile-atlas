@@ -1,0 +1,481 @@
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 310px;
+  gap: 24px;
+  align-items: start;
+}
+.layout :global(.panel),
+.layout :global(.field) {
+  margin-bottom: 0;
+}
+.editor,
+.sidebar {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.sidebar {
+  position: sticky;
+  top: 22px;
+}
+.searchPanel,
+.stats,
+.searchBrief,
+.saved {
+  padding: 22px;
+}
+.panelTitle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--accent);
+  margin-bottom: 19px;
+}
+.panelTitle h2 {
+  font-size: 17px;
+  margin: 0;
+  color: var(--text);
+}
+.panelTitle > span {
+  margin-left: auto;
+  font-size: 9px;
+  letter-spacing: 1.3px;
+  color: var(--muted);
+}
+.itemSearch,
+.searchScope {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 16px;
+}
+.searchScope {
+  margin-top: 20px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+.layout input,
+.layout select {
+  min-width: 0;
+  width: 100%;
+}
+.filtersTitle {
+  display: flex;
+  gap: 9px;
+  align-items: center;
+  color: var(--muted);
+  padding: 3px 0;
+}
+.filtersTitle h2 {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text);
+  margin: 0;
+}
+.filtersTitle > span {
+  font-size: 11px;
+  margin-left: 4px;
+}
+.filtersTitle > button {
+  margin-left: auto;
+  font-size: 11px;
+  padding: 8px 10px;
+}
+.filterSections {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.filterSection {
+  padding: 0;
+  overflow: hidden;
+}
+.filterSection summary {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  list-style: none;
+  cursor: pointer;
+  padding: 15px 20px;
+  background: #ffffff02;
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 500;
+}
+.filterSection summary::-webkit-details-marker {
+  display: none;
+}
+.filterSection summary > svg {
+  color: var(--muted);
+  transition: transform 150ms;
+}
+.filterSection[open] summary > svg {
+  transform: rotate(180deg);
+}
+.filterSection[open] summary {
+  border-bottom: 1px solid var(--line);
+}
+.sectionCount {
+  margin-left: auto;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 400;
+}
+.fieldGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  column-gap: 20px;
+  row-gap: 14px;
+  padding: 19px 20px;
+}
+.filter {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+.fieldName {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  color: var(--muted);
+}
+.fieldName small {
+  font-size: 8px;
+  color: #bb9b66;
+  text-align: right;
+}
+.range {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+}
+.range > input {
+  flex: 1;
+  width: 0;
+}
+.range > span {
+  color: #5d6969;
+  font-size: 11px;
+}
+.briefItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+.briefItem > div {
+  min-width: 0;
+}
+.briefItem small {
+  font-size: 8px;
+  letter-spacing: 1.4px;
+  color: var(--accent);
+}
+.briefItem h2 {
+  margin: 6px 0;
+  font-size: 18px;
+  overflow-wrap: anywhere;
+}
+.briefItem > div > span {
+  color: var(--muted);
+  font-size: 11px;
+}
+.criteriaCount {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 18px 0;
+  margin: 14px 0 5px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 10px;
+}
+.criteriaCount strong {
+  color: var(--text);
+  font-size: 16px;
+  margin-right: 4px;
+}
+.criteriaCount > span:last-child {
+  margin-left: auto;
+  letter-spacing: 1.5px;
+  color: var(--accent);
+}
+.searchButton {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  font-size: 12px;
+  padding: 12px 10px;
+  text-align: center;
+}
+.handoffNote,
+.browserNote,
+.statHint {
+  font-size: 11px;
+  line-height: 1.7;
+  color: var(--muted);
+}
+.handoffNote {
+  margin: 12px 0 17px;
+}
+.summary {
+  border-top: 1px solid var(--line);
+  margin-top: 18px;
+  padding-top: 16px;
+}
+.summary summary {
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  color: var(--muted);
+  font-size: 11px;
+}
+.summary pre {
+  color: var(--muted);
+  white-space: pre-wrap;
+  font-family: inherit;
+  font-size: 11px;
+  line-height: 1.8;
+  overflow-wrap: anywhere;
+  max-height: 320px;
+  overflow: auto;
+}
+.message {
+  color: #85bda5;
+  font-size: 11px;
+  line-height: 1.6;
+}
+.stats .panelTitle {
+  margin-bottom: 17px;
+}
+.statGroup {
+  background: #0c12143d;
+  border: 1px solid var(--line);
+  padding: 14px;
+  border-radius: 4px;
+  margin-bottom: 12px;
+  min-width: 0;
+}
+.groupToolbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+}
+.enable {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--muted);
+  font-size: 11px;
+  white-space: nowrap;
+}
+.enable input,
+.statRow > input[type="checkbox"] {
+  width: 14px;
+  height: 14px;
+  accent-color: var(--accent);
+  flex-shrink: 0;
+}
+.groupToolbar > select {
+  flex: 1;
+  width: auto;
+  min-width: 130px;
+}
+.groupToolbar > button {
+  margin-left: auto;
+}
+.groupRange {
+  display: flex;
+  gap: 6px;
+  flex: 1;
+  min-width: 110px;
+}
+.groupRange input {
+  width: 0;
+  flex: 1;
+}
+.statRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-top: 1px solid var(--line);
+  padding: 13px 0;
+  min-width: 0;
+}
+.statLabel {
+  flex: 1;
+  min-width: 0;
+  font-size: 11px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+.statLabel small {
+  display: block;
+  color: var(--muted);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.statRow .range {
+  width: 138px;
+}
+.statRow .weight {
+  width: 70px;
+  flex-shrink: 0;
+}
+.disabled > .statLabel,
+.disabled > .range,
+.disabled > .weight {
+  opacity: 0.45;
+}
+.saved > .searchButton {
+  margin-top: 10px;
+}
+.savedList {
+  margin-top: 17px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.savedRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border-top: 1px solid var(--line);
+  padding-top: 8px;
+  min-width: 0;
+}
+.savedRow > button:first-child {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  flex: 1;
+  background: transparent;
+  border: 0;
+  padding: 8px 0;
+  color: var(--text);
+  min-width: 0;
+}
+.savedRow strong,
+.savedRow small {
+  overflow-wrap: anywhere;
+}
+.savedRow strong {
+  font-size: 11px;
+  font-weight: 500;
+}
+.savedRow small {
+  color: var(--muted);
+  font-size: 9px;
+}
+.browserNote {
+  margin: 15px 0 0;
+  font-size: 9px;
+}
+.layout summary:focus-visible,
+.savedRow button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+@media (max-width: 1150px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr) 280px;
+    gap: 18px;
+  }
+  .searchPanel,
+  .stats,
+  .searchBrief,
+  .saved {
+    padding: 18px;
+  }
+  .fieldGrid {
+    grid-template-columns: 1fr;
+  }
+  .itemSearch {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+  .sidebar {
+    position: static;
+    order: -1;
+  }
+  .searchBrief {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 0 20px;
+  }
+  .briefItem,
+  .criteriaCount {
+    grid-column: 1/-1;
+  }
+  .searchBrief > :global(.notice),
+  .message,
+  .summary {
+    grid-column: 1/-1;
+  }
+  .handoffNote {
+    grid-column: 1;
+    grid-row: 4;
+  }
+  .saved {
+    order: 1;
+  }
+  .fieldGrid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+  .itemSearch {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+}
+@media (max-width: 600px) {
+  .itemSearch,
+  .searchScope,
+  .fieldGrid {
+    grid-template-columns: 1fr;
+  }
+  .searchBrief {
+    display: block;
+  }
+  .sidebar {
+    order: initial;
+  }
+  .sidebar .saved {
+    display: block;
+  }
+  .statRow {
+    flex-wrap: wrap;
+  }
+  .statLabel {
+    flex-basis: calc(100% - 50px);
+  }
+  .statRow .range {
+    width: auto;
+    flex: 1;
+    margin-left: 24px;
+  }
+  .panelTitle > span {
+    font-size: 8px;
+  }
+  .filterSection summary {
+    padding: 14px 17px;
+  }
+  .fieldGrid {
+    padding: 17px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .filterSection summary > svg {
+    transition: none;
+  }
+}
