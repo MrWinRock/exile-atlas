@@ -1,0 +1,9 @@
+Item Class: Rings
+Rarity: Rare
+Sun Knot
+Gold Ring
+--------
+Item Level: 82
+--------
++20% to Fire Resistance
+Adds 5 to 10 Fire Damage

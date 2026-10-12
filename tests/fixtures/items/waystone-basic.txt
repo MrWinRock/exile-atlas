@@ -1,0 +1,8 @@
+Item Class: Waystones
+Rarity: Rare
+Danger
+Waystone (Tier 15)
+--------
+Item Rarity: +40%
+--------
+Area has patches of Chilled Ground

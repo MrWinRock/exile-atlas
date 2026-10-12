@@ -1,0 +1,10 @@
+Item Class: Rings
+Rarity: Rare
+Sun Knot
+Gold Ring
+--------
+Item Level: 82
+--------
+{ Suffix Modifier "of the Fire" (Tier: 2) }
++20(10-30)% to Fire Resistance
+Adds 5(1-8) to 10(9-15) Fire Damage
