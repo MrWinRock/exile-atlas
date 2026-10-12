@@ -66,6 +66,24 @@
   padding: 0;
   border: 0;
 }
+.rounding {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 12px;
+  margin: 0 0 20px;
+  color: var(--muted);
+}
+.rounding input {
+  width: 16px;
+  height: 16px;
+  padding: 0;
+  accent-color: var(--accent);
+}
+.rounding small {
+  color: var(--dim);
+}
 .rangeField legend {
   font-size: 12px;
   color: var(--muted);

@@ -1,0 +1,474 @@
+[
+  {
+    "id": "critical-damage-reduction",
+    "template": "Monsters take #% reduced Extra Damage from Critical Hits",
+    "label": "Monsters take #% reduced Extra Damage from Critical Hits",
+    "tradeStatId": "explicit.stat_337935900",
+    "numericDomain": [
+      0,
+      1000
+    ],
+    "numericSlot": 0,
+    "rollRange": [
+      15,
+      30
+    ],
+    "presencePattern": "fr"
+  },
+  {
+    "id": "ignited-ground",
+    "template": "Area has patches of Ignited Ground",
+    "label": "Area has patches of Ignited Ground",
+    "tradeStatId": "explicit.stat_133340941",
+    "presencePattern": "gn"
+  },
+  {
+    "id": "life-recovery",
+    "template": "Players have #% less Recovery Rate of Life and Energy Shield",
+    "label": "Players have #% less Recovery Rate of Life and Energy Shield",
+    "tradeStatId": "explicit.stat_4181072906",
+    "numericDomain": [
+      0,
+      1000
+    ],
+    "numericSlot": 0,
+    "rollRange": [
+      20,
+      40
+    ],
+    "presencePattern": "s r"
+  },
+  {
+    "id": "enfeeble",
+    "template": "Players are periodically Cursed with Enfeeble",
+    "label": "Players are periodically Cursed with Enfeeble",
+    "tradeStatId": "explicit.stat_2029171424",
+    "presencePattern": "eb"
+  },
+  {
+    "id": "flask-charges",
+    "template": "Players gain #% reduced Flask Charges",
+    "label": "Players gain #% reduced Flask Charges",
+    "tradeStatId": "explicit.stat_2549889921",
+    "numericDomain": [
+      0,
+      1000
+    ],
+    "numericSlot": 0,
+    "rollRange": [
+      20,
+      35
+    ],
+    "presencePattern": "sk"
+  },
+  {
+    "id": "extra-cold",
+    "template": "Monsters deal #% of Damage as Extra Cold",
+    "label": "Monsters deal #% of Damage as Extra Cold",
+    "tradeStatId": "explicit.stat_211727",
+    "numericDomain": [
+      0,
+      1000
+    ],
+    "numericSlot": 0,
+    "rollRange": [
+      5,
+      24
+    ],
+    "presencePattern": "col"
+  },
+  {
+    "id": "extra-fire",
+    "template": "Monsters deal #% of Damage as Extra Fire",
+    "label": "Monsters deal #% of Damage as Extra Fire",
+    "tradeStatId": "explicit.stat_92381065",
+    "numericDomain": [
+      0,
+      1000
+    ],
+    "numericSlot": 0,
+    "rollRange": [
+      5,
+      24
+    ],
+    "presencePattern": "fi"
+  },
+  {
+    "id": "extra-chaos",
+    "template": "Monsters deal #% of Damage as Extra Chaos",
+    "label": "Monsters deal #% of Damage as Extra Chaos",
+    "tradeStatId": "explicit.stat_2200661314",
+    "numericDomain": [
+      0,
+      1000
+    ],
+    "numericSlot": 0,
+    "rollRange": [
+      5,
+      24
+    ],
+    "presencePattern": "ao"
+  },
+  {
+    "id": "stun-buildup",
+    "template": "Monsters have #% increased Stun Buildup",
+    "label": "Monsters have #% increased Stun Buildup",
+    "tradeStatId": "explicit.stat_115425161",
+    "numericDomain": [
+      0,
+      1000
+    ],
+    "numericSlot": 0,
+    "rollRange": [
+      50,
+      110
+    ],
+    "presencePattern": "bu"
+  },
+  {
+    "id": "elemental-weakness",
+    "template": "Players are periodically Cursed with Elemental Weakness",
+    "label": "Players are periodically Cursed with Elemental Weakness",
+    "tradeStatId": "explicit.stat_554690751",
+    "presencePattern": "we"
+  },
+  {
+    "id": "monster-accuracy",
+    "template": "Monsters have #% increased Accuracy Rating",
+    "label": "Monsters have #% increased Accuracy Rating",
+    "tradeStatId": "explicit.stat_1588049749",
+    "numericDomain": [
+      0,
+      1000
+    ],
+    "numericSlot": 0,
+    "rollRange": [
+      10,
+      50
+    ],
+    "presencePattern": "cc"
+  },
+  {
+    "id": "armour-break",
+    "template": "Monsters Break Armour equal to #% of Physical Damage dealt",
+    "label": "Monsters Break Armour equal to #% of Physical Damage dealt",
+    "tradeStatId": "explicit.stat_1879340377",
+    "numericDomain": [
+      0,
+      1000
+    ],
+    "numericSlot": 0,
+    "rollRange": [
+      15,
+      45
+    ],
+    "presencePattern": "br"
+  },
+  {
+    "id": "resistance-penetration",
+    "template": "Monster Damage Penetrates #% Elemental Resistances",
+    "label": "Monster Damage Penetrates #% Elemental Resistances",
+    "tradeStatId": "explicit.stat_1898978455",
+    "numericDomain": [
+      0,
+      1000
+    ],
+    "numericSlot": 0,
+    "rollRange": [
+      6,
+      16
+    ],
+    "presencePattern": "et"
+  },
+  {
+    "id": "monster-armour",
+    "template": "Monsters are Armoured",
+    "label": "Monsters are Armoured",
+    "tradeStatId": "explicit.stat_2539290279",
+    "presencePattern": "oure"
+  },
+  {
+    "id": "poison",
+    "template": "Monsters have #% chance to Poison on Hit",
+    "label": "Monsters have #% chance to Poison on Hit",
+    "tradeStatId": "explicit.stat_95221307",
+    "numericDomain": [
+      0,
+      1000
+    ],
+    "numericSlot": 0,
+    "rollRange": [
+      13,
+      40
+    ],
+    "presencePattern": "oi"
+  },
+  {
+    "id": "temporal-chains",
+    "template": "Players are periodically Cursed with Temporal Chains",
+    "label": "Players are periodically Cursed with Temporal Chains",
+    "tradeStatId": "explicit.stat_1629357380",
+    "presencePattern": "mp"
+  },
+  {
+    "id": "extra-lightning",
+    "template": "Monsters deal #% of Damage as Extra Lightning",
+    "label": "Monsters deal #% of Damage as Extra Lightning",
+    "tradeStatId": "explicit.stat_512071314",
+    "numericDomain": [
+      0,
+      1000
+    ],
+    "numericSlot": 0,
+    "rollRange": [
+      5,
+      24
+    ],
+    "presencePattern": "gh"
+  },
+  {
+    "id": "monster-elemental-resistances",
+    "template": "+#% Monster Elemental Resistances",
+    "label": "+#% Monster Elemental Resistances",
+    "tradeStatId": "explicit.stat_1054098949",
+    "numericDomain": [
+      0,
+      1000
+    ],
+    "numericSlot": 0,
+    "rollRange": [
+      20,
+      40
+    ],
+    "presencePattern": "r el"
+  },
+  {
+    "id": "monster-speed",
+    "template": "Monsters have #% increased Attack, Cast and Movement Speed",
+    "label": "Monsters have #% increased Attack, Cast and Movement Speed",
+    "tradeStatId": "explicit.stat_3909654181",
+    "numericDomain": [
+      0,
+      1000
+    ],
+    "numericSlot": 0,
+    "rollRange": [
+      10,
+      15
+    ],
+    "presencePattern": "tt"
+  },
+  {
+    "id": "monster-evasion",
+    "template": "Monsters are Evasive",
+    "label": "Monsters are Evasive",
+    "tradeStatId": "explicit.stat_2570249991",
+    "presencePattern": "siv"
+  },
+  {
+    "id": "maximum-resistances",
+    "template": "#% maximum Player Resistances",
+    "label": "#% maximum Player Resistances",
+    "tradeStatId": "explicit.stat_3376488707",
+    "numericDomain": [
+      -100,
+      0
+    ],
+    "numericSlot": 0,
+    "rollRange": [
+      -10,
+      -3
+    ],
+    "presencePattern": "m p"
+  },
+  {
+    "id": "stun-threshold",
+    "template": "Monsters have #% increased Stun Threshold",
+    "label": "Monsters have #% increased Stun Threshold",
+    "tradeStatId": "explicit.stat_4101943684",
+    "numericDomain": [
+      0,
+      1000
+    ],
+    "numericSlot": 0,
+    "rollRange": [
+      30,
+      79
+    ],
+    "presencePattern": "n t"
+  },
+  {
+    "id": "ailment-threshold",
+    "template": "Monsters have #% increased Ailment Threshold",
+    "label": "Monsters have #% increased Ailment Threshold",
+    "tradeStatId": "explicit.stat_1994551050",
+    "numericDomain": [
+      0,
+      1000
+    ],
+    "numericSlot": 0,
+    "rollRange": [
+      30,
+      79
+    ],
+    "presencePattern": "t t"
+  },
+  {
+    "id": "monster-damage",
+    "template": "#% increased Monster Damage",
+    "label": "#% increased Monster Damage",
+    "tradeStatId": "explicit.stat_1890519597",
+    "numericDomain": [
+      0,
+      1000
+    ],
+    "numericSlot": 0,
+    "rollRange": [
+      5,
+      24
+    ],
+    "presencePattern": "ge$"
+  },
+  {
+    "id": "bleeding",
+    "template": "Monsters have #% chance to inflict Bleeding on Hit",
+    "label": "Monsters have #% chance to inflict Bleeding on Hit",
+    "tradeStatId": "explicit.stat_2506820610",
+    "numericDomain": [
+      0,
+      1000
+    ],
+    "numericSlot": 0,
+    "rollRange": [
+      5,
+      25
+    ],
+    "presencePattern": "o i"
+  },
+  {
+    "id": "cooldown-recovery",
+    "template": "Players have #% more Cooldown Recovery Rate",
+    "label": "Players have #% more Cooldown Recovery Rate",
+    "tradeStatId": "explicit.stat_941368244",
+    "numericDomain": [
+      0,
+      1000
+    ],
+    "numericSlot": 0,
+    "rollRange": [
+      15,
+      30
+    ],
+    "presencePattern": "oo"
+  },
+  {
+    "id": "extra-energy-shield",
+    "template": "Monsters gain #% of maximum Life as Extra maximum Energy Shield",
+    "label": "Monsters gain #% of maximum Life as Extra maximum Energy Shield",
+    "tradeStatId": "explicit.stat_2887760183",
+    "numericDomain": [
+      0,
+      1000
+    ],
+    "numericSlot": 0,
+    "rollRange": [
+      12,
+      25
+    ],
+    "presencePattern": "f m"
+  },
+  {
+    "id": "critical-hit-chance",
+    "template": "Monsters have #% increased Critical Hit Chance",
+    "label": "Monsters have #% increased Critical Hit Chance",
+    "tradeStatId": "explicit.stat_2753083623",
+    "numericDomain": [
+      0,
+      1000
+    ],
+    "numericSlot": 0,
+    "rollRange": [
+      80,
+      300
+    ],
+    "presencePattern": "d c"
+  },
+  {
+    "id": "critical-damage",
+    "template": "Monsters have #% Critical Damage Bonus",
+    "label": "Monsters have #% Critical Damage Bonus",
+    "tradeStatId": "explicit.stat_57326096",
+    "numericDomain": [
+      0,
+      1000
+    ],
+    "numericSlot": 0,
+    "rollRange": [
+      11,
+      30
+    ],
+    "presencePattern": "bo"
+  },
+  {
+    "id": "chilled-ground",
+    "template": "Area has patches of Chilled Ground",
+    "label": "Area has patches of Chilled Ground",
+    "tradeStatId": "explicit.stat_349586058",
+    "presencePattern": "chi"
+  },
+  {
+    "id": "ailment-application",
+    "template": "Monster have #% increased Elemental Ailment Application",
+    "label": "Monster have #% increased Elemental Ailment Application",
+    "tradeStatId": "explicit.stat_3877264671",
+    "numericDomain": [
+      0,
+      1000
+    ],
+    "numericSlot": 0,
+    "rollRange": [
+      60,
+      130
+    ],
+    "presencePattern": "ap"
+  },
+  {
+    "id": "monster-life",
+    "template": "#% more Monster Life",
+    "label": "#% more Monster Life",
+    "tradeStatId": "explicit.stat_95249895",
+    "numericDomain": [
+      0,
+      1000
+    ],
+    "numericSlot": 0,
+    "rollRange": [
+      10,
+      30
+    ],
+    "presencePattern": "fe$"
+  },
+  {
+    "id": "curse-effect",
+    "template": "#% less effect of Curses on Monsters",
+    "label": "#% less effect of Curses on Monsters",
+    "tradeStatId": "explicit.stat_3796523155",
+    "numericDomain": [
+      0,
+      1000
+    ],
+    "numericSlot": 0,
+    "rollRange": [
+      20,
+      50
+    ],
+    "presencePattern": "t o"
+  },
+  {
+    "id": "shocked-ground",
+    "template": "Area has patches of Shocked Ground",
+    "label": "Area has patches of Shocked Ground",
+    "tradeStatId": "explicit.stat_3477720557",
+    "presencePattern": "cke"
+  }
+]

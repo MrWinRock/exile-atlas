@@ -11,6 +11,8 @@ export type SearchCondition = {
   key: string;
   label: string;
   pattern: string;
+  /** Compact game token; pattern remains a matcher for basic/advanced pasted text. */
+  copyPattern?: string;
   negative: boolean;
   source: "header" | "modifier" | "property" | "text";
   propertyId?: string;
@@ -115,6 +117,7 @@ export function rangeBounds(
   value: RegexRange,
   domain: [number, number],
   label: string,
+  roundMinimum = false,
 ): [number, number] {
   const parse = (v: string, fallback: number) => {
     const s = v.trim();
@@ -128,22 +131,85 @@ export function rangeBounds(
   const min = parse(value.min, domain[0]),
     max = parse(value.max, domain[1]);
   if (min > max) throw new Error(`${label}: minimum exceeds maximum.`);
-  return [min, max];
+  return [roundMinimum && min >= 0 ? Math.max(domain[0], Math.floor(min / 10) * 10) : min, max];
 }
 export const hasRegexValue = (v: string | RegexRange) =>
   typeof v === "string" ? !!v.trim() : !!(v.min.trim() || v.max.trim());
-export function templatePattern(template: string, bounds?: [number, number], slot = 0): string {
+export function templatePattern(
+  template: string,
+  bounds?: [number, number],
+  slot = 0,
+  advanced = false,
+  unbounded = false,
+): string {
   const parts = template.split("#");
   let pattern = escapeRegexLiteral(parts[0]);
   for (let i = 1; i < parts.length; i++) {
     const constrained = i - 1 === slot && bounds;
-    const num = constrained ? integerRangePattern(...bounds) : "\\d{1,5}";
+    const num = constrained
+      ? unbounded
+        ? `(${integerRangePattern(...bounds)}|[1-9]\\d{5,})`
+        : integerRangePattern(...bounds)
+      : "\\d{1,5}";
     pattern +=
-      (constrained ? (bounds[0] >= 0 ? "\\+?" : "") : "[+-]?") + num + escapeRegexLiteral(parts[i]);
+      (constrained ? (bounds[0] >= 0 ? "\\+?" : "") : "[+-]?") +
+      num +
+      (advanced ? "(?:\\([^\\r\\n)]*\\))?" : "") +
+      escapeRegexLiteral(parts[i]);
   }
   // Header/searchable modifier lines permit suffix annotations, but never longer numeric values.
   return pattern + (template.endsWith("#") ? "($|[^\\d.])" : "");
 }
+
+function compactRange(min: number, max: number): string {
+  const pattern = integerRangePattern(min, max);
+  if (!pattern.startsWith("(") || min < 0) return pattern;
+  const low = (part: string) =>
+    Number(part.replace(/\[(\d)[^\]]*\]/g, "$1").replaceAll("\\d", "0"));
+  return (
+    "(" +
+    pattern
+      .slice(1, -1)
+      .split("|")
+      .sort((a, b) => low(a) - low(b))
+      .join("|") +
+    ")"
+  );
+}
+// Game yield headers contain nonnegative whole numbers. With a minimum only,
+// a three-digit suffix covers every larger canonical integer without a long cap.
+function compactMinimum(min: number): string {
+  if (min === 0) return "\\d+";
+  if (min < 10) return `([${min}-9]|\\d..?)`;
+  if (min < 100) {
+    const tens = Math.floor(min / 10),
+      ones = min % 10;
+    const two =
+      ones === 0
+        ? `[${tens}-9].`
+        : tens === 9
+          ? `9[${ones}-9]`
+          : `${tens}[${ones}-9]|[${tens + 1}-9].`;
+    return `(${two}|\\d..)`;
+  }
+  const width = String(min).length;
+  if (min === 10 ** (width - 1)) return "\\d" + ".".repeat(width - 1);
+  const sameWidth = compactRange(min, 10 ** width - 1).replaceAll("\\d", ".");
+  return (
+    "(" +
+    (sameWidth.startsWith("(") ? sameWidth.slice(1, -1) : sameWidth) +
+    "|\\d" +
+    ".".repeat(width) +
+    ")"
+  );
+}
+const yieldPrefixes: Record<string, string> = {
+  iir: "m rar",
+  "drop-chance": "p c",
+  effectiveness: "r ef",
+  "monster-rarity": "r rar",
+  "pack-size": "k s",
+};
 export function validateRegexDraft(draft: RegexDraft, allowUnknown = false): string[] {
   return compileRegexSearch(draft).errors.filter((e) => !allowUnknown || !e.startsWith("Unknown "));
 }
@@ -184,21 +250,51 @@ export function compileRegexSearch(draft: RegexDraft): CompiledRegexSearch {
     try {
       if (!m.numericDomain && (selection.min.trim() || selection.max.trim()))
         throw new Error(`${m.label}: has no numeric range.`);
-      const bounds = m.numericDomain ? rangeBounds(selection, m.numericDomain, m.label) : undefined;
+      const bounds = m.numericDomain
+        ? rangeBounds(selection, m.numericDomain, m.label, draft.roundNumbers)
+        : undefined;
       const pattern =
-        m.presencePattern ??
         "^" +
-          (m.numericDomain
-            ? templatePattern(
-                m.template,
-                hasRegexValue(selection) ? bounds : undefined,
-                m.numericSlot,
-              )
-            : escapeRegexLiteral(m.template));
+        (m.numericDomain
+          ? templatePattern(
+              m.template,
+              hasRegexValue(selection) ? bounds : undefined,
+              m.numericSlot,
+              draft.category === "waystone",
+            )
+          : escapeRegexLiteral(m.template));
+      let copyPattern = pattern;
+      if (m.presencePattern) {
+        copyPattern = m.presencePattern;
+        if (bounds && hasRegexValue(selection)) {
+          const max =
+            !selection.max.trim() && m.rollRange && bounds[0] <= m.rollRange[1]
+              ? m.rollRange[1]
+              : bounds[1];
+          // A smaller selected roll must not match a suffix of a longer roll.
+          const boundary =
+            m.rollRange &&
+            (String(Math.max(Math.abs(m.rollRange[0]), Math.abs(m.rollRange[1]))).length >
+              String(Math.abs(bounds[0])).length ||
+              m.rollRange[0] < 0)
+              ? bounds[0] < 0
+                ? "(^|[^\\d-])"
+                : "\\b"
+              : "";
+          const numeric = boundary + compactRange(bounds[0], max) + "\\(";
+          const sample = m.template.replaceAll("#", "0");
+          const match = new RegExp(m.presencePattern, "i").exec(sample)!;
+          copyPattern =
+            match.index > sample.indexOf("0")
+              ? numeric + ".*" + m.presencePattern
+              : m.presencePattern + ".*" + numeric;
+        }
+      }
       return {
         key: (negative ? "exclude:" : "wanted:") + m.id,
         label: m.label,
         pattern,
+        copyPattern,
         negative,
         source: "modifier",
       };
@@ -230,21 +326,40 @@ export function compileRegexSearch(draft: RegexDraft): CompiledRegexSearch {
     }
     try {
       let pattern: string,
+        copyPattern: string | undefined,
         negative = false;
       if (p.kind === "range") {
         if (typeof value === "string") throw new Error(`${p.label}: enter a range.`);
-        const bounds = rangeBounds(value, p.numericDomain!, p.label);
+        const bounds = rangeBounds(value, p.numericDomain!, p.label, draft.roundNumbers);
+        if (bounds[0] === p.numericDomain![0] && bounds[1] === p.numericDomain![1]) continue;
         pattern = (p.searchTemplates ?? p.templates)!
-          .map((t) => templatePattern(t, bounds))
+          .map((t) =>
+            templatePattern(t, bounds, 0, false, !!yieldPrefixes[id] && !value.max.trim()),
+          )
           .join("|");
+        if (id === "tier") copyPattern = "er " + compactRange(...bounds) + "\\)";
+        else if (id === "revives") copyPattern = "le: " + compactRange(...bounds);
+        else if (yieldPrefixes[id] && !value.max.trim())
+          copyPattern = yieldPrefixes[id] + ".*" + compactMinimum(bounds[0]) + "%";
       } else {
         if (typeof value !== "string") throw new Error(`${p.label}: choose one value.`);
         if (p.kind === "select" && !p.options?.some((o) => o.value === value))
           throw new Error(`${p.label}: select a valid option.`);
-        if (id === "rarity") pattern = "^Rarity: *" + escapeRegexLiteral(value) + "$";
-        else if (id === "corrupted") {
+        if (id === "rarity") {
+          const values = value.split(",");
+          pattern = "^Rarity: *(" + values.map(escapeRegexLiteral).join("|") + ")$";
+          if (draft.category === "waystone" && value === "normal,magic,rare") continue;
+          const initials = values.map((v) => v[0]);
+          copyPattern =
+            "y: " + (initials.length === 1 ? initials[0] : "(" + initials.join("|") + ")");
+        } else if (id === "corrupted") {
           pattern = "^Corrupted$";
           negative = value === "false";
+          copyPattern = "corr";
+        } else if (id === "delirious") {
+          pattern = "^Players in area are [0-9]+% Delirious";
+          negative = value === "false";
+          copyPattern = "delir";
         } else pattern = escapeRegexLiteral(value.trim());
       }
       groups.push({
@@ -254,6 +369,7 @@ export function compileRegexSearch(draft: RegexDraft): CompiledRegexSearch {
             key: "property:" + id,
             label: p.label,
             pattern,
+            copyPattern,
             negative,
             source: p.kind === "text" ? "text" : "property",
             propertyId: id,
@@ -278,11 +394,17 @@ export function compileRegexSearch(draft: RegexDraft): CompiledRegexSearch {
       ],
     });
   // Verified reference: poe2.re WaystoneResult.ts, quoted ! negation, token AND and pipe OR.
-  const quote = (c: SearchCondition) => `"${c.negative ? "!" : ""}${c.pattern}"`;
+  const quote = (c: SearchCondition) => `"${c.negative ? "!" : ""}${c.copyPattern ?? c.pattern}"`;
   const tokens = groups.flatMap((g) =>
     g.operator === "any" && g.conditions.length > 1
-      ? [`"${g.conditions.map((c) => c.pattern).join("|")}"`]
+      ? [`"${g.conditions.map((c) => c.copyPattern ?? c.pattern).join("|")}"`]
       : g.conditions.map(quote),
   );
-  return result([...new Set(tokens)].join(" "));
+  // De Morgan: !A AND !B is !(A OR B), so combine exclusions without changing groups.
+  const positives = tokens.filter((t) => !t.startsWith('"!'));
+  const negatives = tokens.filter((t) => t.startsWith('"!')).map((t) => t.slice(2, -1));
+  const firstNegative = tokens.findIndex((t) => t.startsWith('"!'));
+  if (negatives.length)
+    positives.splice(firstNegative, 0, '"!' + [...new Set(negatives)].join("|") + '"');
+  return result([...new Set(positives)].join(" "));
 }

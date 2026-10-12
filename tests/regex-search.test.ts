@@ -10,9 +10,12 @@ test("waystone searches use compact tokens without losing exact rarity bounds", 
   const c = compileRegexSearch(d);
   expect(c.text).toStartWith('"!chi" ');
   expect(c.length).toBeLessThan(55);
-  const rarity = new RegExp(c.text.split('" "')[1].slice(0, -1), "i");
+  const rarity = new RegExp(
+    c.groups.flatMap((g) => g.conditions).find((c) => c.propertyId === "iir")!.pattern,
+    "i",
+  );
   for (const n of [0, 39, 40, 99, 100, 999, 1000, 99999, 100000])
-    expect(rarity.test(`Item Rarity: +${n}%`)).toBe(n >= 40 && n <= 99999);
+    expect(rarity.test(`Item Rarity: +${n}%`)).toBe(n >= 40);
   for (const line of ["Monster Rarity: +80%", "Item Rarity: -40%", "Item Rarity: +40.5%"])
     expect(rarity.test(line)).toBe(false);
   d.properties.iir = { min: "40", max: "99" };

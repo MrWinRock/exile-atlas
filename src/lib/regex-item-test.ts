@@ -21,7 +21,7 @@ export function testRegexItem(draft: RegexDraft, text: string): RegexItemTestRes
   const evaluate = (c: SearchCondition): "pass" | "fail" | "unknown" => {
     if (c.source === "property") {
       let known = false;
-      if (c.propertyId === "rarity" || c.propertyId === "corrupted")
+      if (c.propertyId === "rarity" || c.propertyId === "corrupted" || c.propertyId === "delirious")
         known = /^Rarity: *\w+/im.test(normalized);
       else {
         const p = REGEX_PROPERTIES.find((p) => p.id === c.propertyId);

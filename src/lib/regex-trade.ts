@@ -45,7 +45,7 @@ export function prepareRegexTrade(
       max = selection.max.trim();
     if (m.numericDomain && hasRegexValue(selection)) {
       try {
-        const bounds = rangeBounds(selection, m.numericDomain, m.label);
+        const bounds = rangeBounds(selection, m.numericDomain, m.label, input.roundNumbers);
         min = String(bounds[0]);
         max = String(bounds[1]);
       } catch {
@@ -82,6 +82,11 @@ export function prepareRegexTrade(
   for (const [id, value] of Object.entries(input.properties)) {
     if (!hasRegexValue(value)) continue;
     const p = REGEX_PROPERTIES.find((p) => p.id === id && p.categories.includes(input.category));
+    if (id === "rarity" && typeof value === "string" && value.includes(",")) {
+      if (value !== "normal,magic,rare" || input.category !== "waystone")
+        unsupported.push("Multiple rarities");
+      continue;
+    }
     if (!p?.tradeField) {
       unsupported.push(p?.label ?? id);
       continue;
@@ -89,8 +94,12 @@ export function prepareRegexTrade(
     supported.push(p.label);
     if (p.kind === "range" && typeof value !== "string") {
       try {
-        const bounds = rangeBounds(value, p.numericDomain!, p.label);
-        draft.fields[p.tradeField] = { min: String(bounds[0]), max: String(bounds[1]) };
+        const bounds = rangeBounds(value, p.numericDomain!, p.label, input.roundNumbers);
+        if (bounds[0] === p.numericDomain![0] && bounds[1] === p.numericDomain![1]) continue;
+        draft.fields[p.tradeField] = {
+          min: String(bounds[0]),
+          max: value.max.trim() ? String(bounds[1]) : "",
+        };
       } catch {
         /* Compiler already reports invalid bounds. */
       }

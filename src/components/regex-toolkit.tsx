@@ -235,6 +235,17 @@ export function RegexToolkit() {
                     );
                   })}
                 </div>
+                {category === "waystone" && (
+                  <label className={styles.rounding}>
+                    <input
+                      type="checkbox"
+                      checked={draft.roundNumbers ?? false}
+                      onChange={(e) => store.setDraft({ ...draft, roundNumbers: e.target.checked })}
+                    />
+                    Round minimums down to the nearest 10
+                    <small>Maximums stay exact.</small>
+                  </label>
+                )}
                 <Field
                   label="Additional text"
                   hint="Literal text, safely escaped. It must also appear on the item."
@@ -288,7 +299,11 @@ export function RegexToolkit() {
                         <div>
                           <span>{m.label}</span>
                           <small>
-                            {m.numericDomain ? "Optional inclusive range" : "Presence only"}
+                            {m.rollRange
+                              ? `Rolls ${m.rollRange[0]} to ${m.rollRange[1]} · optional inclusive range`
+                              : m.numericDomain
+                                ? "Optional inclusive range"
+                                : "Presence only"}
                           </small>
                         </div>
                         <select

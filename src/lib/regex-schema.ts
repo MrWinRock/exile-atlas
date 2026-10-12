@@ -18,6 +18,7 @@ export const regexDraftSchema = z
       z.union([z.string().max(500), regexRangeSchema]),
     ),
     text: z.string().max(1000),
+    roundNumbers: z.boolean().optional(),
   })
   .strict()
   .refine((d) => Object.keys(d.properties).length <= 30, "Too many property conditions");

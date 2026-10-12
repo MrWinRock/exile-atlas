@@ -1,4 +1,5 @@
 import type { RegexCategory } from "./regex-schema";
+import waystones from "../../public/data/poe2-waystone-regex.json";
 
 export const REGEX_SOURCE = {
   url: "https://raw.githubusercontent.com/PathOfBuildingCommunity/PathOfBuilding-PoE2/bb52d6b368307457eb9c54bb13f1829993d390b1/src/Data/TradeSiteStats.lua",
@@ -26,6 +27,7 @@ export type RegexModifier = {
   presencePattern?: string;
   numericDomain?: [number, number];
   numericSlot?: number;
+  rollRange?: [number, number];
   tradeStatId?: string;
   source: typeof REGEX_SOURCE;
 };
@@ -73,44 +75,13 @@ export const REGEX_MODIFIERS: RegexModifier[] = [
     "explicit.stat_2923486259",
     [0, 1000],
   ),
-  mod(
-    "monster-damage",
-    ["waystone"],
-    "#% increased Monster Damage",
-    "explicit.stat_1890519597",
-    [0, 1000],
-  ),
-  mod("monster-life", ["waystone"], "#% more Monster Life", "explicit.stat_95249895", [0, 1000]),
-  mod(
-    "maximum-resistances",
-    ["waystone"],
-    "#% maximum Player Resistances",
-    "explicit.stat_3376488707",
-    [-100, 0],
-  ),
-  mod(
-    "extra-fire",
-    ["waystone"],
-    "Monsters deal #% of Damage as Extra Fire",
-    "explicit.stat_92381065",
-    [0, 1000],
-  ),
-  {
-    ...mod(
-      "chilled-ground",
-      ["waystone"],
-      "Area has patches of Chilled Ground",
-      "explicit.stat_349586058",
-    ),
-    presencePattern: "chi",
-  },
-  mod(
-    "monster-speed",
-    ["waystone"],
-    "Monsters have #% increased Attack, Cast and Movement Speed",
-    "explicit.stat_3909654181",
-    [0, 1000],
-  ),
+  ...waystones.map((m): RegexModifier => ({
+    ...m,
+    categories: ["waystone"],
+    numericDomain: m.numericDomain as [number, number] | undefined,
+    rollRange: m.rollRange as [number, number] | undefined,
+    source: REGEX_SOURCE,
+  })),
   mod(
     "tablet-pack-size",
     ["tablet"],
@@ -214,9 +185,24 @@ export const REGEX_PROPERTIES: RegexProperty[] = [
       { value: "magic", label: "Magic" },
       { value: "rare", label: "Rare" },
       { value: "unique", label: "Unique" },
+      { value: "normal,magic", label: "Normal or Magic" },
+      { value: "normal,rare", label: "Normal or Rare" },
+      { value: "magic,rare", label: "Magic or Rare" },
+      { value: "normal,magic,rare", label: "Normal, Magic or Rare" },
     ],
     tradeField: "type_filters.rarity",
     source: REGEX_SOURCE,
+  },
+  {
+    id: "delirious",
+    label: "Delirious waystones",
+    categories: ["waystone"],
+    kind: "select",
+    options: [
+      { value: "true", label: "Delirious" },
+      { value: "false", label: "Not delirious" },
+    ],
+    source: propertySource,
   },
   {
     id: "corrupted",
