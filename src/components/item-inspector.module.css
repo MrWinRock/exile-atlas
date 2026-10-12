@@ -1,0 +1,77 @@
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr);
+  gap: 24px;
+  align-items: start;
+}
+.input,
+.result {
+  padding: 22px;
+  min-width: 0;
+}
+.input textarea {
+  min-height: 330px;
+  font-family: var(--mono, monospace);
+  font-size: 12px;
+  resize: vertical;
+}
+.facts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 18px 0;
+}
+.facts > div {
+  border-left: 2px solid var(--accent);
+  background: #dab07708;
+  padding: 10px;
+}
+.facts dt {
+  color: var(--muted);
+  font-size: 10px;
+  text-transform: uppercase;
+}
+.facts dd {
+  margin: 4px 0 0;
+  overflow-wrap: anywhere;
+}
+.modifier {
+  padding: 14px 0;
+  border-top: 1px solid var(--line);
+  overflow-wrap: anywhere;
+}
+.modifier strong {
+  display: block;
+  margin-bottom: 8px;
+}
+.modifier p {
+  font-size: 12px;
+  line-height: 1.6;
+  margin: 4px 0;
+  color: var(--muted);
+}
+.preview {
+  margin-top: 20px;
+  padding: 18px;
+  border: 1px solid var(--accent);
+  background: var(--surface);
+}
+.preview pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-size: 12px;
+  padding: 12px;
+  background: #101618;
+}
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  .input,
+  .result {
+    padding: 16px;
+  }
+  .input textarea {
+    min-height: 220px;
+  }
+}

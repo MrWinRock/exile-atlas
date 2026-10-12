@@ -20,6 +20,7 @@ import {
   ShoppingBag,
   Regex,
   Sprout,
+  Search,
 } from "lucide-react";
 import { useStatus } from "@/lib/client";
 const nav = [
@@ -30,6 +31,7 @@ const nav = [
   { href: "/currency", label: "Currency exchange", icon: Coins },
   { href: "/trade", label: "Item trade", icon: ShoppingBag },
   { href: "/regex", label: "Search Toolkit", icon: Regex },
+  { href: "/inspect", label: "Item inspector", icon: Search },
   { href: "/genesis", label: "Genesis Tree", icon: Sprout },
   { href: "/planner", label: "Passive planner", icon: GitBranch },
   { href: "/builds", label: "Build library", icon: BookOpen },
