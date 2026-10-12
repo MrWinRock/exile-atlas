@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useWorkspace } from "@/lib/workspace-store";
 import { useTradeWorkspace } from "@/lib/trade-store";
 import { useRegexWorkspace } from "@/lib/regex-store";
+import { useGenesisWorkspace } from "@/lib/genesis-store";
 export function Providers({ children }: { children: React.ReactNode }) {
   const [client] = useState(
     () =>
@@ -17,6 +18,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
     void useWorkspace.persist.rehydrate();
     void useTradeWorkspace.persist.rehydrate();
     void useRegexWorkspace.persist.rehydrate();
+    void useGenesisWorkspace.persist.rehydrate();
   }, []);
   return <QueryClientProvider client={client}>{children}</QueryClientProvider>;
 }

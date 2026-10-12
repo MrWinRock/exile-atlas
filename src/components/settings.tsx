@@ -7,6 +7,7 @@ import { api, useStatus } from "@/lib/client";
 import { useWorkspace } from "@/lib/workspace-store";
 import { useTradeWorkspace } from "@/lib/trade-store";
 import { useRegexWorkspace } from "@/lib/regex-store";
+import { useGenesisWorkspace } from "@/lib/genesis-store";
 import { Badge, Button, Loading, Notice, PageTitle, SectionHeader } from "./ui";
 export function Settings() {
   const { data: status, isLoading, error } = useStatus(),
@@ -14,6 +15,7 @@ export function Settings() {
     store = useWorkspace(),
     tradeStore = useTradeWorkspace(),
     regexStore = useRegexWorkspace(),
+    genesisStore = useGenesisWorkspace(),
     [message, setMessage] = useState(""),
     [confirmClear, setConfirmClear] = useState(false),
     [busy, setBusy] = useState(false);
@@ -105,7 +107,8 @@ export function Settings() {
         <p className="muted">
           {store.builds.length} saved builds, {store.filters.length} filter drafts and{" "}
           {tradeStore.searches.length} trade searches, and {regexStore.presets.length} search
-          presets are stored in this browser. Export files to keep a portable backup.
+          presets, plus {genesisStore.plans.length} Genesis plans are stored in this browser. Export
+          files to keep a portable backup.
         </p>
         {confirmClear ? (
           <div className="button-group">
@@ -115,6 +118,7 @@ export function Settings() {
                 store.clearDrafts();
                 tradeStore.clearSearches();
                 regexStore.clearAll();
+                genesisStore.clearAll();
                 setConfirmClear(false);
                 setMessage("Browser drafts cleared.");
               }}

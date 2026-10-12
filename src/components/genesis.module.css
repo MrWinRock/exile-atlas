@@ -1,0 +1,318 @@
+.branches {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+  margin: 22px 0;
+}
+.branches > button {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 15px;
+  text-align: left;
+  color: var(--muted);
+  background: var(--surface);
+}
+.branches > button[aria-pressed="true"] {
+  border-color: var(--green);
+  color: var(--text);
+  background: #90b6a10c;
+}
+.branches svg {
+  color: var(--green);
+}
+.branches strong {
+  display: block;
+  width: 100%;
+  font-size: 22px;
+  font-family: var(--serif);
+  margin-top: 10px;
+}
+.branches small {
+  font-size: 12px;
+  font-family: var(--sans);
+  font-weight: 400;
+  color: var(--dim);
+}
+.workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(280px, 1fr);
+  gap: 22px;
+  margin: 24px 0;
+  align-items: start;
+}
+.explorer,
+.details {
+  display: grid;
+  gap: 22px;
+  min-width: 0;
+}
+.details > section,
+.nodeBrowser {
+  padding: 24px;
+}
+.graphContainer {
+  border: 1px solid #36443d;
+  border-radius: 8px;
+  overflow: hidden;
+  background: radial-gradient(ellipse at center, #1c2c23, #101816);
+}
+.graphToolbar {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid #36443d;
+  color: var(--muted);
+  font-size: 11px;
+  background: #191e21aa;
+}
+.graphToolbar > div {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+.graphToolbar button {
+  font-size: 11px;
+  padding: 7px 9px;
+  min-height: 34px;
+}
+.graph {
+  display: block;
+  width: 100%;
+  height: 450px;
+  touch-action: none;
+  user-select: none;
+}
+.graphCaption {
+  padding: 12px 16px;
+  font-size: 11px;
+  color: var(--dim);
+  border-top: 1px solid #36443d;
+}
+.searchRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(160px, 0.6fr);
+  gap: 16px;
+  align-items: end;
+  margin-bottom: 20px;
+}
+.nodeList {
+  max-height: 350px;
+  overflow: auto;
+  margin-top: 18px;
+}
+.nodeList > button {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  width: 100%;
+  text-align: left;
+  padding: 14px 8px;
+  border-top: 1px solid var(--line);
+  font-size: 13px;
+}
+.nodeList > button[aria-pressed="true"] {
+  background: #90b6a10e;
+  color: var(--green);
+}
+.nodeList > button > span:nth-child(2) {
+  flex: 1;
+  min-width: 0;
+}
+.nodeList > button > span:last-child {
+  color: var(--dim);
+  font-size: 10px;
+}
+.nodeList small {
+  display: block;
+  color: var(--dim);
+  font-size: 10px;
+  margin-top: 4px;
+  overflow-wrap: anywhere;
+}
+.nodeDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 1px solid var(--green);
+  flex-shrink: 0;
+}
+.activeDot {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.nodeTitle {
+  font-family: var(--serif);
+  font-size: 29px;
+  margin: 16px 0;
+}
+.effects {
+  padding-left: 18px;
+  line-height: 1.8;
+  font-size: 13px;
+}
+.effects li {
+  margin: 8px 0;
+}
+.nodeId {
+  font-size: 10px;
+  display: block;
+  color: var(--dim);
+  overflow-wrap: anywhere;
+  margin: 18px 0;
+}
+.source {
+  font-size: 11px;
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+  color: var(--accent);
+}
+.empty {
+  padding: 26px 0;
+  color: var(--muted);
+  line-height: 1.8;
+  font-size: 13px;
+}
+.empty svg {
+  color: var(--green);
+  margin-bottom: 16px;
+}
+.path {
+  padding: 16px;
+  margin-top: 18px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  background: var(--bg);
+}
+.path ol {
+  font-size: 12px;
+  line-height: 1.8;
+  padding-left: 18px;
+}
+.actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin: 16px 0;
+}
+.wombgifts > div {
+  padding: 12px 0;
+  border-top: 1px solid var(--line);
+}
+.wombgifts strong {
+  font-size: 12px;
+  display: block;
+}
+.wombgifts span {
+  font-size: 10px;
+  color: var(--accent);
+}
+.wombgifts small {
+  display: block;
+  font-size: 11px;
+  color: var(--dim);
+  line-height: 1.7;
+}
+.library,
+.allocated {
+  padding: 24px;
+  margin-bottom: 22px;
+}
+.planGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 22px;
+}
+.planGrid > article {
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  min-width: 0;
+}
+.planGrid h3 {
+  font-family: var(--serif);
+  font-size: 23px;
+  overflow-wrap: anywhere;
+  margin-bottom: 8px;
+}
+.planGrid p {
+  font-size: 11px;
+}
+.warning {
+  color: var(--accent);
+}
+.allocated > div {
+  padding: 16px 0;
+  border-top: 1px solid var(--line);
+  font-size: 12px;
+}
+.allocated small {
+  display: block;
+  color: var(--dim);
+  margin-top: 4px;
+}
+.allocated li {
+  line-height: 1.8;
+}
+.graph *:focus-visible {
+  outline: 2px solid var(--accent);
+}
+@media (max-width: 1150px) {
+  .workspace {
+    grid-template-columns: 1fr;
+  }
+  .details {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .branches {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .planGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 650px) {
+  .branches {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .branches > button {
+    padding: 12px;
+    font-size: 12px;
+  }
+  .details,
+  .searchRow,
+  .planGrid {
+    grid-template-columns: 1fr;
+  }
+  .details > section,
+  .nodeBrowser,
+  .library,
+  .allocated {
+    padding: 18px;
+  }
+  .graphToolbar {
+    flex-wrap: wrap;
+    padding: 10px;
+  }
+  .graphToolbar > div {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .graph {
+    height: 360px;
+  }
+  .graphCaption {
+    font-size: 10px;
+  }
+  .nodeTitle {
+    font-size: 25px;
+  }
+}

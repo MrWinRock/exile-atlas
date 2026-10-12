@@ -9,6 +9,7 @@ import { Settings } from "@/components/settings";
 import { Items } from "@/components/items";
 import { Trade } from "@/components/trade";
 import { RegexToolkit } from "@/components/regex-toolkit";
+import { Genesis } from "@/components/genesis";
 const sections = {
   characters: Characters,
   filters: Filters,
@@ -20,6 +21,7 @@ const sections = {
   items: Items,
   trade: Trade,
   regex: RegexToolkit,
+  genesis: Genesis,
 };
 export default async function Page({ params }: { params: Promise<{ section: string }> }) {
   const { section } = await params;

@@ -1,0 +1,3759 @@
+{
+  "identity": "genesis-27f5dad0d0979aa23a604defd11fcf7ae4668444",
+  "source": "https://github.com/PraedythXIV/poe2-build-converter/tree/27f5dad0d0979aa23a604defd11fcf7ae4668444",
+  "captured": "2026-07-04",
+  "patch": "4.5.4.3",
+  "historical": true,
+  "nodes": [
+    {
+      "id": "BrequelTreeBelts6",
+      "name": "Twisted Pursuit",
+      "branch": "Belts",
+      "x": 2990.8,
+      "y": 1259,
+      "effects": [
+        "Birthed Items have 5% chance to be Stalking Belts"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeRings18_",
+      "name": "Modifier Values",
+      "branch": "Rings",
+      "x": -2498.4,
+      "y": 1995,
+      "effects": [
+        "Modifiers on Birthed Items roll their values an additional 2 times, keeping the highest value"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeBelts32",
+      "name": "Additional Item Chance",
+      "branch": "Belts",
+      "x": 1106.1,
+      "y": 894.6,
+      "effects": [
+        "10% Surpassing chance to Birth an additional Item"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeRings47",
+      "name": "Beyond the Body",
+      "branch": "Rings",
+      "x": 251.3,
+      "y": 1080.5,
+      "effects": [
+        "5% chance for Birthed Items to have a Crafted Modifier",
+        "Option (Burdensome): Birthed Items have 5% chance to be crafted with ''Burdensome''",
+        "Option (Vastness): Birthed Items have 5% chance to be crafted with ''of Vastness''"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency6",
+      "name": "Additional Item Chance",
+      "branch": "Currency",
+      "x": -2141.7,
+      "y": -1923.1,
+      "effects": [
+        "40% Surpassing chance to Birth an additional Item"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeAmulets62",
+      "name": "Additional Item Chance",
+      "branch": "Amulets",
+      "x": 2992.3,
+      "y": 136.2,
+      "effects": [
+        "10% Surpassing chance to Birth an additional Item"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency77_",
+      "name": "Increased Regal Orb Chance",
+      "branch": "Currency",
+      "x": 846.6,
+      "y": -3014.9,
+      "effects": [
+        "100% increased chance to Birth Regal Orbs"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeRings21",
+      "name": "Elude the Storm",
+      "branch": "Rings",
+      "x": -2877.9,
+      "y": 1926.7,
+      "effects": [
+        "Birthed Items cannot have Modifiers of type",
+        "Option (Fire): Birthed Items cannot have Fire Modifiers",
+        "Option (Cold): Birthed Items cannot have Cold Modifiers",
+        "Option (Lightning): Birthed Items cannot have Lightning Modifiers"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeAmulets23",
+      "name": "Inherited Talents",
+      "branch": "Amulets",
+      "x": 1554,
+      "y": -735.8,
+      "effects": [
+        "Birthed Items have a Modifier of type",
+        "Option (Strength): Birthed Items always have a Strength Modifier",
+        "Option (Dexterity): Birthed Items always have a Dexterity Modifier",
+        "Option (Intelligence): Birthed Items always have an Intelligence Modifier"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeAmulets11___",
+      "name": "Lament No More",
+      "branch": "Amulets",
+      "x": 965.6,
+      "y": -1038.4,
+      "effects": [
+        "Birthed Items always have an empty Prefix Modifier"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency58",
+      "name": "Additional Item Chance",
+      "branch": "Currency",
+      "x": -60.9,
+      "y": -3748.6,
+      "effects": [
+        "20% Surpassing chance to Birth an additional Item"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeBelts46_",
+      "name": "Additional Item Chance",
+      "branch": "Belts",
+      "x": 3120.4,
+      "y": 2897.4,
+      "effects": [
+        "10% Surpassing chance to Birth an additional Item"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeAmulets7",
+      "name": "Strength Modifier Level",
+      "branch": "Amulets",
+      "x": 1025.6,
+      "y": -1473.9,
+      "effects": [
+        "Strength Modifiers on Birthed Items have Minimum Modifier Level 60"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeRings50",
+      "name": "Unrestrained",
+      "branch": "Rings",
+      "x": -530,
+      "y": 1044.6,
+      "effects": [
+        "5% chance for Birthed Items to have a Crafted Modifier",
+        "Option (Amplification): Birthed Items have an 5% chance to be crafted with ''of Amplification''",
+        "Option (Drenching): Birthed Items have 5% chance to be crafted with ''of Drenching''"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency56_",
+      "name": "Additional Item Chance",
+      "branch": "Currency",
+      "x": 132.1,
+      "y": -2654.9,
+      "effects": [
+        "20% Surpassing chance to Birth an additional Item"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeAmulets34",
+      "name": "Increased Portent Amulet Chance",
+      "branch": "Amulets",
+      "x": 3164.1,
+      "y": -2195.2,
+      "effects": [
+        "Birthed Items have 100% increased chance to be Portent Amulets"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeRings6",
+      "name": "Damage Modifier Level",
+      "branch": "Rings",
+      "x": -2090.6,
+      "y": 1181.2,
+      "effects": [
+        "Damage Modifiers on Birthed Items have Minimum Modifier Level 40"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeAmulets9",
+      "name": "Dexterity Modifier Level",
+      "branch": "Amulets",
+      "x": 1449,
+      "y": -1718.8,
+      "effects": [
+        "Dexterity Modifiers on Birthed Items have Minimum Modifier Level 60"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeAmulets42",
+      "name": "Reduced Hiveblood Consumed",
+      "branch": "Amulets",
+      "x": 2008.6,
+      "y": -1629.3,
+      "effects": [
+        "Birthing consumes 5% reduced Hiveblood"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeBelts10",
+      "name": "Modifier Values",
+      "branch": "Belts",
+      "x": 2235.6,
+      "y": 2186.3,
+      "effects": [
+        "Modifiers on Birthed Items roll their values an additional 2 times, keeping the highest value"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeBelts18",
+      "name": "Modifier Values",
+      "branch": "Belts",
+      "x": 2072.6,
+      "y": 1276.4,
+      "effects": [
+        "Modifiers on Birthed Items roll their values an additional 2 times, keeping the highest value"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency55",
+      "name": "Additional Item Chance",
+      "branch": "Currency",
+      "x": 330.7,
+      "y": -2295.4,
+      "effects": [
+        "20% Surpassing chance to Birth an additional Item"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeBelts50",
+      "name": "Branded With Hexes",
+      "branch": "Belts",
+      "x": 3596,
+      "y": 2043.7,
+      "effects": [
+        "Birthed Items always have two Caster Modifiers"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeRings26",
+      "name": "Additional Item Chance",
+      "branch": "Rings",
+      "x": -2702.1,
+      "y": 3100.9,
+      "effects": [
+        "10% Surpassing chance to Birth an additional Item"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeAmulets39",
+      "name": "Potential Ignored",
+      "branch": "Amulets",
+      "x": 2550,
+      "y": -1273.3,
+      "effects": [
+        "Birthed Items cannot be",
+        "Option (Amber Amulet): Birthed Items cannot be Amber Amulets",
+        "Option (Lapis Amulet): Birthed Items cannot be Lapis Amulets",
+        "Option (Jade Amulet): Birthed Items cannot be Jade Amulets",
+        "Option (Stellar Amulet): Birthed Items cannot be Stellar Amulets"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeRings12_",
+      "name": "Additional Item Chance",
+      "branch": "Rings",
+      "x": -1533,
+      "y": 1392.6,
+      "effects": [
+        "10% Surpassing chance to Birth an additional Item"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeRings29",
+      "name": "Legion from Beyond: Multitudes",
+      "branch": "Rings",
+      "x": -3255.8,
+      "y": 2496.6,
+      "effects": [
+        "Birthed Items have an 5% chance to be crafted with ''of Multitudes''"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeAmulets63",
+      "name": "Armour Modifier Level",
+      "branch": "Amulets",
+      "x": 3263.4,
+      "y": -20.3,
+      "effects": [
+        "Armour Modifiers on Birthed Items have Minimum Modifier Level 60"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency32",
+      "name": "Catalyst Chance",
+      "branch": "Currency",
+      "x": -1279.8,
+      "y": 68.5,
+      "effects": [
+        "15% chance for Birthed Currency to be a Catalyst"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeAmulets1_",
+      "name": "Modifier Level",
+      "branch": "Amulets",
+      "x": 1652.7,
+      "y": -178.9,
+      "effects": [
+        "Birthed Items have Minimum Modifier Level 20"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency8",
+      "name": "Wild Growth",
+      "branch": "Currency",
+      "x": -2644.7,
+      "y": -1721,
+      "effects": [
+        "10% chance to Birth 5 additional Items of the same type"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency61",
+      "name": "Become Hollow",
+      "branch": "Currency",
+      "x": -205.4,
+      "y": -3527.1,
+      "effects": [
+        "100% increased chance to Birth Orbs of Annulment"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeBelts49",
+      "name": "Caster Modifier Values",
+      "branch": "Belts",
+      "x": 3497.6,
+      "y": 2464.2,
+      "effects": [
+        "Caster Modifiers on Birthed Items roll their values an additional 2 times,\nkeeping the highest value"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency51",
+      "name": "Additional Breach Splinters",
+      "branch": "Currency",
+      "x": -2649.2,
+      "y": 129.4,
+      "effects": [
+        "50% chance to Birth an 16 to 24 additional Breach Splinters when Birthing Breach Splinters"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeBelts16",
+      "name": "Additional Item Chance",
+      "branch": "Belts",
+      "x": 2097.4,
+      "y": 1883.4,
+      "effects": [
+        "10% Surpassing chance to Birth an additional Item"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeAmulets2",
+      "name": "Suffix Modifier Values",
+      "branch": "Amulets",
+      "x": 1438.4,
+      "y": -370.7,
+      "effects": [
+        "Suffix Modifiers on Birthed Items roll their values an additional 2 times,\nkeeping the highest value"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeAmulets47_",
+      "name": "Ground Smooth",
+      "branch": "Amulets",
+      "x": 1945.7,
+      "y": -2029.9,
+      "effects": [
+        "Birthed Items cannot have Critical Modifiers"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeBelts1_",
+      "name": "Modifier Level",
+      "branch": "Belts",
+      "x": 1948.2,
+      "y": 2732.4,
+      "effects": [
+        "Birthed Items have Minimum Modifier Level 20"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeAmulets40",
+      "name": "Burn the Harvest",
+      "branch": "Amulets",
+      "x": 2247.3,
+      "y": -823.9,
+      "effects": [
+        "Birthed Items cannot be",
+        "Option (Crimson Amulet): Birthed Items cannot be Crimson Amulets",
+        "Option (Azure Amulet): Birthed Items cannot be Azure Amulets",
+        "Option (Lunar Amulet): Birthed Items cannot be Lunar Amulets",
+        "Option (Bloodstone Amulet): Birthed Items cannot be Bloodstone Amulets"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeRings53",
+      "name": "Additional Item Chance",
+      "branch": "Rings",
+      "x": -806.9,
+      "y": 2657.1,
+      "effects": [
+        "10% Surpassing chance to Birth an additional Item"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeRings13",
+      "name": "Additional Item Chance",
+      "branch": "Rings",
+      "x": -1634.3,
+      "y": 1042.5,
+      "effects": [
+        "10% Surpassing chance to Birth an additional Item"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrencySlot",
+      "name": "Currency Womb",
+      "branch": "Currency",
+      "x": -727.7,
+      "y": 172.9,
+      "effects": [],
+      "root": true
+    },
+    {
+      "id": "BrequelTreeCurrency81_",
+      "name": "Riches Beget Riches",
+      "branch": "Currency",
+      "x": 1300.4,
+      "y": -3506.3,
+      "effects": [
+        "15% chance to Birth 10 additional items of the same type when Birthing Exalted Orbs"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeRings35",
+      "name": "Minion Speed Modifier Level",
+      "branch": "Rings",
+      "x": -4064.8,
+      "y": 2563.4,
+      "effects": [
+        "Minion speed Modifiers on Birthed Items have Minimum Modifier Level 60"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeBelts17",
+      "name": "Additional Item Chance",
+      "branch": "Belts",
+      "x": 2013.6,
+      "y": 1555.9,
+      "effects": [
+        "10% Surpassing chance to Birth an additional Item"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeAmulets38",
+      "name": "The Greatest Cost",
+      "branch": "Amulets",
+      "x": 2278.1,
+      "y": -1430.3,
+      "effects": [
+        "Birthed Items cannot be",
+        "Option (Solar Amulet): Birthed Items cannot be Solar Amulets",
+        "Option (Gold Amulet): Birthed Items cannot be Gold Amulets"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeAmulets45",
+      "name": "Jewel of the Lords",
+      "branch": "Amulets",
+      "x": 2641.2,
+      "y": -2296.8,
+      "effects": [
+        "5% chance for Birthed Items to have a Crafted Modifier",
+        "Option (Xoph): Birthed Items have 5% chance to be crafted with ''of Xoph''",
+        "Option (Tul): Birthed Items have 5% chance to be crafted with ''Tul's''",
+        "Option (Uul-Netol): Birthed Items have 5% chance to be crafted with ''Uul-Netol's''",
+        "Option (Esh): Birthed Items have 5% chance to be crafted with ''of Esh''"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeRings45",
+      "name": "Overtaken by Power",
+      "branch": "Rings",
+      "x": 410.7,
+      "y": 1755.2,
+      "effects": [
+        "Birthed Items always have two Caster Modifiers"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeBelts15",
+      "name": "Charm Modifier Level",
+      "branch": "Belts",
+      "x": 2696.8,
+      "y": 1578.2,
+      "effects": [
+        "Charm Modifiers on Birthed Items have Minimum Modifier Level 40"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeAmulets32",
+      "name": "Forms Beyond Understanding",
+      "branch": "Amulets",
+      "x": 3007.1,
+      "y": -1923.3,
+      "effects": [
+        "Birthed Items have 10% chance to be Lament, Portent or Absent Amulets"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeBelts22_",
+      "name": "Husk",
+      "branch": "Belts",
+      "x": 2072.1,
+      "y": 979.4,
+      "effects": [
+        "Birthed Items cannot have Modifiers of type",
+        "Option (Life): Birthed Items cannot have Life Modifiers",
+        "Option (Mana): Birthed Items cannot have Mana Modifiers"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeRings3",
+      "name": "Modifier Level",
+      "branch": "Rings",
+      "x": -2048.2,
+      "y": 1510.8,
+      "effects": [
+        "Birthed Items have Minimum Modifier Level 30"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeAmulets54",
+      "name": "Form or Focus",
+      "branch": "Amulets",
+      "x": 2614.9,
+      "y": -858.7,
+      "effects": [
+        "Birthed Items have a Modifier of type",
+        "Option (Life): Birthed Items always have a Life Modifier",
+        "Option (Mana): Birthed Items always have a Mana Modifier"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeBelts28",
+      "name": "Minion Modifier Values",
+      "branch": "Belts",
+      "x": 1311.3,
+      "y": 1235.2,
+      "effects": [
+        "Minion Modifiers on Birthed Items roll their values an additional 2 times,\nkeeping the highest value"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency13_",
+      "name": "Additional Item Chance",
+      "branch": "Currency",
+      "x": -655.1,
+      "y": -1684.6,
+      "effects": [
+        "20% Surpassing chance to Birth an additional Item"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeBelts38",
+      "name": "Minion Suffix Modifier Level",
+      "branch": "Belts",
+      "x": 828.8,
+      "y": 737.1,
+      "effects": [
+        "Minion Suffix Modifiers on Birthed Items have Minimum Modifier Level 50"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeBelts4",
+      "name": "Modifier Values",
+      "branch": "Belts",
+      "x": 3048,
+      "y": 1669.2,
+      "effects": [
+        "Modifiers on Birthed Items roll their values an additional 2 times, keeping the highest value"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeAmulets25",
+      "name": "Prefix Modifier Level",
+      "branch": "Amulets",
+      "x": 2258.3,
+      "y": -240.5,
+      "effects": [
+        "Prefix Modifiers on Birthed Items have Minimum Modifier Level 30"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency5_",
+      "name": "Additional Item Chance",
+      "branch": "Currency",
+      "x": -2131,
+      "y": -1550.8,
+      "effects": [
+        "20% Surpassing chance to Birth an additional Item"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency22",
+      "name": "Increased Quality Currency Chance",
+      "branch": "Currency",
+      "x": -2076.8,
+      "y": -2821.9,
+      "effects": [
+        "100% increased chance to Birth Quality Currency"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeRings54",
+      "name": "Caster Prefix Modifier Level",
+      "branch": "Rings",
+      "x": -637.7,
+      "y": 1332.3,
+      "effects": [
+        "Caster Prefix Modifiers on Birthed Items have Minimum Modifier Level 50"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeBelts51",
+      "name": "Arcane Possession",
+      "branch": "Belts",
+      "x": 3361.3,
+      "y": 2217,
+      "effects": [
+        "5% chance for Birthed Items to have a Crafted Modifier",
+        "Option (Exertion): Birthed Items have 5% chance to be crafted with ''of Exertion''",
+        "Option (Unshackling): Birthed Items have 5% chance to be crafted with ''Unshackling''"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeAmulets49",
+      "name": "Full of Vigor",
+      "branch": "Amulets",
+      "x": 2589.2,
+      "y": -507.3,
+      "effects": [
+        "Birthed Items always have a Life or Mana Modifier"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeAmulets31_",
+      "name": "Reduced Hiveblood Consumed",
+      "branch": "Amulets",
+      "x": 2870.7,
+      "y": -1605.3,
+      "effects": [
+        "Birthing consumes 5% reduced Hiveblood"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeBelts35",
+      "name": "Additional Item Chance",
+      "branch": "Belts",
+      "x": 1071.1,
+      "y": 2118.4,
+      "effects": [
+        "10% Surpassing chance to Birth an additional Item"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeRings11",
+      "name": "Additional Item Chance",
+      "branch": "Rings",
+      "x": -1619.4,
+      "y": 1871.2,
+      "effects": [
+        "10% Surpassing chance to Birth an additional Item"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeAmulets36",
+      "name": "Bloodless",
+      "branch": "Amulets",
+      "x": 3241.3,
+      "y": -1676.8,
+      "effects": [
+        "10% chance for Birthing to not consume Hiveblood"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeRings8",
+      "name": "Additional Item Chance",
+      "branch": "Rings",
+      "x": -2387.5,
+      "y": 1600.2,
+      "effects": [
+        "10% Surpassing chance to Birth an additional Item"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeRings16",
+      "name": "Engorged",
+      "branch": "Rings",
+      "x": -1305.4,
+      "y": 1845.6,
+      "effects": [
+        "10% chance for Birthed Items to be",
+        "Option (Vitalic Ring): Birthed Items have 10% chance to be Vitalic Rings",
+        "Option (Mnemonic Ring): Birthed Items have 10% chance to be Mnemonic Rings"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeRings42",
+      "name": "Natural Weaving",
+      "branch": "Rings",
+      "x": -547.6,
+      "y": 2308.1,
+      "effects": [
+        "Birthed Items always have a Caster Modifier"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeAmulets43",
+      "name": "Additional Item Chance",
+      "branch": "Amulets",
+      "x": 2294.7,
+      "y": -1934.4,
+      "effects": [
+        "10% Surpassing chance to Birth an additional Item"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency15",
+      "name": "Increased Jeweller's Orb Chance",
+      "branch": "Currency",
+      "x": -188.7,
+      "y": -1119.1,
+      "effects": [
+        "100% increased chance to Birth Jeweller's Orbs"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency62",
+      "name": "Increased Orb of Annulment Chance",
+      "branch": "Currency",
+      "x": -416.6,
+      "y": -3245.6,
+      "effects": [
+        "50% increased chance to Birth Orbs of Annulment"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency71",
+      "name": "Known Destiny",
+      "branch": "Currency",
+      "x": 721.7,
+      "y": -2259.4,
+      "effects": [
+        "Cannot Birth Orbs of Chance",
+        "150% increased chance to Birth Orbs of Alchemy",
+        "150% increased chance to Birth Regal Orbs"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeBelts19",
+      "name": "Additional Item Chance",
+      "branch": "Belts",
+      "x": 2345.1,
+      "y": 1167.4,
+      "effects": [
+        "10% Surpassing chance to Birth an additional Item"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeAmulets21",
+      "name": "Cold Resistance Modifier Level",
+      "branch": "Amulets",
+      "x": 268.4,
+      "y": -706,
+      "effects": [
+        "Cold Resistance Modifiers on Birthed Items have Minimum Modifier Level 60"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeBelts36",
+      "name": "Additional Item Chance",
+      "branch": "Belts",
+      "x": 803.8,
+      "y": 1124.7,
+      "effects": [
+        "10% Surpassing chance to Birth an additional Item"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeAmulets10",
+      "name": "Suffix Modifier Values",
+      "branch": "Amulets",
+      "x": 839.5,
+      "y": -748.8,
+      "effects": [
+        "Suffix Modifiers on Birthed Items roll their values an additional 2 times,\nkeeping the highest value"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency66",
+      "name": "Rebirth",
+      "branch": "Currency",
+      "x": -209.3,
+      "y": -4629.5,
+      "effects": [
+        "10% chance for Birthing to not consume Hiveblood"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency11",
+      "name": "Additional Item Chance",
+      "branch": "Currency",
+      "x": -737.3,
+      "y": -163.6,
+      "effects": [
+        "20% Surpassing chance to Birth an additional Item"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency54_",
+      "name": "Additional Item Chance",
+      "branch": "Currency",
+      "x": -127.5,
+      "y": -1639.4,
+      "effects": [
+        "20% Surpassing chance to Birth an additional Item"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeBelts24",
+      "name": "Stench of Carrion",
+      "branch": "Belts",
+      "x": 1357.7,
+      "y": 2460.8,
+      "effects": [
+        "Birthed Items can roll additional Minion-related Modifiers"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeBelts9",
+      "name": "Surprise Spark",
+      "branch": "Belts",
+      "x": 2886,
+      "y": 2418.3,
+      "effects": [
+        "Birthed Items have 10% chance to be Forking Belts"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeAmulets24",
+      "name": "Prefix Modifier Values",
+      "branch": "Amulets",
+      "x": 2788.4,
+      "y": -291.4,
+      "effects": [
+        "Prefix Modifiers on Birthed Items roll their values an additional 2 times,\nkeeping the highest value"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency67",
+      "name": "Increased Chaos and Vaal Orb Chance",
+      "branch": "Currency",
+      "x": 233.1,
+      "y": -3909.5,
+      "effects": [
+        "67% increased chance to Birth Chaos Orbs",
+        "67% increased chance to Birth Vaal Orbs"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeAmulets6",
+      "name": "Additional Item Chance",
+      "branch": "Amulets",
+      "x": 1307.6,
+      "y": -1473.9,
+      "effects": [
+        "10% Surpassing chance to Birth an additional Item"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency16",
+      "name": "Increased Jeweller's Orb Chance",
+      "branch": "Currency",
+      "x": 87.5,
+      "y": -1213.8,
+      "effects": [
+        "100% increased chance to Birth Jeweller's Orbs"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeBelts48",
+      "name": "Sorcerer's Scar",
+      "branch": "Belts",
+      "x": 3484.2,
+      "y": 2735.9,
+      "effects": [
+        "Birthed Items always have a Caster Modifier"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency45",
+      "name": "Complete Refinement",
+      "branch": "Currency",
+      "x": -2721.3,
+      "y": -623.6,
+      "effects": [
+        "Can only Birth Catalysts"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeAmulets35_",
+      "name": "Increased Absent Amulet Chance",
+      "branch": "Amulets",
+      "x": 3310.4,
+      "y": -2004.5,
+      "effects": [
+        "Birthed Items have 100% increased chance to be Absent Amulets"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency59",
+      "name": "Additional Item Chance",
+      "branch": "Currency",
+      "x": -281.3,
+      "y": -4111.3,
+      "effects": [
+        "20% Surpassing chance to Birth an additional Item"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency43",
+      "name": "Catalyst Chance",
+      "branch": "Currency",
+      "x": -2653.4,
+      "y": -235.5,
+      "effects": [
+        "15% chance for Birthed Currency to be a Catalyst"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency34",
+      "name": "Additional Duplicate Catalyst Chance",
+      "branch": "Currency",
+      "x": -1125.5,
+      "y": -310.6,
+      "effects": [
+        "30% Surpassing chance to Birth an additional Catalyst of the same type\nwhen Birthing Catalysts"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeRings41",
+      "name": "Additional Item Chance",
+      "branch": "Rings",
+      "x": -289.4,
+      "y": 1387.9,
+      "effects": [
+        "10% Surpassing chance to Birth an additional Item"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeRings15",
+      "name": "Beaten to a Pulp",
+      "branch": "Rings",
+      "x": -1245.1,
+      "y": 1158.4,
+      "effects": [
+        "10% chance for Birthed Items to be",
+        "Option (Kinetic Ring): Birthed Items have 10% chance to be Kinetic Rings",
+        "Option (Oneiric Ring): Birthed Items have 10% chance to be Oneiric Rings"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeBelts7____",
+      "name": "Muscular Amalgamation",
+      "branch": "Belts",
+      "x": 3359.3,
+      "y": 1344.9,
+      "effects": [
+        "Birthed Items have 10% chance to be Sinew Belts"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeBelts34",
+      "name": "Strength of the Crypt",
+      "branch": "Belts",
+      "x": 1030.3,
+      "y": 501.4,
+      "effects": [
+        "5% chance for Birthed Items to have a Crafted Modifier",
+        "Option (Instructor's): Birthed Items have 5% chance to be crafted with ''Instructor's''",
+        "Option (Monstrous): Birthed Items have 5% chance to be crafted with ''Monstrous''",
+        "Option (Scattering): Birthed Items have 5% chance to be crafted with ''of Scattering''"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeAmulets28",
+      "name": "Additional Item Chance",
+      "branch": "Amulets",
+      "x": 2278.1,
+      "y": -1116.3,
+      "effects": [
+        "10% Surpassing chance to Birth an additional Item"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency79",
+      "name": "Increased Exalted Orb Chance",
+      "branch": "Currency",
+      "x": 539.5,
+      "y": -3533.7,
+      "effects": [
+        "100% increased chance to Birth Exalted Orbs"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeRings20",
+      "name": "Sever Inexperience",
+      "branch": "Rings",
+      "x": -2553.5,
+      "y": 2266.7,
+      "effects": [
+        "Birthed Items cannot have Modifiers of type",
+        "Option (Strength): Birthed Items cannot have Strength Modifiers",
+        "Option (Dexterity): Birthed Items cannot have Dexterity Modifiers",
+        "Option (Intelligence): Birthed Items cannot have Intelligence Modifiers"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency38",
+      "name": "Additional Duplicate Catalyst Chance",
+      "branch": "Currency",
+      "x": -1576.5,
+      "y": -32.6,
+      "effects": [
+        "30% Surpassing chance to Birth an additional Catalyst of the same type\nwhen Birthing Catalysts"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency60_",
+      "name": "Increased Orb of Annulment Chance",
+      "branch": "Currency",
+      "x": -68.5,
+      "y": -2994.9,
+      "effects": [
+        "50% increased chance to Birth Orbs of Annulment"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeAmulets50",
+      "name": "Additional Item Chance",
+      "branch": "Amulets",
+      "x": 2840.5,
+      "y": -668.7,
+      "effects": [
+        "10% Surpassing chance to Birth an additional Item"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency2",
+      "name": "Overgrown Greed",
+      "branch": "Currency",
+      "x": -793.9,
+      "y": -1272.6,
+      "effects": [
+        "All Birthed items are converted to Gold"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeRings7_",
+      "name": "Resistance Modifier Level",
+      "branch": "Rings",
+      "x": -2334.6,
+      "y": 1246.6,
+      "effects": [
+        "Resistance Modifiers on Birthed Items have Minimum Modifier Level 40"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency64",
+      "name": "Increased Divine Orb Chance",
+      "branch": "Currency",
+      "x": -930.5,
+      "y": -4356.2,
+      "effects": [
+        "50% increased chance to Birth Divine Orbs"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeRings23",
+      "name": "Hand in the Grave",
+      "branch": "Rings",
+      "x": -2237.2,
+      "y": 3058.7,
+      "effects": [
+        "Birthed Items can roll additional Minion-related Modifiers"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeBelts8",
+      "name": "Unexpected Finesse",
+      "branch": "Belts",
+      "x": 2795.1,
+      "y": 1799.3,
+      "effects": [
+        "Birthed Items have 10% chance to be Invoking Belts"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeAmulets52",
+      "name": "Mana Modifier Level",
+      "branch": "Amulets",
+      "x": 3175.7,
+      "y": -734.6,
+      "effects": [
+        "Mana Modifiers on Birthed Items have Minimum Modifier Level 55"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeAmulets55",
+      "name": "Life Modifier Level",
+      "branch": "Amulets",
+      "x": 3015.4,
+      "y": -957.2,
+      "effects": [
+        "Life Modifiers on Birthed Items have Minimum Modifier Level 55"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency49_",
+      "name": "Enhanced Creation",
+      "branch": "Currency",
+      "x": -3459.3,
+      "y": -959.7,
+      "effects": [
+        "10% chance for Birthed Catalysts to be Jewel Catalysts"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeAmulets15",
+      "name": "Scarred Flesh",
+      "branch": "Amulets",
+      "x": 697.9,
+      "y": -181.8,
+      "effects": [
+        "Birthed Items always have a Resistance Modifier"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency48",
+      "name": "Jewel Catalyst Chance",
+      "branch": "Currency",
+      "x": -3095.1,
+      "y": -475.1,
+      "effects": [
+        "4% chance for Birthed Catalysts to be Jewel Catalysts"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency10",
+      "name": "Crystallised Form",
+      "branch": "Currency",
+      "x": -1425.4,
+      "y": -935.8,
+      "effects": [
+        "2% chance for Birthed Currency to be an Essence of the Breach"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeAmulets22",
+      "name": "Lightning Resistance Modifier Level",
+      "branch": "Amulets",
+      "x": 490.5,
+      "y": -798,
+      "effects": [
+        "Lightning Resistance Modifiers on Birthed Items have Minimum Modifier Level 60"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeRings55",
+      "name": "Master of One",
+      "branch": "Rings",
+      "x": -895.2,
+      "y": 1290.5,
+      "effects": [
+        "5% chance for Birthed Items to have a Crafted Modifier",
+        "Option (Storm Chaser's): Birthed Items have 5% chance to be crafted with ''Storm Chaser's''",
+        "Option (Fire Breather's): Birthed Items have 5% chance to be crafted with ''Fire Breather's''",
+        "Option (Tempest Rider's): Birthed Items have 5% chance to be crafted with ''Tempest Rider's''"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeBelts40",
+      "name": "Caster Modifier Level",
+      "branch": "Belts",
+      "x": 3861.3,
+      "y": 2520.7,
+      "effects": [
+        "Caster Modifiers on Birthed Items have Minimum Modifier Level 35"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeRings33",
+      "name": "Additional Item Chance",
+      "branch": "Rings",
+      "x": -3758.6,
+      "y": 2674,
+      "effects": [
+        "10% Surpassing chance to Birth an additional Item"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeBelts39",
+      "name": "Additional Item Chance",
+      "branch": "Belts",
+      "x": 4103.5,
+      "y": 2140.6,
+      "effects": [
+        "10% Surpassing chance to Birth an additional Item"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeAmuletsSlot",
+      "name": "Amulet Womb",
+      "branch": "Amulets",
+      "x": 1601.5,
+      "y": 78,
+      "effects": [],
+      "root": true
+    },
+    {
+      "id": "BrequelTreeAmulets30",
+      "name": "Additional Item Chance",
+      "branch": "Amulets",
+      "x": 2538.2,
+      "y": -1578.1,
+      "effects": [
+        "10% Surpassing chance to Birth an additional Item"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency31",
+      "name": "Increased Orb of Augmentation Chance",
+      "branch": "Currency",
+      "x": -920.7,
+      "y": -3342.1,
+      "effects": [
+        "100% increased chance to Birth Orbs of Augmentation"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeBelts11",
+      "name": "Modifier Level",
+      "branch": "Belts",
+      "x": 2452.8,
+      "y": 1750.8,
+      "effects": [
+        "Birthed Items have Minimum Modifier Level 30"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency3",
+      "name": "Additional Item Chance",
+      "branch": "Currency",
+      "x": -1261.4,
+      "y": -1219.5,
+      "effects": [
+        "20% Surpassing chance to Birth an additional Item"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency36",
+      "name": "Additional Duplicate Catalyst Chance",
+      "branch": "Currency",
+      "x": -1387.2,
+      "y": -267.9,
+      "effects": [
+        "30% Surpassing chance to Birth an additional Catalyst of the same type\nwhen Birthing Catalysts"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency19_",
+      "name": "Virtueless",
+      "branch": "Currency",
+      "x": -1669.4,
+      "y": -1983.3,
+      "effects": [
+        "500% increased chance to Birth Quality Currency",
+        "Cannot Birth Gemcutter's Prisms"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeRings38_",
+      "name": "Minion Resistance Modifier Level",
+      "branch": "Rings",
+      "x": -4529,
+      "y": 2654.2,
+      "effects": [
+        "Minion Resistance Modifiers on Birthed Items have Minimum Modifier Level 60"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency68",
+      "name": "Increased Chaos and Vaal Orb Chance",
+      "branch": "Currency",
+      "x": 671.3,
+      "y": -4036.7,
+      "effects": [
+        "67% increased chance to Birth Chaos Orbs",
+        "67% increased chance to Birth Vaal Orbs"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeRings34",
+      "name": "Disciplined Pets",
+      "branch": "Rings",
+      "x": -3995.5,
+      "y": 2354.9,
+      "effects": [
+        "5% chance for Birthed Items to have a Crafted Modifier",
+        "Option (Punctuality): Birthed Items have an 5% chance to be crafted with ''of Punctuality''",
+        "Option (Invigoration): Birthed Items have an 5% chance to be crafted with ''of Invigoration''"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency23",
+      "name": "Cut Off the Lesser",
+      "branch": "Currency",
+      "x": -899.6,
+      "y": -2261.3,
+      "effects": [
+        "Birthed Items are always Greater or Perfect",
+        "Option (Improved Orbs of Transmutation): Birthed Orbs of Transmutation are always Greater or Perfect",
+        "Option (Improved Orbs of Augmentation): Birthed Orbs of Augmentation are always Greater or Perfect"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeAmulets64",
+      "name": "Evasion Modifier Level",
+      "branch": "Amulets",
+      "x": 3294.6,
+      "y": 217.2,
+      "effects": [
+        "Evasion Modifiers on Birthed Items have Minimum Modifier Level 60"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency65",
+      "name": "Nurture Divinity",
+      "branch": "Currency",
+      "x": -675.3,
+      "y": -4661.3,
+      "effects": [
+        "100% increased chance to Birth Divine Orbs"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeBelts13",
+      "name": "Resource Modifier Level",
+      "branch": "Belts",
+      "x": 2368,
+      "y": 1520.2,
+      "effects": [
+        "Life and Mana Modifiers on Birthed Items have Minimum Modifier Level 40"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency63",
+      "name": "Increased Divine Orb Chance",
+      "branch": "Currency",
+      "x": -557,
+      "y": -4233.3,
+      "effects": [
+        "50% increased chance to Birth Divine Orbs"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeRingsSlot",
+      "name": "Ring Womb",
+      "branch": "Rings",
+      "x": -1703.8,
+      "y": 3076,
+      "effects": [],
+      "root": true
+    },
+    {
+      "id": "BrequelTreeCurrency74",
+      "name": "Twinned Fruit",
+      "branch": "Currency",
+      "x": 1443.9,
+      "y": -2445.9,
+      "effects": [
+        "Birth an additional item of the same type when Birthing Regal Orbs"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency14",
+      "name": "Additional Item Chance",
+      "branch": "Currency",
+      "x": -1078.3,
+      "y": -1810.6,
+      "effects": [
+        "20% Surpassing chance to Birth an additional Item"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeBelts45",
+      "name": "Caster Suffix Modifier Level",
+      "branch": "Belts",
+      "x": 4628.4,
+      "y": 2466.1,
+      "effects": [
+        "Caster Suffix Modifiers on Birthed Items have Minimum Modifier Level 50"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeAmulets4",
+      "name": "Attribute Modifier Level",
+      "branch": "Amulets",
+      "x": 1282.1,
+      "y": -892.8,
+      "effects": [
+        "Attribute Modifiers on Birthed Items have Minimum Modifier Level 40"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency37",
+      "name": "Rejection of One",
+      "branch": "Currency",
+      "x": -1641.9,
+      "y": -675.6,
+      "effects": [
+        "Birthed Items cannot be",
+        "Option (Xoph's Catalysts): Cannot Birth Xoph's Catalysts",
+        "Option (Tul's Catalysts): Cannot Birth Tul's Catalysts",
+        "Option (Esh's Catalysts): Cannot Birth Esh's Catalysts",
+        "Option (Uul-Netol's Catalysts): Cannot Birth Uul-Netol's Catalysts",
+        "Option (Chayula's Catalysts): Cannot Birth Chayula's Catalysts"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeRings39__",
+      "name": "First Working",
+      "branch": "Rings",
+      "x": -1292.1,
+      "y": 2770.4,
+      "effects": [
+        "Birthed Items can roll additional Caster-related Modifiers"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency50",
+      "name": "Scavenge the Remains",
+      "branch": "Currency",
+      "x": -2314.9,
+      "y": 475.6,
+      "effects": [
+        "10% chance for Birthed Currency to be a stack of Breach Splinters"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeRings46",
+      "name": "Additional Item Chance",
+      "branch": "Rings",
+      "x": -112.7,
+      "y": 1530.1,
+      "effects": [
+        "10% Surpassing chance to Birth an additional Item"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeRings28",
+      "name": "Buried Alive",
+      "branch": "Rings",
+      "x": -3004.8,
+      "y": 2376.5,
+      "effects": [
+        "Birthed Items always have two Minion Modifiers"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeAmulets17",
+      "name": "Chaos Resistance Modifier Level",
+      "branch": "Amulets",
+      "x": 546.3,
+      "y": 101.8,
+      "effects": [
+        "Chaos Resistance Modifiers on Birthed Items have Minimum Modifier Level 59"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeRings22",
+      "name": "Selective Sustenance",
+      "branch": "Rings",
+      "x": -3135,
+      "y": 1507.7,
+      "effects": [
+        "Birthed Items cannot have Modifiers of type",
+        "Option (Life): Birthed Items cannot have Life Modifiers",
+        "Option (Mana): Birthed Items cannot have Mana Modifiers"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeAmulets48",
+      "name": "Disarmed",
+      "branch": "Amulets",
+      "x": 1752.1,
+      "y": -1474.1,
+      "effects": [
+        "Birthed Items cannot have Attack Modifiers"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeRings27",
+      "name": "Minion Modifier Values",
+      "branch": "Rings",
+      "x": -2998,
+      "y": 2714.7,
+      "effects": [
+        "Minion Modifiers on Birthed Items roll their values an additional 2 times,\nkeeping the highest value"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency70",
+      "name": "Unpredictable Production",
+      "branch": "Currency",
+      "x": 257.5,
+      "y": -4663.8,
+      "effects": [
+        "29% chance to Birth an additional 3 to 7 items of the same type when\nBirthing Vaal Orbs or Chaos Orbs"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeBelts2",
+      "name": "Additional Item Chance",
+      "branch": "Belts",
+      "x": 2523.4,
+      "y": 2389.8,
+      "effects": [
+        "10% Surpassing chance to Birth an additional Item"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency7",
+      "name": "Additional Item Chance",
+      "branch": "Currency",
+      "x": -2600.3,
+      "y": -2343.8,
+      "effects": [
+        "40% Surpassing chance to Birth an additional Item"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency72",
+      "name": "Increased Orb of Alchemy Chance",
+      "branch": "Currency",
+      "x": 353.7,
+      "y": -1845.5,
+      "effects": [
+        "100% increased chance to Birth Orbs of Alchemy"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeBelts21",
+      "name": "Hollow Wailing",
+      "branch": "Belts",
+      "x": 1823.3,
+      "y": 1336.4,
+      "effects": [
+        "Birthed Items have an empty Modifier of type",
+        "Option (Prefix): Birthed Items always have an empty Prefix Modifier",
+        "Option (Suffix): Birthed Items always have an empty Suffix Modifier"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency4_",
+      "name": "Additional Item Chance",
+      "branch": "Currency",
+      "x": -1876.2,
+      "y": -1300.8,
+      "effects": [
+        "20% Surpassing chance to Birth an additional Item"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeAmulets5",
+      "name": "Traits Foretold",
+      "branch": "Amulets",
+      "x": 1313.1,
+      "y": -1245.2,
+      "effects": [
+        "Birthed Items always have an Attribute Modifier"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeBelts41",
+      "name": "Caster Prefix Modifier Level",
+      "branch": "Belts",
+      "x": 4242.5,
+      "y": 1915.3,
+      "effects": [
+        "Caster Prefix Modifiers on Birthed Items have Minimum Modifier Level 50"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeBelts47",
+      "name": "Imperfect Sacrifice",
+      "branch": "Belts",
+      "x": 2632.7,
+      "y": 2923.3,
+      "effects": [
+        "Birthed Items can roll additional Caster-related Modifiers"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency39",
+      "name": "Forgo the Flesh",
+      "branch": "Currency",
+      "x": -1785.1,
+      "y": -369.5,
+      "effects": [
+        "Birthed Items cannot be",
+        "Option (Flesh Catalysts): Cannot Birth Flesh Catalysts",
+        "Option (Neural Catalysts): Cannot Birth Neural Catalysts",
+        "Option (Adaptive Catalysts): Cannot Birth Adaptive Catalysts",
+        "Option (Carapace Catalysts): Cannot Birth Carapace Catalysts"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeRings31",
+      "name": "Augmented Effigies",
+      "branch": "Rings",
+      "x": -3454.2,
+      "y": 2148,
+      "effects": [
+        "5% chance for Birthed Items to have a Crafted Modifier",
+        "Option (Dedicated): Birthed Items have an 5% chance to be crafted with ''Sacrificial''",
+        "Option (Cabal): Birthed Items have an 5% chance to be crafted with ''of the Cabal''"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeRings37",
+      "name": "Under Their Skin",
+      "branch": "Rings",
+      "x": -4371.3,
+      "y": 2482.4,
+      "effects": [
+        "5% chance for Birthed Items to have a Crafted Modifier",
+        "Option (Scratching): Birthed Items have an 5% chance to be crafted with ''Scratching''",
+        "Option (Contaminating): Birthed Items have an 5% chance to be crafted with ''Contaminating''"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeBelts25",
+      "name": "Minion Modifier Level",
+      "branch": "Belts",
+      "x": 928.4,
+      "y": 1394.2,
+      "effects": [
+        "Minion Modifiers on Birthed Items have Minimum Modifier Level 35"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency42",
+      "name": "Additional Different Catalyst Chance",
+      "branch": "Currency",
+      "x": -2339.3,
+      "y": -826.6,
+      "effects": [
+        "30% Surpassing chance to Birth an additional Catalyst of a different type when Birthing Catalysts"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeAmulets26",
+      "name": "Prefix Modifier Values",
+      "branch": "Amulets",
+      "x": 2063.9,
+      "y": -117.4,
+      "effects": [
+        "Prefix Modifiers on Birthed Items roll their values an additional 2 times,\nkeeping the highest value"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeRings4",
+      "name": "Attribute Modifier Level",
+      "branch": "Rings",
+      "x": -1716.8,
+      "y": 1355.6,
+      "effects": [
+        "Attribute Modifiers on Birthed Items have Minimum Modifier Level 40"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency29",
+      "name": "Increased Orb of Augmentation Chance",
+      "branch": "Currency",
+      "x": -684.3,
+      "y": -2803.8,
+      "effects": [
+        "100% increased chance to Birth Orbs of Augmentation"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency75",
+      "name": "Produce Double",
+      "branch": "Currency",
+      "x": 1136.1,
+      "y": -2801,
+      "effects": [
+        "Birth an additional item of the same type when Birthing Orbs of Alchemy"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeRings10",
+      "name": "Whimpering Echos",
+      "branch": "Rings",
+      "x": -2847.9,
+      "y": 1272,
+      "effects": [
+        "Birthed Items have an empty Modifier of type",
+        "Option (Prefix): Birthed Items always have an empty Prefix Modifier",
+        "Option (Suffix): Birthed Items always have an empty Suffix Modifier"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeAmulets46",
+      "name": "Spells Forbidden",
+      "branch": "Amulets",
+      "x": 2291.2,
+      "y": -2315.2,
+      "effects": [
+        "Birthed Items cannot have Caster Modifiers"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeAmulets41",
+      "name": "Additional Item Chance",
+      "branch": "Amulets",
+      "x": 1814,
+      "y": -1180,
+      "effects": [
+        "10% Surpassing chance to Birth an additional Item"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeAmulets13",
+      "name": "Premonition Fulfilled",
+      "branch": "Amulets",
+      "x": 635.7,
+      "y": -1092.5,
+      "effects": [
+        "Suffix Modifiers on Birthed Items have maximum values"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency73",
+      "name": "Increased Orb of Alchemy Chance",
+      "branch": "Currency",
+      "x": 863.3,
+      "y": -1941.7,
+      "effects": [
+        "100% increased chance to Birth Orbs of Alchemy"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeRings24",
+      "name": "Minion Modifier Level",
+      "branch": "Rings",
+      "x": -3469.4,
+      "y": 2841,
+      "effects": [
+        "Minion Modifiers on Birthed Items have Minimum Modifier Level 35"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeAmulets3",
+      "name": "Suffix Modifier Level",
+      "branch": "Amulets",
+      "x": 1162.4,
+      "y": -589.9,
+      "effects": [
+        "Suffix Modifiers on Birthed Items have Minimum Modifier Level 30"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency33",
+      "name": "Catalyst Chance",
+      "branch": "Currency",
+      "x": -1686.9,
+      "y": 482.4,
+      "effects": [
+        "15% chance for Birthed Currency to be a Catalyst"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeAmulets8___",
+      "name": "Intelligence Modifier Level",
+      "branch": "Amulets",
+      "x": 1166.6,
+      "y": -1718.1,
+      "effects": [
+        "Intelligence Modifiers on Birthed Items have Minimum Modifier Level 60"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency12",
+      "name": "Additional Item Chance",
+      "branch": "Currency",
+      "x": -492.3,
+      "y": -1138.2,
+      "effects": [
+        "20% Surpassing chance to Birth an additional Item"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency17",
+      "name": "Settle for Less",
+      "branch": "Currency",
+      "x": 358.8,
+      "y": -1468.5,
+      "effects": [
+        "500% increased chance to Birth Jeweller's Orbs",
+        "Cannot Birth Perfect Jeweller's Orbs"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeRings19",
+      "name": "Additional Item Chance",
+      "branch": "Rings",
+      "x": -2732.8,
+      "y": 1650.8,
+      "effects": [
+        "10% Surpassing chance to Birth an additional Item"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeAmulets37",
+      "name": "The Burden of Authority",
+      "branch": "Amulets",
+      "x": 2611.1,
+      "y": -1900.8,
+      "effects": [
+        "Birthed Items have 5% chance to be Corona Amulets"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeBelts30",
+      "name": "Beyond Death",
+      "branch": "Belts",
+      "x": 1423.3,
+      "y": 772.9,
+      "effects": [
+        "5% chance for Birthed Items to have a Crafted Modifier",
+        "Option (Unending): Birthed Items have 5% chance to have a ''of Unending''",
+        "Option (Underling's): Birthed Items have 5% chance to be crafted with ''Underling's''"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeRings52",
+      "name": "Additional Item Chance",
+      "branch": "Rings",
+      "x": -737.5,
+      "y": 1690.3,
+      "effects": [
+        "10% Surpassing chance to Birth an additional Item"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeAmulets27",
+      "name": "Additional Item Chance",
+      "branch": "Amulets",
+      "x": 1930.3,
+      "y": -739,
+      "effects": [
+        "10% Surpassing chance to Birth an additional Item"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency44",
+      "name": "Additional Duplicate Catalyst Chance",
+      "branch": "Currency",
+      "x": -2933.2,
+      "y": -948.4,
+      "effects": [
+        "30% Surpassing chance to Birth an additional Catalyst of the same type\nwhen Birthing Catalysts"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency52",
+      "name": "Additional Breach Splinters",
+      "branch": "Currency",
+      "x": -3010.6,
+      "y": 185.8,
+      "effects": [
+        "50% chance to Birth an 16 to 24 additional Breach Splinters when Birthing Breach Splinters"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeBreachstonesSlot",
+      "name": "Breachstone Womb",
+      "branch": "Breachstones",
+      "x": 181.5,
+      "y": 3169.1,
+      "effects": [],
+      "root": true
+    },
+    {
+      "id": "BrequelTreeCurrency27_",
+      "name": "Known Value",
+      "branch": "Currency",
+      "x": -1272,
+      "y": -3360.9,
+      "effects": [
+        "Cannot Birth Orbs of Augmentation",
+        "Cannot Birth Divine Orbs"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeBelts37_",
+      "name": "Shepherd's Touch",
+      "branch": "Belts",
+      "x": 581,
+      "y": 828.6,
+      "effects": [
+        "5% chance for Birthed Items to have a Crafted Modifier",
+        "Option (Coherence): Birthed Items have 5% chance to be crafted with ''of Coherence''",
+        "Option (Binding): Birthed Items have 5% chance to be crafted with ''of Binding''"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeAmulets14_",
+      "name": "Resistance Modifier Level",
+      "branch": "Amulets",
+      "x": 873.4,
+      "y": -394.6,
+      "effects": [
+        "Resistance Modifiers on Birthed Items have Minimum Modifier Level 40"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeRings25",
+      "name": "Corpse's Clutch",
+      "branch": "Rings",
+      "x": -3034.8,
+      "y": 2955.9,
+      "effects": [
+        "Birthed Items always have a Minion Modifier"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency69",
+      "name": "Selectively Bred",
+      "branch": "Currency",
+      "x": 287.6,
+      "y": -4248.1,
+      "effects": [
+        "Birthed Items cannot be",
+        "Option (Chaos Orbs): Cannot Birth Chaos Orbs",
+        "Option (Vaal Orbs): Cannot Birth Vaal Orbs"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeAmulets65",
+      "name": "Energy Shield Modifier Level",
+      "branch": "Amulets",
+      "x": 3148.8,
+      "y": 407.3,
+      "effects": [
+        "Energy Shield Modifiers on Birthed Items have Minimum Modifier Level 60"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency18",
+      "name": "Increased Quality Currency Chance",
+      "branch": "Currency",
+      "x": -1324,
+      "y": -2189.7,
+      "effects": [
+        "100% increased chance to Birth Quality Currency"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeAmulets61_",
+      "name": "Defence Modifier Level",
+      "branch": "Amulets",
+      "x": 2498,
+      "y": -107.6,
+      "effects": [
+        "Armour, Evasion and Energy Shield Modifiers on Birthed Items\nhave Minimum Modifier Level 40"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeRings9",
+      "name": "Refined Grip",
+      "branch": "Rings",
+      "x": -2564,
+      "y": 1073.5,
+      "effects": [
+        "Birthed Breach Rings have 5% chance to instead Birth as a Refined Breach Ring"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeRings51",
+      "name": "Caster Critical Modifier Level",
+      "branch": "Rings",
+      "x": -291.5,
+      "y": 968.4,
+      "effects": [
+        "Caster Critical Modifiers on Birthed Items have Minimum Modifier Level 60"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency25",
+      "name": "Increased Orb of Transmutation Chance",
+      "branch": "Currency",
+      "x": -1229.9,
+      "y": -2823.9,
+      "effects": [
+        "100% increased chance to Birth Orbs of Transmutation"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeBelts26",
+      "name": "Necrosis",
+      "branch": "Belts",
+      "x": 1065.5,
+      "y": 1676.7,
+      "effects": [
+        "Birthed Items always have a Minion Modifier"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeRings32",
+      "name": "Minion Damage Modifier Level",
+      "branch": "Rings",
+      "x": -3747,
+      "y": 2245.6,
+      "effects": [
+        "Minion damage Modifiers on Birthed Items have Minimum Modifier Level 60"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeAmulets58",
+      "name": "End of Mourning",
+      "branch": "Amulets",
+      "x": 3141,
+      "y": -265.6,
+      "effects": [
+        "Prefix Modifiers on Birthed Items have maximum values"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency78",
+      "name": "Increased Exalted Orb Chance",
+      "branch": "Currency",
+      "x": 468.3,
+      "y": -3109.9,
+      "effects": [
+        "100% increased chance to Birth Exalted Orbs"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency53",
+      "name": "Reappropriated Offspring",
+      "branch": "Currency",
+      "x": -3096.8,
+      "y": 510.8,
+      "effects": [
+        "0.3% chance for Birthed Currency to be a Breachlord Sac"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeBelts3",
+      "name": "Additional Item Chance",
+      "branch": "Belts",
+      "x": 2824.1,
+      "y": 2131.1,
+      "effects": [
+        "10% Surpassing chance to Birth an additional Item"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeRings40",
+      "name": "Caster Modifier Level",
+      "branch": "Rings",
+      "x": -493.7,
+      "y": 1984.8,
+      "effects": [
+        "Caster Modifiers on Birthed Items have Minimum Modifier Level 35"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeAmulets20",
+      "name": "Fire Resistance Modifier Level",
+      "branch": "Amulets",
+      "x": 187.2,
+      "y": -402.7,
+      "effects": [
+        "Fire Resistance Modifiers on Birthed Items have Minimum Modifier Level 60"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeBelts43",
+      "name": "Additional Item Chance",
+      "branch": "Belts",
+      "x": 4155.5,
+      "y": 2474.9,
+      "effects": [
+        "10% Surpassing chance to Birth an additional Item"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeBelts14",
+      "name": "Flask Modifier Level",
+      "branch": "Belts",
+      "x": 2537.5,
+      "y": 1520.2,
+      "effects": [
+        "Flask Modifiers on Birthed Items have Minimum Modifier Level 40"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency20",
+      "name": "Increased Quality Currency Chance",
+      "branch": "Currency",
+      "x": -1620.4,
+      "y": -2555.8,
+      "effects": [
+        "100% increased chance to Birth Quality Currency"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeRings2_",
+      "name": "Otherworldly Clutch",
+      "branch": "Rings",
+      "x": -1894.9,
+      "y": 1993.1,
+      "effects": [
+        "Birthed Items have 10% chance to be Breach Rings"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeRings30",
+      "name": "Additional Item Chance",
+      "branch": "Rings",
+      "x": -3555.8,
+      "y": 2518.4,
+      "effects": [
+        "10% Surpassing chance to Birth an additional Item"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency9",
+      "name": "Curse of the Abyss",
+      "branch": "Currency",
+      "x": -1629.6,
+      "y": -1597,
+      "effects": [
+        "2% chance for Birthed Currency to be an Altered Collarbone"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeBelts44",
+      "name": "Abberant Power",
+      "branch": "Belts",
+      "x": 4349.4,
+      "y": 2270.2,
+      "effects": [
+        "5% chance for Birthed Items to have a Crafted Modifier",
+        "Option (Imbuing): Birthed Items have 5% chance to be crafted with ''of Imbuing''",
+        "Option (Expectation): Birthed Items have an 5% chance to be crafted with ''of Expectation''"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency21",
+      "name": "Refined Tissue",
+      "branch": "Currency",
+      "x": -1746.4,
+      "y": -3076.5,
+      "effects": [
+        "Birth an additional item of the same type when Birthing Quality Currency"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeBeltsSlot",
+      "name": "Belt Womb",
+      "branch": "Belts",
+      "x": 1808.2,
+      "y": 3039.7,
+      "effects": [],
+      "root": true
+    },
+    {
+      "id": "BrequelTreeRings36_",
+      "name": "Additional Item Chance",
+      "branch": "Rings",
+      "x": -4126.4,
+      "y": 2841,
+      "effects": [
+        "10% Surpassing chance to Birth an additional Item"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeAmulets57_",
+      "name": "Empty Feeling",
+      "branch": "Amulets",
+      "x": 3022.9,
+      "y": -533.8,
+      "effects": [
+        "Birthed Items always have an empty Suffix Modifier"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeRings43",
+      "name": "Caster Modifier Values",
+      "branch": "Rings",
+      "x": 9,
+      "y": 1911,
+      "effects": [
+        "Caster Modifiers on Birthed Items roll their values an additional 2 times,\nkeeping the highest value"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeRings14",
+      "name": "Prime Appendages",
+      "branch": "Rings",
+      "x": -1392.6,
+      "y": 814.5,
+      "effects": [
+        "5% chance for Birthed Items to be",
+        "Option (Biostatic Ring): Birthed Items have 5% chance to be Biostatic Rings",
+        "Option (Grasping Ring): Birthed Items have 5% chance to be Grasping Rings"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeBelts33_",
+      "name": "Minion Prefix Modifier Level",
+      "branch": "Belts",
+      "x": 1315.2,
+      "y": 469.6,
+      "effects": [
+        "Minion Prefix Modifiers on Birthed Items have Minimum Modifier Level 50"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeAmulets60_",
+      "name": "Evolved Hide",
+      "branch": "Amulets",
+      "x": 2835.8,
+      "y": 407.3,
+      "effects": [
+        "Birthed Items have a Modifier of type",
+        "Option (Armour): Birthed Items always have an Armour Modifier",
+        "Option (Evasion): Birthed Items always have an Evasion Modifier",
+        "Option (Energy Shield): Birthed Items always have an Energy Shield Modifier"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency41",
+      "name": "Additional Different Catalyst Chance",
+      "branch": "Currency",
+      "x": -2119.1,
+      "y": -537.9,
+      "effects": [
+        "30% Surpassing chance to Birth an additional Catalyst of a different type when Birthing Catalysts"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeBelts42",
+      "name": "Extract the Elements",
+      "branch": "Belts",
+      "x": 3926,
+      "y": 1867.8,
+      "effects": [
+        "5% chance for Birthed Items to have a Crafted Modifier",
+        "Option (Erupting): Birthed Items have 5% chance to be crafted with ''Erupting''",
+        "Option (Energising): Birthed Items have 5% chance to be crafted with ''Energising''",
+        "Option (Glacial): Birthed Items have 5% chance to be crafted with ''Glacial''"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeAmulets33",
+      "name": "Increased Lament Amulet Chance",
+      "branch": "Amulets",
+      "x": 2925.8,
+      "y": -2226.6,
+      "effects": [
+        "Birthed Items have 100% increased chance to be Lament Amulets"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency35",
+      "name": "Ignorant to Power",
+      "branch": "Currency",
+      "x": -1313.3,
+      "y": -640,
+      "effects": [
+        "Birthed Items cannot be",
+        "Option (Skittering Catalysts): Cannot Birth Skittering Catalysts",
+        "Option (Reaver Catalysts): Cannot Birth Reaver Catalysts"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeBelts23",
+      "name": "Severed Veins",
+      "branch": "Belts",
+      "x": 2558.1,
+      "y": 927.5,
+      "effects": [
+        "Birthed Items cannot have Modifiers of type",
+        "Option (Flask): Birthed Items cannot have Flask Modifiers",
+        "Option (Charm): Birthed Items cannot have Charm Modifiers"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeRings44",
+      "name": "Morbid Magic",
+      "branch": "Rings",
+      "x": 219.7,
+      "y": 1509.3,
+      "effects": [
+        "5% chance for Birthed Items to have a Crafted Modifier",
+        "Option (Soul Stealer's): Birthed Items have 5% chance to be crafted with ''Soul Stealer's''",
+        "Option (Lancing): Birthed Items have 5% chance to be crafted with ''of Lancing''"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeBelts20",
+      "name": "Unfeeling",
+      "branch": "Belts",
+      "x": 1797.2,
+      "y": 1751.1,
+      "effects": [
+        "Birthed Items cannot have Modifiers of type",
+        "Option (Fire): Birthed Items cannot have Fire Modifiers",
+        "Option (Cold): Birthed Items cannot have Cold Modifiers",
+        "Option (Lightning): Birthed Items cannot have Lightning Modifiers"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeRings5",
+      "name": "Resource Modifier Level",
+      "branch": "Rings",
+      "x": -1884.4,
+      "y": 1227,
+      "effects": [
+        "Life and Mana Modifiers on Birthed Items have Minimum Modifier Level 40"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeRings17",
+      "name": "Additional Item Chance",
+      "branch": "Rings",
+      "x": -2186.6,
+      "y": 2193.7,
+      "effects": [
+        "10% Surpassing chance to Birth an additional Item"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeAmulets18",
+      "name": "Additional Item Chance",
+      "branch": "Amulets",
+      "x": 490.5,
+      "y": -484,
+      "effects": [
+        "10% Surpassing chance to Birth an additional Item"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency76",
+      "name": "Increased Regal Orb Chance",
+      "branch": "Currency",
+      "x": 643.3,
+      "y": -2718.9,
+      "effects": [
+        "100% increased chance to Birth Regal Orbs"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency1",
+      "name": "Additional Item Chance",
+      "branch": "Currency",
+      "x": -808.4,
+      "y": -784.4,
+      "effects": [
+        "20% Surpassing chance to Birth an additional Item"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeBelts12",
+      "name": "Resistance Modifier Level",
+      "branch": "Belts",
+      "x": 2208.8,
+      "y": 1578.2,
+      "effects": [
+        "Resistance Modifiers on Birthed Items have Minimum Modifier Level 40"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeRings48",
+      "name": "Caster Speed Modifier Level",
+      "branch": "Rings",
+      "x": -81.5,
+      "y": 1085.7,
+      "effects": [
+        "Caster speed Modifiers on Birthed Items have Minimum Modifier Level 60"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency47_",
+      "name": "Additional Duplicate Catalyst Chance",
+      "branch": "Currency",
+      "x": -2671.6,
+      "y": -1022.3,
+      "effects": [
+        "30% Surpassing chance to Birth an additional Catalyst of the same type\nwhen Birthing Catalysts"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeAmulets59",
+      "name": "Innate Carapace",
+      "branch": "Amulets",
+      "x": 2762.5,
+      "y": -41.1,
+      "effects": [
+        "Birthed Items always have an Armour, Evasion or Energy Shield Modifier"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency30",
+      "name": "Refuse Emptiness",
+      "branch": "Currency",
+      "x": -597.8,
+      "y": -3330.4,
+      "effects": [
+        "Cannot Birth Orbs of Transmutation",
+        "Cannot Birth Orbs of Annulment"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency57",
+      "name": "Additional Item Chance",
+      "branch": "Currency",
+      "x": 155.1,
+      "y": -3391.4,
+      "effects": [
+        "20% Surpassing chance to Birth an additional Item"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeBelts29",
+      "name": "Wrapped in Dread",
+      "branch": "Belts",
+      "x": 1562.5,
+      "y": 1028.5,
+      "effects": [
+        "Birthed Items always have two Minion Modifiers"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency80",
+      "name": "For the Price of One",
+      "branch": "Currency",
+      "x": 855.6,
+      "y": -3321.2,
+      "effects": [
+        "Birth an additional item of the same type when Birthing Exalted Orbs"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeAmulets19",
+      "name": "Imbue the Body",
+      "branch": "Amulets",
+      "x": 409.2,
+      "y": -180.7,
+      "effects": [
+        "Birthed Items have a Modifier of type",
+        "Option (Fire Resistance): Birthed Items always have a Fire Resistance Modifier",
+        "Option (Cold Resistance): Birthed Items always have a Cold Resistance Modifier",
+        "Option (Lightning Resistance): Birthed Items always have a Lightning Resistance Modifier"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeRings1",
+      "name": "Modifier Level",
+      "branch": "Rings",
+      "x": -1750.8,
+      "y": 2768,
+      "effects": [
+        "Birthed Items have Minimum Modifier Level 20"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency40",
+      "name": "Catalyst Chance",
+      "branch": "Currency",
+      "x": -2211.5,
+      "y": -97.9,
+      "effects": [
+        "15% chance for Birthed Currency to be a Catalyst"
+      ],
+      "root": false
+    },
+    {
+      "id": "BrequelTreeCurrency26",
+      "name": "Increased Orb of Transmutation Chance",
+      "branch": "Currency",
+      "x": -1553.6,
+      "y": -3342.4,
+      "effects": [
+        "100% increased chance to Birth Orbs of Transmutation"
+      ],
+      "root": false
+    }
+  ],
+  "edges": [
+    [
+      "BrequelTreeRings24",
+      "BrequelTreeRings30"
+    ],
+    [
+      "BrequelTreeRings24",
+      "BrequelTreeRings36_"
+    ],
+    [
+      "BrequelTreeRings24",
+      "BrequelTreeRings33"
+    ],
+    [
+      "BrequelTreeRings27",
+      "BrequelTreeRings29"
+    ],
+    [
+      "BrequelTreeRings27",
+      "BrequelTreeRings28"
+    ],
+    [
+      "BrequelTreeRings30",
+      "BrequelTreeRings31"
+    ],
+    [
+      "BrequelTreeRings30",
+      "BrequelTreeRings32"
+    ],
+    [
+      "BrequelTreeRings33",
+      "BrequelTreeRings34"
+    ],
+    [
+      "BrequelTreeRings33",
+      "BrequelTreeRings35"
+    ],
+    [
+      "BrequelTreeRings36_",
+      "BrequelTreeRings37"
+    ],
+    [
+      "BrequelTreeRings36_",
+      "BrequelTreeRings38_"
+    ],
+    [
+      "BrequelTreeCurrency48",
+      "BrequelTreeCurrency49_"
+    ],
+    [
+      "BrequelTreeRings25",
+      "BrequelTreeRings27"
+    ],
+    [
+      "BrequelTreeRings25",
+      "BrequelTreeRings26"
+    ],
+    [
+      "BrequelTreeRings25",
+      "BrequelTreeRings24"
+    ],
+    [
+      "BrequelTreeCurrency52",
+      "BrequelTreeCurrency53"
+    ],
+    [
+      "BrequelTreeRings19",
+      "BrequelTreeRings22"
+    ],
+    [
+      "BrequelTreeCurrency45",
+      "BrequelTreeCurrency44"
+    ],
+    [
+      "BrequelTreeCurrency45",
+      "BrequelTreeCurrency47_"
+    ],
+    [
+      "BrequelTreeRings1",
+      "BrequelTreeRings2_"
+    ],
+    [
+      "BrequelTreeRings1",
+      "BrequelTreeRings17"
+    ],
+    [
+      "BrequelTreeRings1",
+      "BrequelTreeRings23"
+    ],
+    [
+      "BrequelTreeRings1",
+      "BrequelTreeRings39__"
+    ],
+    [
+      "BrequelTreeCurrency43",
+      "BrequelTreeCurrency45"
+    ],
+    [
+      "BrequelTreeCurrency43",
+      "BrequelTreeCurrency48"
+    ],
+    [
+      "BrequelTreeCurrency51",
+      "BrequelTreeCurrency52"
+    ],
+    [
+      "BrequelTreeRings23",
+      "BrequelTreeRings26"
+    ],
+    [
+      "BrequelTreeRings18_",
+      "BrequelTreeRings19"
+    ],
+    [
+      "BrequelTreeRings18_",
+      "BrequelTreeRings21"
+    ],
+    [
+      "BrequelTreeRings8",
+      "BrequelTreeRings9"
+    ],
+    [
+      "BrequelTreeRings8",
+      "BrequelTreeRings10"
+    ],
+    [
+      "BrequelTreeCurrency50",
+      "BrequelTreeCurrency51"
+    ],
+    [
+      "BrequelTreeCurrency40",
+      "BrequelTreeCurrency41"
+    ],
+    [
+      "BrequelTreeCurrency40",
+      "BrequelTreeCurrency43"
+    ],
+    [
+      "BrequelTreeRings17",
+      "BrequelTreeRings18_"
+    ],
+    [
+      "BrequelTreeRings17",
+      "BrequelTreeRings20"
+    ],
+    [
+      "BrequelTreeCurrency6",
+      "BrequelTreeCurrency7"
+    ],
+    [
+      "BrequelTreeCurrency5_",
+      "BrequelTreeCurrency6"
+    ],
+    [
+      "BrequelTreeCurrency5_",
+      "BrequelTreeCurrency8"
+    ],
+    [
+      "BrequelTreeCurrency41",
+      "BrequelTreeCurrency42"
+    ],
+    [
+      "BrequelTreeRings3",
+      "BrequelTreeRings4"
+    ],
+    [
+      "BrequelTreeRings3",
+      "BrequelTreeRings5"
+    ],
+    [
+      "BrequelTreeRings3",
+      "BrequelTreeRings6"
+    ],
+    [
+      "BrequelTreeRings3",
+      "BrequelTreeRings7_"
+    ],
+    [
+      "BrequelTreeRings2_",
+      "BrequelTreeRings3"
+    ],
+    [
+      "BrequelTreeRings2_",
+      "BrequelTreeRings8"
+    ],
+    [
+      "BrequelTreeRings2_",
+      "BrequelTreeRings11"
+    ],
+    [
+      "BrequelTreeCurrency4_",
+      "BrequelTreeCurrency5_"
+    ],
+    [
+      "BrequelTreeCurrency4_",
+      "BrequelTreeCurrency9"
+    ],
+    [
+      "BrequelTreeRingsSlot",
+      "BrequelTreeRings1"
+    ],
+    [
+      "BrequelTreeCurrency33",
+      "BrequelTreeCurrency40"
+    ],
+    [
+      "BrequelTreeCurrency33",
+      "BrequelTreeCurrency50"
+    ],
+    [
+      "BrequelTreeRings13",
+      "BrequelTreeRings14"
+    ],
+    [
+      "BrequelTreeCurrency20",
+      "BrequelTreeCurrency21"
+    ],
+    [
+      "BrequelTreeCurrency20",
+      "BrequelTreeCurrency22"
+    ],
+    [
+      "BrequelTreeRings11",
+      "BrequelTreeRings12_"
+    ],
+    [
+      "BrequelTreeRings11",
+      "BrequelTreeRings16"
+    ],
+    [
+      "BrequelTreeCurrency38",
+      "BrequelTreeCurrency39"
+    ],
+    [
+      "BrequelTreeRings12_",
+      "BrequelTreeRings13"
+    ],
+    [
+      "BrequelTreeRings12_",
+      "BrequelTreeRings15"
+    ],
+    [
+      "BrequelTreeCurrency36",
+      "BrequelTreeCurrency37"
+    ],
+    [
+      "BrequelTreeCurrency18",
+      "BrequelTreeCurrency20"
+    ],
+    [
+      "BrequelTreeCurrency18",
+      "BrequelTreeCurrency19_"
+    ],
+    [
+      "BrequelTreeRings39__",
+      "BrequelTreeRings53"
+    ],
+    [
+      "BrequelTreeCurrency32",
+      "BrequelTreeCurrency38"
+    ],
+    [
+      "BrequelTreeCurrency32",
+      "BrequelTreeCurrency36"
+    ],
+    [
+      "BrequelTreeCurrency32",
+      "BrequelTreeCurrency34"
+    ],
+    [
+      "BrequelTreeCurrency32",
+      "BrequelTreeCurrency33"
+    ],
+    [
+      "BrequelTreeCurrency25",
+      "BrequelTreeCurrency27_"
+    ],
+    [
+      "BrequelTreeCurrency25",
+      "BrequelTreeCurrency26"
+    ],
+    [
+      "BrequelTreeCurrency3",
+      "BrequelTreeCurrency4_"
+    ],
+    [
+      "BrequelTreeCurrency3",
+      "BrequelTreeCurrency10"
+    ],
+    [
+      "BrequelTreeCurrency34",
+      "BrequelTreeCurrency35"
+    ],
+    [
+      "BrequelTreeCurrency14",
+      "BrequelTreeCurrency18"
+    ],
+    [
+      "BrequelTreeCurrency14",
+      "BrequelTreeCurrency23"
+    ],
+    [
+      "BrequelTreeCurrency23",
+      "BrequelTreeCurrency25"
+    ],
+    [
+      "BrequelTreeCurrency23",
+      "BrequelTreeCurrency29"
+    ],
+    [
+      "BrequelTreeCurrency1",
+      "BrequelTreeCurrency2"
+    ],
+    [
+      "BrequelTreeCurrency1",
+      "BrequelTreeCurrency3"
+    ],
+    [
+      "BrequelTreeRings53",
+      "BrequelTreeRings42"
+    ],
+    [
+      "BrequelTreeRings52",
+      "BrequelTreeRings55"
+    ],
+    [
+      "BrequelTreeRings52",
+      "BrequelTreeRings54"
+    ],
+    [
+      "BrequelTreeCurrency11",
+      "BrequelTreeCurrency1"
+    ],
+    [
+      "BrequelTreeCurrency11",
+      "BrequelTreeCurrency12"
+    ],
+    [
+      "BrequelTreeCurrency11",
+      "BrequelTreeCurrency32"
+    ],
+    [
+      "BrequelTreeCurrencySlot",
+      "BrequelTreeCurrency11"
+    ],
+    [
+      "BrequelTreeCurrency29",
+      "BrequelTreeCurrency30"
+    ],
+    [
+      "BrequelTreeCurrency29",
+      "BrequelTreeCurrency31"
+    ],
+    [
+      "BrequelTreeCurrency56_",
+      "BrequelTreeCurrency57"
+    ],
+    [
+      "BrequelTreeCurrency56_",
+      "BrequelTreeCurrency78"
+    ],
+    [
+      "BrequelTreeCurrency56_",
+      "BrequelTreeCurrency60_"
+    ],
+    [
+      "BrequelTreeCurrency13_",
+      "BrequelTreeCurrency14"
+    ],
+    [
+      "BrequelTreeCurrency63",
+      "BrequelTreeCurrency64"
+    ],
+    [
+      "BrequelTreeCurrency63",
+      "BrequelTreeCurrency65"
+    ],
+    [
+      "BrequelTreeRings42",
+      "BrequelTreeRings40"
+    ],
+    [
+      "BrequelTreeCurrency12",
+      "BrequelTreeCurrency13_"
+    ],
+    [
+      "BrequelTreeCurrency12",
+      "BrequelTreeCurrency54_"
+    ],
+    [
+      "BrequelTreeCurrency12",
+      "BrequelTreeCurrency15"
+    ],
+    [
+      "BrequelTreeRings41",
+      "BrequelTreeRings51"
+    ],
+    [
+      "BrequelTreeRings41",
+      "BrequelTreeRings50"
+    ],
+    [
+      "BrequelTreeCurrency59",
+      "BrequelTreeCurrency66"
+    ],
+    [
+      "BrequelTreeCurrency59",
+      "BrequelTreeCurrency63"
+    ],
+    [
+      "BrequelTreeCurrency15",
+      "BrequelTreeCurrency16"
+    ],
+    [
+      "BrequelTreeCurrency54_",
+      "BrequelTreeCurrency55"
+    ],
+    [
+      "BrequelTreeCurrency54_",
+      "BrequelTreeCurrency72"
+    ],
+    [
+      "BrequelTreeRings46",
+      "BrequelTreeRings47"
+    ],
+    [
+      "BrequelTreeRings46",
+      "BrequelTreeRings48"
+    ],
+    [
+      "BrequelTreeCurrency60_",
+      "BrequelTreeCurrency61"
+    ],
+    [
+      "BrequelTreeCurrency60_",
+      "BrequelTreeCurrency62"
+    ],
+    [
+      "BrequelTreeCurrency58",
+      "BrequelTreeCurrency59"
+    ],
+    [
+      "BrequelTreeCurrency58",
+      "BrequelTreeCurrency67"
+    ],
+    [
+      "BrequelTreeRings43",
+      "BrequelTreeRings45"
+    ],
+    [
+      "BrequelTreeRings43",
+      "BrequelTreeRings44"
+    ],
+    [
+      "BrequelTreeCurrency16",
+      "BrequelTreeCurrency17"
+    ],
+    [
+      "BrequelTreeRings40",
+      "BrequelTreeRings52"
+    ],
+    [
+      "BrequelTreeRings40",
+      "BrequelTreeRings41"
+    ],
+    [
+      "BrequelTreeRings40",
+      "BrequelTreeRings46"
+    ],
+    [
+      "BrequelTreeRings40",
+      "BrequelTreeRings43"
+    ],
+    [
+      "BrequelTreeCurrency57",
+      "BrequelTreeCurrency58"
+    ],
+    [
+      "BrequelTreeCurrency67",
+      "BrequelTreeCurrency69"
+    ],
+    [
+      "BrequelTreeCurrency67",
+      "BrequelTreeCurrency68"
+    ],
+    [
+      "BrequelTreeCurrency69",
+      "BrequelTreeCurrency70"
+    ],
+    [
+      "BrequelTreeCurrency55",
+      "BrequelTreeCurrency56_"
+    ],
+    [
+      "BrequelTreeCurrency55",
+      "BrequelTreeCurrency76"
+    ],
+    [
+      "BrequelTreeCurrency78",
+      "BrequelTreeCurrency79"
+    ],
+    [
+      "BrequelTreeCurrency78",
+      "BrequelTreeCurrency80"
+    ],
+    [
+      "BrequelTreeAmulets18",
+      "BrequelTreeAmulets19"
+    ],
+    [
+      "BrequelTreeAmulets18",
+      "BrequelTreeAmulets20"
+    ],
+    [
+      "BrequelTreeAmulets18",
+      "BrequelTreeAmulets21"
+    ],
+    [
+      "BrequelTreeAmulets18",
+      "BrequelTreeAmulets22"
+    ],
+    [
+      "BrequelTreeCurrency76",
+      "BrequelTreeCurrency77_"
+    ],
+    [
+      "BrequelTreeCurrency76",
+      "BrequelTreeCurrency71"
+    ],
+    [
+      "BrequelTreeAmulets15",
+      "BrequelTreeAmulets18"
+    ],
+    [
+      "BrequelTreeAmulets15",
+      "BrequelTreeAmulets17"
+    ],
+    [
+      "BrequelTreeCurrency72",
+      "BrequelTreeCurrency71"
+    ],
+    [
+      "BrequelTreeCurrency72",
+      "BrequelTreeCurrency73"
+    ],
+    [
+      "BrequelTreeCurrency71",
+      "BrequelTreeCurrency75"
+    ],
+    [
+      "BrequelTreeCurrency71",
+      "BrequelTreeCurrency74"
+    ],
+    [
+      "BrequelTreeBelts36",
+      "BrequelTreeBelts38"
+    ],
+    [
+      "BrequelTreeBelts36",
+      "BrequelTreeBelts37_"
+    ],
+    [
+      "BrequelTreeAmulets10",
+      "BrequelTreeAmulets11___"
+    ],
+    [
+      "BrequelTreeAmulets10",
+      "BrequelTreeAmulets13"
+    ],
+    [
+      "BrequelTreeCurrency80",
+      "BrequelTreeCurrency81_"
+    ],
+    [
+      "BrequelTreeAmulets14_",
+      "BrequelTreeAmulets15"
+    ],
+    [
+      "BrequelTreeAmulets2",
+      "BrequelTreeAmulets3"
+    ],
+    [
+      "BrequelTreeBelts26",
+      "BrequelTreeBelts28"
+    ],
+    [
+      "BrequelTreeBelts35",
+      "BrequelTreeBelts26"
+    ],
+    [
+      "BrequelTreeBelts32",
+      "BrequelTreeBelts33_"
+    ],
+    [
+      "BrequelTreeBelts32",
+      "BrequelTreeBelts34"
+    ],
+    [
+      "BrequelTreeAmulets3",
+      "BrequelTreeAmulets14_"
+    ],
+    [
+      "BrequelTreeAmulets3",
+      "BrequelTreeAmulets10"
+    ],
+    [
+      "BrequelTreeAmulets3",
+      "BrequelTreeAmulets4"
+    ],
+    [
+      "BrequelTreeAmulets4",
+      "BrequelTreeAmulets5"
+    ],
+    [
+      "BrequelTreeAmulets4",
+      "BrequelTreeAmulets23"
+    ],
+    [
+      "BrequelTreeAmulets6",
+      "BrequelTreeAmulets9"
+    ],
+    [
+      "BrequelTreeAmulets6",
+      "BrequelTreeAmulets7"
+    ],
+    [
+      "BrequelTreeAmulets6",
+      "BrequelTreeAmulets8___"
+    ],
+    [
+      "BrequelTreeBelts28",
+      "BrequelTreeBelts30"
+    ],
+    [
+      "BrequelTreeBelts28",
+      "BrequelTreeBelts29"
+    ],
+    [
+      "BrequelTreeAmulets5",
+      "BrequelTreeAmulets6"
+    ],
+    [
+      "BrequelTreeBelts24",
+      "BrequelTreeBelts35"
+    ],
+    [
+      "BrequelTreeBelts25",
+      "BrequelTreeBelts26"
+    ],
+    [
+      "BrequelTreeBelts25",
+      "BrequelTreeBelts32"
+    ],
+    [
+      "BrequelTreeBelts25",
+      "BrequelTreeBelts36"
+    ],
+    [
+      "BrequelTreeAmuletsSlot",
+      "BrequelTreeAmulets1_"
+    ],
+    [
+      "BrequelTreeAmulets1_",
+      "BrequelTreeAmulets2"
+    ],
+    [
+      "BrequelTreeAmulets1_",
+      "BrequelTreeAmulets26"
+    ],
+    [
+      "BrequelTreeAmulets1_",
+      "BrequelTreeAmulets27"
+    ],
+    [
+      "BrequelTreeBeltsSlot",
+      "BrequelTreeBelts1_"
+    ],
+    [
+      "BrequelTreeAmulets41",
+      "BrequelTreeAmulets42"
+    ],
+    [
+      "BrequelTreeAmulets41",
+      "BrequelTreeAmulets48"
+    ],
+    [
+      "BrequelTreeAmulets27",
+      "BrequelTreeAmulets40"
+    ],
+    [
+      "BrequelTreeAmulets27",
+      "BrequelTreeAmulets28"
+    ],
+    [
+      "BrequelTreeAmulets27",
+      "BrequelTreeAmulets41"
+    ],
+    [
+      "BrequelTreeAmulets42",
+      "BrequelTreeAmulets43"
+    ],
+    [
+      "BrequelTreeAmulets42",
+      "BrequelTreeAmulets47_"
+    ],
+    [
+      "BrequelTreeBelts17",
+      "BrequelTreeBelts18"
+    ],
+    [
+      "BrequelTreeBelts17",
+      "BrequelTreeBelts21"
+    ],
+    [
+      "BrequelTreeAmulets26",
+      "BrequelTreeAmulets25"
+    ],
+    [
+      "BrequelTreeBelts18",
+      "BrequelTreeBelts19"
+    ],
+    [
+      "BrequelTreeBelts18",
+      "BrequelTreeBelts22_"
+    ],
+    [
+      "BrequelTreeBelts16",
+      "BrequelTreeBelts17"
+    ],
+    [
+      "BrequelTreeBelts16",
+      "BrequelTreeBelts20"
+    ],
+    [
+      "BrequelTreeBelts10",
+      "BrequelTreeBelts16"
+    ],
+    [
+      "BrequelTreeBelts10",
+      "BrequelTreeBelts11"
+    ],
+    [
+      "BrequelTreeAmulets25",
+      "BrequelTreeAmulets24"
+    ],
+    [
+      "BrequelTreeAmulets25",
+      "BrequelTreeAmulets49"
+    ],
+    [
+      "BrequelTreeAmulets25",
+      "BrequelTreeAmulets61_"
+    ],
+    [
+      "BrequelTreeAmulets28",
+      "BrequelTreeAmulets39"
+    ],
+    [
+      "BrequelTreeAmulets28",
+      "BrequelTreeAmulets38"
+    ],
+    [
+      "BrequelTreeAmulets28",
+      "BrequelTreeAmulets30"
+    ],
+    [
+      "BrequelTreeAmulets43",
+      "BrequelTreeAmulets46"
+    ],
+    [
+      "BrequelTreeAmulets43",
+      "BrequelTreeAmulets45"
+    ],
+    [
+      "BrequelTreeBelts19",
+      "BrequelTreeBelts23"
+    ],
+    [
+      "BrequelTreeBelts1_",
+      "BrequelTreeBelts2"
+    ],
+    [
+      "BrequelTreeBelts1_",
+      "BrequelTreeBelts10"
+    ],
+    [
+      "BrequelTreeBelts1_",
+      "BrequelTreeBelts24"
+    ],
+    [
+      "BrequelTreeBelts1_",
+      "BrequelTreeBelts47"
+    ],
+    [
+      "BrequelTreeBelts11",
+      "BrequelTreeBelts12"
+    ],
+    [
+      "BrequelTreeBelts11",
+      "BrequelTreeBelts13"
+    ],
+    [
+      "BrequelTreeBelts11",
+      "BrequelTreeBelts14"
+    ],
+    [
+      "BrequelTreeBelts11",
+      "BrequelTreeBelts15"
+    ],
+    [
+      "BrequelTreeAmulets61_",
+      "BrequelTreeAmulets59"
+    ],
+    [
+      "BrequelTreeBelts2",
+      "BrequelTreeBelts9"
+    ],
+    [
+      "BrequelTreeBelts2",
+      "BrequelTreeBelts3"
+    ],
+    [
+      "BrequelTreeAmulets30",
+      "BrequelTreeAmulets31_"
+    ],
+    [
+      "BrequelTreeAmulets30",
+      "BrequelTreeAmulets37"
+    ],
+    [
+      "BrequelTreeAmulets49",
+      "BrequelTreeAmulets54"
+    ],
+    [
+      "BrequelTreeAmulets49",
+      "BrequelTreeAmulets50"
+    ],
+    [
+      "BrequelTreeBelts47",
+      "BrequelTreeBelts46_"
+    ],
+    [
+      "BrequelTreeAmulets59",
+      "BrequelTreeAmulets62"
+    ],
+    [
+      "BrequelTreeAmulets24",
+      "BrequelTreeAmulets57_"
+    ],
+    [
+      "BrequelTreeAmulets24",
+      "BrequelTreeAmulets58"
+    ],
+    [
+      "BrequelTreeBelts3",
+      "BrequelTreeBelts4"
+    ],
+    [
+      "BrequelTreeBelts3",
+      "BrequelTreeBelts8"
+    ],
+    [
+      "BrequelTreeAmulets50",
+      "BrequelTreeAmulets55"
+    ],
+    [
+      "BrequelTreeAmulets50",
+      "BrequelTreeAmulets52"
+    ],
+    [
+      "BrequelTreeAmulets31_",
+      "BrequelTreeAmulets32"
+    ],
+    [
+      "BrequelTreeAmulets31_",
+      "BrequelTreeAmulets36"
+    ],
+    [
+      "BrequelTreeAmulets62",
+      "BrequelTreeAmulets63"
+    ],
+    [
+      "BrequelTreeAmulets62",
+      "BrequelTreeAmulets64"
+    ],
+    [
+      "BrequelTreeAmulets62",
+      "BrequelTreeAmulets65"
+    ],
+    [
+      "BrequelTreeAmulets62",
+      "BrequelTreeAmulets60_"
+    ],
+    [
+      "BrequelTreeAmulets32",
+      "BrequelTreeAmulets33"
+    ],
+    [
+      "BrequelTreeAmulets32",
+      "BrequelTreeAmulets34"
+    ],
+    [
+      "BrequelTreeAmulets32",
+      "BrequelTreeAmulets35_"
+    ],
+    [
+      "BrequelTreeBelts4",
+      "BrequelTreeBelts7____"
+    ],
+    [
+      "BrequelTreeBelts4",
+      "BrequelTreeBelts6"
+    ],
+    [
+      "BrequelTreeBelts46_",
+      "BrequelTreeBelts48"
+    ],
+    [
+      "BrequelTreeBelts48",
+      "BrequelTreeBelts49"
+    ],
+    [
+      "BrequelTreeBelts48",
+      "BrequelTreeBelts40"
+    ],
+    [
+      "BrequelTreeBelts49",
+      "BrequelTreeBelts50"
+    ],
+    [
+      "BrequelTreeBelts49",
+      "BrequelTreeBelts51"
+    ],
+    [
+      "BrequelTreeBelts39",
+      "BrequelTreeBelts41"
+    ],
+    [
+      "BrequelTreeBelts39",
+      "BrequelTreeBelts42"
+    ],
+    [
+      "BrequelTreeBelts40",
+      "BrequelTreeBelts43"
+    ],
+    [
+      "BrequelTreeBelts40",
+      "BrequelTreeBelts39"
+    ],
+    [
+      "BrequelTreeBelts43",
+      "BrequelTreeBelts44"
+    ],
+    [
+      "BrequelTreeBelts43",
+      "BrequelTreeBelts45"
+    ]
+  ],
+  "wombgifts": [
+    {
+      "name": "Lavish Wombgift",
+      "branch": "Currency",
+      "description": "Can grow into a Currency item on the Genesis Tree"
+    },
+    {
+      "name": "Ornate Wombgift",
+      "branch": "Amulets",
+      "description": "Can grow into an Amulet on the Genesis Tree"
+    },
+    {
+      "name": "Banded Wombgift",
+      "branch": "Belts",
+      "description": "Can grow into a Belt on the Genesis Tree"
+    },
+    {
+      "name": "Signet Wombgift",
+      "branch": "Rings",
+      "description": "Can grow into a Ring on the Genesis Tree"
+    },
+    {
+      "name": "Revelatory Wombgift",
+      "branch": "Breachstones",
+      "description": "Can grow into a Breachstone on the Genesis Tree"
+    }
+  ]
+}

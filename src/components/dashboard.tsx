@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { useWorkspace } from "@/lib/workspace-store";
 import { useRegexWorkspace } from "@/lib/regex-store";
+import { useGenesisWorkspace } from "@/lib/genesis-store";
 import { useStatus } from "@/lib/client";
 import { Badge, SectionHeader } from "./ui";
 import { OrbitArt } from "./orbit-art";
@@ -80,6 +81,7 @@ const tools = [
 ];
 export function Dashboard() {
   const presetCount = useRegexWorkspace((s) => s.presets.length);
+  const genesisPlanCount = useGenesisWorkspace((s) => s.plans.length);
   const { builds, filters } = useWorkspace(),
     { data: status } = useStatus();
   return (
@@ -178,6 +180,9 @@ export function Dashboard() {
             <h3>{title}</h3>
             <p>{description}</p>
             {href === "/regex" && <p className="fine-print">{presetCount} saved search presets</p>}
+            {href === "/genesis" && (
+              <p className="fine-print">{genesisPlanCount} saved Genesis plans</p>
+            )}
             <div className="tool-card-bottom">
               <span>{tag}</span>
               <ArrowUpRight size={17} />
