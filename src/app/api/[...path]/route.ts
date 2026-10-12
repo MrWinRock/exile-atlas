@@ -16,6 +16,7 @@ import { getCurrency, getTree } from "@/server/public-data";
 import { getRecord, putRecord } from "@/server/storage";
 import { getItemCatalogue } from "@/server/item-artwork";
 import { assertPublicRequestLimit, validatePublicCurrencyHour } from "@/server/public-access";
+import {bundledSnapshot,checkGameDataUpdates,getGameSnapshot,stageGameSnapshot} from "@/server/game-data/service";
 export const dynamic = "force-dynamic";
 type Context = { params: Promise<{ path: string[] }> };
 export async function GET(request: Request, context: Context) {
@@ -35,6 +36,11 @@ export async function GET(request: Request, context: Context) {
     }
     let data: unknown;
     switch (path[0]) {
+      case "game-data":
+        if(path[1]==="status") {const bundle=await bundledSnapshot();data={id:bundle.id,sourceRefs:bundle.sourceRefs,verifiedAt:bundle.verifiedAt,counts:{modifiers:bundle.modifiers.length,bases:bundle.bases.length}};}
+        else if(path[1]==="snapshot")data=await getGameSnapshot(url.searchParams.get("id")??"");
+        else throw new ApiError("Endpoint not found",404);
+        break;
       case "status": {
         const session = await getSession();
         data = {
@@ -138,6 +144,11 @@ export async function POST(request: Request, context: Context) {
     assertSameOrigin(request, getConfig().appUrl);
     await assertPublicRequestLimit(request);
     const { path } = await context.params;
+    if(path[0]==="game-data"){
+      if(path[1]==="check")return Response.json(await checkGameDataUpdates());
+      if(path[1]==="stage"){const text=await request.text();if(new TextEncoder().encode(text).length>1024)throw new ApiError("Stage request too large",413);const body=z.object({revision:z.string().regex(/^[a-f0-9]{40}$/)}).strict().parse(JSON.parse(text));return Response.json(await stageGameSnapshot(body.revision));}
+      throw new ApiError("Endpoint not found",404);
+    }
     if (path.join("/") === "auth/logout") {
       await logout();
       return Response.json({ ok: true });

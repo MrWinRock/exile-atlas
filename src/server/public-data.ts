@@ -54,6 +54,7 @@ export async function getTree() {
   const result = {
     ...normalizeTree(raw, active, inactive),
     source: "GGG official PoE2 passive-tree export",
+    revision: version.sha,
   };
   await cacheSet("artwork:tree:v4", result, 86400);
   return result;

@@ -9,6 +9,7 @@ import { useTradeWorkspace } from "@/lib/trade-store";
 import { useRegexWorkspace } from "@/lib/regex-store";
 import { useGenesisWorkspace } from "@/lib/genesis-store";
 import { Badge, Button, Loading, Notice, PageTitle, SectionHeader } from "./ui";
+import {GameDataStatus} from "./game-data-status";
 export function Settings() {
   const { data: status, isLoading, error } = useStatus(),
     client = useQueryClient(),
@@ -102,6 +103,7 @@ export function Settings() {
           </>
         )
       )}
+      <GameDataStatus />
       <section className="panel">
         <SectionHeader title="Browser workspace" />
         <p className="muted">
