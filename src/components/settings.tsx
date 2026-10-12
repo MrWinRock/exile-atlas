@@ -6,12 +6,14 @@ import { ArrowUpRight, LockKeyhole, LogOut, ShieldCheck, Trash2 } from "lucide-r
 import { api, useStatus } from "@/lib/client";
 import { useWorkspace } from "@/lib/workspace-store";
 import { useTradeWorkspace } from "@/lib/trade-store";
+import { useRegexWorkspace } from "@/lib/regex-store";
 import { Badge, Button, Loading, Notice, PageTitle, SectionHeader } from "./ui";
 export function Settings() {
   const { data: status, isLoading, error } = useStatus(),
     client = useQueryClient(),
     store = useWorkspace(),
     tradeStore = useTradeWorkspace(),
+    regexStore = useRegexWorkspace(),
     [message, setMessage] = useState(""),
     [confirmClear, setConfirmClear] = useState(false),
     [busy, setBusy] = useState(false);
@@ -94,41 +96,43 @@ export function Settings() {
                   </p>
                 )}
               </section>
-              <section className="panel">
-                <SectionHeader title="Browser workspace" />
-                <p className="muted">
-                  {store.builds.length} saved builds, {store.filters.length} filter drafts and{" "}
-                  {tradeStore.searches.length} trade searches are stored in this browser. Export
-                  files to keep a portable backup.
-                </p>
-                {confirmClear ? (
-                  <div className="button-group">
-                    <Notice error>This removes all drafts from this browser.</Notice>
-                    <Button
-                      onClick={() => {
-                        store.clearDrafts();
-                        tradeStore.clearSearches();
-                        setConfirmClear(false);
-                        setMessage("Browser drafts cleared.");
-                      }}
-                    >
-                      Clear all drafts
-                    </Button>
-                    <Button variant="secondary" onClick={() => setConfirmClear(false)}>
-                      Keep drafts
-                    </Button>
-                  </div>
-                ) : (
-                  <Button variant="secondary" onClick={() => setConfirmClear(true)}>
-                    <Trash2 size={15} />
-                    Clear browser drafts
-                  </Button>
-                )}
-              </section>
             </div>
           </>
         )
       )}
+      <section className="panel">
+        <SectionHeader title="Browser workspace" />
+        <p className="muted">
+          {store.builds.length} saved builds, {store.filters.length} filter drafts and{" "}
+          {tradeStore.searches.length} trade searches, and {regexStore.presets.length} search
+          presets are stored in this browser. Export files to keep a portable backup.
+        </p>
+        {confirmClear ? (
+          <div className="button-group">
+            <Notice error>This removes all drafts from this browser.</Notice>
+            <Button
+              onClick={() => {
+                store.clearDrafts();
+                tradeStore.clearSearches();
+                regexStore.clearAll();
+                setConfirmClear(false);
+                setMessage("Browser drafts cleared.");
+              }}
+            >
+              Clear all drafts
+            </Button>
+            <Button variant="secondary" onClick={() => setConfirmClear(false)}>
+              Keep drafts
+            </Button>
+          </div>
+        ) : (
+          <Button variant="secondary" onClick={() => setConfirmClear(true)}>
+            <Trash2 size={15} />
+            Clear browser drafts
+          </Button>
+        )}
+      </section>
+
       {message && <Notice>{message}</Notice>}
     </>
   );

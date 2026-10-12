@@ -12,12 +12,29 @@ import {
   ShieldCheck,
   Compass,
   Plus,
+  Regex,
+  Sprout,
 } from "lucide-react";
 import { useWorkspace } from "@/lib/workspace-store";
+import { useRegexWorkspace } from "@/lib/regex-store";
 import { useStatus } from "@/lib/client";
 import { Badge, SectionHeader } from "./ui";
 import { OrbitArt } from "./orbit-art";
 const tools = [
+  {
+    href: "/regex",
+    title: "Find what’s worth keeping",
+    description: "Create in-game searches and keep your favorite presets.",
+    icon: Regex,
+    tag: "LOCAL TOOLKIT",
+  },
+  {
+    href: "/genesis",
+    title: "Grow your next reward",
+    description: "Explore the Genesis crafting tree and save a plan.",
+    icon: Sprout,
+    tag: "CRAFTING PLANNER",
+  },
   {
     href: "/characters",
     title: "Your characters",
@@ -62,6 +79,7 @@ const tools = [
   },
 ];
 export function Dashboard() {
+  const presetCount = useRegexWorkspace((s) => s.presets.length);
   const { builds, filters } = useWorkspace(),
     { data: status } = useStatus();
   return (
@@ -159,6 +177,7 @@ export function Dashboard() {
             </div>
             <h3>{title}</h3>
             <p>{description}</p>
+            {href === "/regex" && <p className="fine-print">{presetCount} saved search presets</p>}
             <div className="tool-card-bottom">
               <span>{tag}</span>
               <ArrowUpRight size={17} />

@@ -18,6 +18,8 @@ import {
   Images,
   ChevronsUpDown,
   ShoppingBag,
+  Regex,
+  Sprout,
 } from "lucide-react";
 import { useStatus } from "@/lib/client";
 const nav = [
@@ -27,6 +29,8 @@ const nav = [
   { href: "/leagues", label: "Leagues & ladders", icon: ChartNoAxesCombined },
   { href: "/currency", label: "Currency exchange", icon: Coins },
   { href: "/trade", label: "Item trade", icon: ShoppingBag },
+  { href: "/regex", label: "Search Toolkit", icon: Regex },
+  { href: "/genesis", label: "Genesis Tree", icon: Sprout },
   { href: "/planner", label: "Passive planner", icon: GitBranch },
   { href: "/builds", label: "Build library", icon: BookOpen },
   { href: "/items", label: "Item gallery", icon: Images },

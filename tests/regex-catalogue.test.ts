@@ -7,7 +7,9 @@ test("five generators have sourced, unique, usable definitions", () => {
   expect(REGEX_CATEGORIES).toHaveLength(5);
   const ids = REGEX_MODIFIERS.map((m) => m.id);
   expect(new Set(ids).size).toBe(ids.length);
-  const stats = new Map(snapshot.groups.flatMap((g) => g.entries.map((e) => [e.id, e.text] as const)));
+  const stats = new Map(
+    snapshot.groups.flatMap((g) => g.entries.map((e) => [e.id, e.text] as const)),
+  );
   for (const category of REGEX_CATEGORIES) {
     expect(REGEX_MODIFIERS.some((m) => m.categories.includes(category.id))).toBe(true);
     expect(REGEX_PROPERTIES.some((p) => p.categories.includes(category.id))).toBe(true);

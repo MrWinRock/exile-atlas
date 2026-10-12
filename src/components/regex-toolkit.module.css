@@ -1,0 +1,384 @@
+.ribbon {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  border: 1px solid var(--line);
+  background: linear-gradient(110deg, #dfb87d0c, transparent);
+  border-radius: 7px;
+  margin-bottom: 24px;
+  color: var(--muted);
+}
+.ribbon > svg {
+  color: var(--accent);
+}
+.ribbon a {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+  font-size: 12px;
+  color: var(--accent);
+  white-space: nowrap;
+}
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 24px;
+  gap: 4px;
+}
+.tabs button {
+  padding: 14px 18px;
+  color: var(--muted);
+  border-bottom: 2px solid transparent;
+}
+.tabs button[aria-selected="true"] {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+  background: #dfb87d08;
+}
+.workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(300px, 1fr);
+  gap: 22px;
+  align-items: start;
+}
+.controls,
+.outputRail {
+  display: grid;
+  gap: 22px;
+  min-width: 0;
+}
+.controls > section {
+  padding: 24px;
+}
+.properties {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 18px;
+}
+.rangeField {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.rangeField legend {
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+.range,
+.modRange {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.range span,
+.modRange span {
+  color: var(--dim);
+  font-size: 12px;
+}
+.range input,
+.modRange input {
+  min-width: 0;
+}
+.modifierTools {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+.modifiers {
+  display: grid;
+}
+.modifier {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 105px;
+  gap: 12px;
+  align-items: center;
+  padding: 16px 10px;
+  border-top: 1px solid var(--line);
+}
+.modifier > div > span {
+  font-size: 13px;
+  line-height: 1.6;
+  display: block;
+}
+.modifier small {
+  font-size: 11px;
+  color: var(--dim);
+  display: block;
+  margin-top: 4px;
+}
+.modifier select {
+  padding: 8px;
+}
+.modRange {
+  grid-column: 1/-1;
+  max-width: 270px;
+}
+.modRange input {
+  padding: 7px 10px;
+}
+.wanted {
+  background: #90b6a108;
+  border-left: 2px solid var(--green);
+}
+.excluded {
+  background: #d8998e08;
+  border-left: 2px solid #d8998e;
+}
+.output {
+  padding: 24px;
+  position: sticky;
+  top: 20px;
+}
+.outputHeading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.output textarea {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--accent);
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+  margin-bottom: 16px;
+}
+.outputButtons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 14px 0 20px;
+}
+.source {
+  font-size: 11px;
+  color: var(--dim);
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+}
+.source a {
+  color: var(--accent);
+  display: block;
+}
+.tester {
+  padding: 24px;
+}
+.tester > p {
+  font-size: 12px;
+  margin-bottom: 18px;
+}
+.tester textarea {
+  font-family: var(--mono);
+  font-size: 12px;
+}
+.tester button {
+  margin-top: 14px;
+}
+.testResult {
+  margin-top: 18px;
+}
+.testResult > strong {
+  font-family: var(--serif);
+  font-size: 20px;
+}
+.testResult ul {
+  list-style: none;
+  padding: 0;
+}
+.testResult li {
+  display: flex;
+  gap: 12px;
+  align-items: start;
+  font-size: 12px;
+  padding: 10px 0;
+  border-top: 1px solid var(--line);
+}
+.pass {
+  color: var(--green);
+}
+.fail {
+  color: #e7a99c;
+}
+.unknown {
+  color: var(--accent);
+}
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+.library {
+  padding: 24px;
+}
+.libraryTools {
+  display: grid;
+  grid-template-columns: 1fr 180px auto;
+  align-items: end;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+.presetGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 24px;
+}
+.presetCard {
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 20px;
+  min-width: 0;
+}
+.cardTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--accent);
+  gap: 8px;
+}
+.presetCard h3 {
+  font-family: var(--serif);
+  font-size: 23px;
+  overflow-wrap: anywhere;
+  margin: 10px 0;
+}
+.presetCode {
+  display: block;
+  font-size: 11px;
+  line-height: 1.8;
+  overflow-wrap: anywhere;
+  margin: 12px 0;
+  max-height: 120px;
+  overflow: auto;
+}
+.presetCard .fail {
+  font-size: 12px;
+}
+.presetActions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-top: 20px;
+}
+.presetActions > button:first-child {
+  margin-right: auto;
+}
+.rename {
+  display: grid;
+  gap: 12px;
+}
+.empty {
+  padding: 60px 20px;
+  text-align: center;
+}
+.empty svg {
+  color: var(--accent);
+  margin-bottom: 14px;
+}
+.empty h2 {
+  font-family: var(--serif);
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+.dialog {
+  width: min(620px, calc(100vw - 32px));
+  max-height: 85vh;
+  overflow: auto;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 28px;
+  color: var(--text);
+}
+.dialog::backdrop {
+  background: #080d11bf;
+  backdrop-filter: blur(3px);
+}
+.dialog h2 {
+  font-family: var(--serif);
+  font-size: 28px;
+  margin-bottom: 14px;
+}
+.dialog > p {
+  margin-bottom: 20px;
+}
+.dialog > div {
+  margin-top: 14px;
+}
+.summary {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  padding: 16px;
+  background: var(--bg);
+  font-size: 12px;
+  border-radius: 5px;
+  margin: 20px 0;
+}
+@media (max-width: 1100px) {
+  .workspace {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .outputRail {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .output {
+    position: static;
+  }
+  .libraryTools {
+    grid-template-columns: 1fr 1fr;
+  }
+  .libraryTools > button {
+    grid-column: 1/-1;
+  }
+  .ribbon a {
+    display: none;
+  }
+}
+@media (max-width: 650px) {
+  .ribbon {
+    font-size: 12px;
+    padding: 14px;
+  }
+  .tabs button {
+    padding: 12px 10px;
+    font-size: 12px;
+  }
+  .controls > section,
+  .output,
+  .tester,
+  .library {
+    padding: 18px;
+  }
+  .outputRail,
+  .presetGrid,
+  .properties,
+  .modifierTools,
+  .libraryTools {
+    grid-template-columns: 1fr;
+  }
+  .modifier {
+    grid-template-columns: minmax(0, 1fr) 90px;
+  }
+  .outputButtons > button {
+    flex: 1;
+  }
+  .presetActions {
+    gap: 4px;
+  }
+  .workspace {
+    gap: 16px;
+  }
+  .dialog {
+    padding: 20px;
+  }
+}
