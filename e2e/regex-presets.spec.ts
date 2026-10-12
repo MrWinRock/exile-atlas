@@ -25,13 +25,11 @@ test("unknown imported properties can be removed without losing valid criteria",
       },
     ],
   };
-  await page
-    .getByLabel("Import preset file", { exact: true })
-    .setInputFiles({
-      name: "old.json",
-      mimeType: "application/json",
-      buffer: Buffer.from(JSON.stringify(file)),
-    });
+  await page.getByLabel("Import preset file", { exact: true }).setInputFiles({
+    name: "old.json",
+    mimeType: "application/json",
+    buffer: Buffer.from(JSON.stringify(file)),
+  });
   await page.getByRole("button", { name: "Load Older properties", exact: true }).click();
   await expect(page.getByRole("button", { name: "Copy search", exact: true })).toBeDisabled();
   await page.getByRole("button", { name: "Remove property obsolete", exact: true }).click();
@@ -43,6 +41,7 @@ test("presets survive reload and support update, favorites, duplicates and porta
 }) => {
   await page.goto("/regex");
   await page.getByLabel("Additional text", { exact: true }).fill("boots");
+  await page.getByRole("button", { name: "Show search options", exact: true }).click();
   await page.getByLabel("Preset name", { exact: true }).fill("Vendor boots");
   await page.getByRole("button", { name: "Save preset", exact: true }).click();
   await page.reload();
@@ -52,6 +51,7 @@ test("presets survive reload and support update, favorites, duplicates and porta
   await page.getByRole("button", { name: "Duplicate Vendor boots", exact: true }).click();
   await expect(page.getByText("Vendor boots (copy)", { exact: true })).toBeVisible();
   await page.getByRole("button", { name: "Load Vendor boots", exact: true }).click();
+  await page.getByRole("button", { name: "Show search options", exact: true }).click();
   await page.getByLabel("Additional text", { exact: true }).fill("helmet");
   await page.getByRole("button", { name: "Update preset", exact: true }).click();
   await page.getByRole("tab", { name: /Presets/ }).click();
@@ -73,6 +73,7 @@ test("local settings remain available on account status failure and clear includ
 }) => {
   await page.goto("/regex");
   await page.getByLabel("Additional text", { exact: true }).fill("boots");
+  await page.getByRole("button", { name: "Show search options", exact: true }).click();
   await page.getByLabel("Preset name", { exact: true }).fill("Boots");
   await page.getByRole("button", { name: "Save preset", exact: true }).click();
   await page.route("**/api/status", (route) =>

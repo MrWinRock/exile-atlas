@@ -1,6 +1,44 @@
 import { expect, test } from "bun:test";
 import { createRegexDraft } from "../src/lib/regex-schema";
+import { REGEX_MODIFIERS, REGEX_PROPERTIES } from "../src/lib/regex-catalogue";
 import { compileRegexSearch, integerRangePattern, templatePattern } from "../src/lib/regex-search";
+
+test("waystone searches use compact tokens without losing exact rarity bounds", () => {
+  const d = createRegexDraft("waystone");
+  d.unwanted = [{ id: "chilled-ground", min: "", max: "" }];
+  d.properties = { iir: { min: "40", max: "" } };
+  const c = compileRegexSearch(d);
+  expect(c.text).toStartWith('"!chi" ');
+  expect(c.length).toBeLessThan(55);
+  const rarity = new RegExp(c.text.split('" "')[1].slice(0, -1), "i");
+  for (const n of [0, 39, 40, 99, 100, 999, 1000, 99999, 100000])
+    expect(rarity.test(`Item Rarity: +${n}%`)).toBe(n >= 40 && n <= 99999);
+  for (const line of ["Monster Rarity: +80%", "Item Rarity: -40%", "Item Rarity: +40.5%"])
+    expect(rarity.test(line)).toBe(false);
+  d.properties.iir = { min: "40", max: "99" };
+  const bounded = new RegExp(compileRegexSearch(d).text.split('" "')[1].slice(0, -1), "i");
+  expect(bounded.test("Item Rarity: +140%")).toBe(false);
+  expect(bounded.test("Item Rarity: +40%")).toBe(true);
+});
+
+test("compact waystone headers and presence tokens stay distinct in the catalogue", () => {
+  const properties = REGEX_PROPERTIES.filter((p) => p.kind === "range");
+  for (const p of properties) {
+    const draft = createRegexDraft("waystone");
+    draft.properties[p.id] = { min: "1", max: "1" };
+    const re = new RegExp(compileRegexSearch(draft).groups[0].conditions[0].pattern, "i");
+    for (const other of properties)
+      for (const text of other.templates!)
+        expect(re.test(text.replaceAll("#", "1"))).toBe(other.id === p.id);
+  }
+  for (const m of REGEX_MODIFIERS.filter((m) => m.presencePattern)) {
+    const re = new RegExp(m.presencePattern!, "i");
+    for (const other of REGEX_MODIFIERS.filter((other) =>
+      other.categories.some((c) => m.categories.includes(c)),
+    ))
+      expect(re.test(other.template)).toBe(other.id === m.id);
+  }
+});
 
 test("integer ranges are exact across digit and sign boundaries", () => {
   for (const [min, max] of [

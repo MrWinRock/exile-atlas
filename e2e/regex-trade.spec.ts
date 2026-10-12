@@ -4,6 +4,7 @@ test("trade preview preserves existing draft until an explicit complete transfer
 }) => {
   await page.goto("/regex");
   await page.getByLabel("Waystone tier minimum", { exact: true }).fill("15");
+  await page.getByRole("button", { name: "Show search options", exact: true }).click();
   await page.getByRole("button", { name: "Prepare trade", exact: true }).click();
   await page.getByLabel("Trade league", { exact: true }).fill("Test League");
   await page.getByRole("button", { name: "Use these filters", exact: true }).click();
@@ -12,6 +13,7 @@ test("trade preview preserves existing draft until an explicit complete transfer
   await expect(page.getByLabel("Waystone Tier minimum", { exact: true })).toHaveValue("15");
   await page.goto("/regex");
   await page.getByLabel("Additional text", { exact: true }).fill("unmapped text");
+  await page.getByRole("button", { name: "Show search options", exact: true }).click();
   await page.getByRole("button", { name: "Prepare trade", exact: true }).click();
   await expect(page.getByRole("button", { name: "Use these filters", exact: true })).toBeDisabled();
   await expect(page.getByText("Additional text", { exact: true }).last()).toBeVisible();

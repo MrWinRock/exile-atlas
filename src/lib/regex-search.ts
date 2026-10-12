@@ -109,7 +109,7 @@ export function integerRangePattern(min: number, max: number): string {
     parts.push(...neg.map((p) => "-" + p));
   }
   if (max >= 0) parts.push(...positive(Math.max(0, min), max));
-  return parts.length === 1 ? parts[0] : `(${parts.join("|")})`;
+  return (parts.length === 1 ? parts[0] : `(${parts.join("|")})`).replaceAll("[0-9]", "\\d");
 }
 export function rangeBounds(
   value: RegexRange,
@@ -137,12 +137,12 @@ export function templatePattern(template: string, bounds?: [number, number], slo
   let pattern = escapeRegexLiteral(parts[0]);
   for (let i = 1; i < parts.length; i++) {
     const constrained = i - 1 === slot && bounds;
-    const num = constrained ? integerRangePattern(...bounds) : "[0-9]{1,5}";
+    const num = constrained ? integerRangePattern(...bounds) : "\\d{1,5}";
     pattern +=
       (constrained ? (bounds[0] >= 0 ? "\\+?" : "") : "[+-]?") + num + escapeRegexLiteral(parts[i]);
   }
   // Header/searchable modifier lines permit suffix annotations, but never longer numeric values.
-  return pattern + "($|[^0-9.])";
+  return pattern + (template.endsWith("#") ? "($|[^\\d.])" : "");
 }
 export function validateRegexDraft(draft: RegexDraft, allowUnknown = false): string[] {
   return compileRegexSearch(draft).errors.filter((e) => !allowUnknown || !e.startsWith("Unknown "));
@@ -186,14 +186,15 @@ export function compileRegexSearch(draft: RegexDraft): CompiledRegexSearch {
         throw new Error(`${m.label}: has no numeric range.`);
       const bounds = m.numericDomain ? rangeBounds(selection, m.numericDomain, m.label) : undefined;
       const pattern =
+        m.presencePattern ??
         "^" +
-        (m.numericDomain
-          ? templatePattern(
-              m.template,
-              hasRegexValue(selection) ? bounds : undefined,
-              m.numericSlot,
-            )
-          : escapeRegexLiteral(m.template));
+          (m.numericDomain
+            ? templatePattern(
+                m.template,
+                hasRegexValue(selection) ? bounds : undefined,
+                m.numericSlot,
+              )
+            : escapeRegexLiteral(m.template));
       return {
         key: (negative ? "exclude:" : "wanted:") + m.id,
         label: m.label,
@@ -233,7 +234,9 @@ export function compileRegexSearch(draft: RegexDraft): CompiledRegexSearch {
       if (p.kind === "range") {
         if (typeof value === "string") throw new Error(`${p.label}: enter a range.`);
         const bounds = rangeBounds(value, p.numericDomain!, p.label);
-        pattern = p.templates!.map((t) => templatePattern(t, bounds)).join("|");
+        pattern = (p.searchTemplates ?? p.templates)!
+          .map((t) => templatePattern(t, bounds))
+          .join("|");
       } else {
         if (typeof value !== "string") throw new Error(`${p.label}: choose one value.`);
         if (p.kind === "select" && !p.options?.some((o) => o.value === value))

@@ -1,6 +1,14 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Copy, Bookmark, RotateCcw, ArrowUpRight, Regex } from "lucide-react";
+import {
+  Copy,
+  Bookmark,
+  RotateCcw,
+  ArrowUpRight,
+  Regex,
+  ChevronDown,
+  ChevronUp,
+} from "lucide-react";
 import {
   REGEX_CATEGORIES,
   REGEX_MODIFIERS,
@@ -22,6 +30,7 @@ export function RegexToolkit() {
     [editedId, setEditedId] = useState<string>(),
     [message, setMessage] = useState(""),
     [preview, setPreview] = useState(false),
+    [showOptions, setShowOptions] = useState(false),
     [live, setLive] = useState("");
   const category: RegexCategory = store.activeTab === "presets" ? "waystone" : store.activeTab,
     draft = store.drafts[category],
@@ -357,34 +366,32 @@ export function RegexToolkit() {
               </section>
             </div>
             <aside className={styles.outputRail}>
-              <section className={`panel ${styles.output}`}>
+              <section className={`panel ${styles.output}`} aria-label="Floating search panel">
                 <div className={styles.outputHeading}>
                   <span className="eyebrow">YOUR IN-GAME SEARCH</span>
                   <span className={compiled.length > compiled.limit ? styles.fail : "muted"}>
                     {compiled.length} / {compiled.limit}
                   </span>
+                  <button
+                    className={styles.optionsToggle}
+                    aria-label={showOptions ? "Hide search options" : "Show search options"}
+                    aria-expanded={showOptions}
+                    aria-controls="search-options"
+                    onClick={() => setShowOptions(!showOptions)}
+                  >
+                    Options {showOptions ? <ChevronDown size={15} /> : <ChevronUp size={15} />}
+                  </button>
                 </div>
                 <textarea
                   aria-label="Generated search"
                   readOnly
                   value={compiled.text}
-                  rows={5}
+                  rows={2}
                   placeholder="Choose your first criterion…"
                 />
                 <span className={styles.srOnly} role="status" aria-live="polite">
                   {live}
                 </span>
-                {compiled.errors.map((e) => (
-                  <Notice error key={e}>
-                    {e}
-                  </Notice>
-                ))}
-                {compiled.length > compiled.limit && (
-                  <Notice error>
-                    Search exceeds the limit. Remove criteria to copy it; every condition is still
-                    retained.
-                  </Notice>
-                )}
                 <div className={styles.outputButtons}>
                   <Button
                     disabled={!compiled.copyable}
@@ -415,51 +422,66 @@ export function RegexToolkit() {
                     Reset
                   </Button>
                 </div>
-                <Field label="Preset name">
-                  <input
-                    value={name}
-                    maxLength={120}
-                    onChange={(e) => setName(e.target.value)}
-                    placeholder="e.g. Safe tier 15 maps"
-                  />
-                </Field>
-                <div className={styles.outputButtons}>
-                  <Button
-                    variant="secondary"
-                    onClick={() => {
-                      const r = store.savePreset(name, category);
-                      setMessage(r.ok ? "Preset saved." : r.error!);
-                    }}
-                  >
-                    <Bookmark size={15} />
-                    Save preset
-                  </Button>
-                  {editedId && (
+                <div className={styles.feedback}>
+                  {compiled.errors.map((e) => (
+                    <Notice error key={e}>
+                      {e}
+                    </Notice>
+                  ))}
+                  {compiled.length > compiled.limit && (
+                    <Notice error>
+                      Search exceeds the limit. Remove criteria to copy it; every condition is still
+                      retained.
+                    </Notice>
+                  )}
+                  {message && <Notice>{message}</Notice>}
+                </div>
+                <div id="search-options" className={styles.searchOptions} hidden={!showOptions}>
+                  <Field label="Preset name">
+                    <input
+                      value={name}
+                      maxLength={120}
+                      onChange={(e) => setName(e.target.value)}
+                      placeholder="e.g. Safe tier 15 maps"
+                    />
+                  </Field>
+                  <div className={styles.outputButtons}>
                     <Button
                       variant="secondary"
                       onClick={() => {
-                        const r = store.savePreset(name, category, editedId);
-                        setMessage(r.ok ? "Preset updated." : r.error!);
+                        const r = store.savePreset(name, category);
+                        setMessage(r.ok ? "Preset saved." : r.error!);
                       }}
                     >
-                      Update preset
+                      <Bookmark size={15} />
+                      Save preset
                     </Button>
-                  )}
+                    {editedId && (
+                      <Button
+                        variant="secondary"
+                        onClick={() => {
+                          const r = store.savePreset(name, category, editedId);
+                          setMessage(r.ok ? "Preset updated." : r.error!);
+                        }}
+                      >
+                        Update preset
+                      </Button>
+                    )}
+                  </div>
+                  <Button
+                    variant="ghost"
+                    disabled={!compiled.valid || !compiled.text}
+                    onClick={() => setPreview(true)}
+                  >
+                    Prepare trade <ArrowUpRight size={15} />
+                  </Button>
+                  <p className={styles.source}>
+                    Curated English snapshot · checked {REGEX_SOURCE.verified}.{" "}
+                    <a href="/data/poe2-regex.NOTICE.md" target="_blank" rel="noreferrer">
+                      Sources & limitations ↗
+                    </a>
+                  </p>
                 </div>
-                <Button
-                  variant="ghost"
-                  disabled={!compiled.valid || !compiled.text}
-                  onClick={() => setPreview(true)}
-                >
-                  Prepare trade <ArrowUpRight size={15} />
-                </Button>
-                {message && <Notice>{message}</Notice>}
-                <p className={styles.source}>
-                  Curated English snapshot · checked {REGEX_SOURCE.verified}.{" "}
-                  <a href="/data/poe2-regex.NOTICE.md" target="_blank" rel="noreferrer">
-                    Sources & limitations ↗
-                  </a>
-                </p>
               </section>
               <RegexItemTester draft={draft} />
             </aside>

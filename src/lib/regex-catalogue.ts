@@ -22,6 +22,8 @@ export type RegexModifier = {
   categories: RegexCategory[];
   label: string;
   template: string;
+  /** Compact in-game presence token, when verified for this item category. */
+  presencePattern?: string;
   numericDomain?: [number, number];
   numericSlot?: number;
   tradeStatId?: string;
@@ -93,12 +95,15 @@ export const REGEX_MODIFIERS: RegexModifier[] = [
     "explicit.stat_92381065",
     [0, 1000],
   ),
-  mod(
-    "chilled-ground",
-    ["waystone"],
-    "Area has patches of Chilled Ground",
-    "explicit.stat_349586058",
-  ),
+  {
+    ...mod(
+      "chilled-ground",
+      ["waystone"],
+      "Area has patches of Chilled Ground",
+      "explicit.stat_349586058",
+    ),
+    presencePattern: "chi",
+  },
   mod(
     "monster-speed",
     ["waystone"],
@@ -163,6 +168,7 @@ export type RegexProperty = {
   categories: RegexCategory[];
   kind: "range" | "text" | "select";
   templates?: string[];
+  searchTemplates?: string[];
   numericDomain?: [number, number];
   tradeField?: string;
   options?: { value: string; label: string }[];
@@ -182,6 +188,16 @@ const range = (
   categories,
   kind: "range",
   templates,
+  // Keep the number delimiter literal: .* could accept a suffix of an out-of-range roll.
+  searchTemplates: templates.map((t) =>
+    t
+      .replace("Item Rarity:", "m Rarity:")
+      .replace("Pack Size:", "k Size:")
+      .replace("Monster Effectiveness:", "r Effectiveness:")
+      .replace("Monster Rarity:", "r Rarity:")
+      .replace("Waystone Drop Chance:", "e Drop Chance:")
+      .replace("Revives Available:", "s Available:"),
+  ),
   numericDomain: domain,
   tradeField,
   source: propertySource,
