@@ -1,11 +1,11 @@
 export type ItemLine = { text: string; line: number; section: number };
-export type ParsedModifier = ItemLine & { originalText:string; actualRolls:number[]; annotations:([number,number]|null)[]; affixType?:"Prefix"|"Suffix"; tier?:string };
+export type ParsedModifier = ItemLine & { originalText:string; actualRolls:number[]; annotations:([number,number]|null)[]; affixType?:"Prefix"|"Suffix"; tier?:string; affixIndex?:number };
 export type ParsedItem = { original:string; lines:ItemLine[]; rarity?:string; name?:string; base?:string; itemClass?:string; itemLevel?:number; requiredLevel?:number; requirements:Record<string,number>; properties:Record<string,number>; corrupted:boolean; modifiers:ParsedModifier[]; unknownLines:ItemLine[] };
 export function parseItemText(text:string):ParsedItem {
   if(new TextEncoder().encode(text).length>65536) throw new Error("Item text must be at most 64 KiB.");
   const item:ParsedItem={original:text,lines:[],requirements:{},properties:{},corrupted:false,modifiers:[],unknownLines:[]};
   let section=0, rarityLine=-1, requirements=false;
-  let annotation:{affixType?:"Prefix"|"Suffix";tier?:string}={};
+  let annotation:{affixType?:"Prefix"|"Suffix";tier?:string;affixIndex?:number}={};
   const propertyKeys:Record<string,string>={Quality:"quality",Sockets:"sockets","Attacks per Second":"attackRate","Item Rarity":"itemRarity","Waystone Tier":"waystoneTier",Armour:"armour","Energy Shield":"energyShield","Evasion Rating":"evasion",Spirit:"spirit","Critical Hit Chance":"criticalChance","Chance to Block":"blockChance"};
   text.replaceAll("\r\n","\n").split("\n").forEach((raw,line)=>{
     const value=raw.trim();const entry={text:raw,line,section};item.lines.push(entry);
@@ -23,7 +23,7 @@ export function parseItemText(text:string):ParsedItem {
     }
     if(rarityLine>=0&&section===0&&line>rarityLine){if(!item.name)item.name=value;else if(!item.base)item.base=value;else item.unknownLines.push(entry);return;}
     const affix=value.match(/^\{.*\b(Prefix|Suffix)\b.*(?:Tier:\s*([^}" ]+))?.*\}$/i);
-    if(affix){annotation={affixType:affix[1].toLowerCase()==="prefix"?"Prefix":"Suffix",tier:value.match(/Tier:\s*(\d+)/i)?.[1]};return;}
+    if(affix){annotation={affixType:affix[1].toLowerCase()==="prefix"?"Prefix":"Suffix",tier:value.match(/Tier:\s*(\d+)/i)?.[1],affixIndex:line};return;}
     if(value.startsWith("{")||value.startsWith("(")){item.unknownLines.push(entry);return;}
     const annotations:([number,number]|null)[]=[]; const rolls:number[]=[];
     const normalized=value.replace(/([+-]?\d+(?:\.\d+)?)(?:\(([+-]?\d+(?:\.\d+)?)-([+-]?\d+(?:\.\d+)?)\))?/g,(_,actual,a,b)=>{rolls.push(Number(actual));annotations.push(a===undefined?null:[Number(a),Number(b)]);return actual;});

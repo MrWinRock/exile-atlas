@@ -1,0 +1,11 @@
+import type {GameSnapshot} from "./game-data";
+export const CORE_CRAFT_OPERATIONS:GameSnapshot["currencyOperations"]=[
+ {id:"Metadata/Items/Currency/CurrencyUpgradeToMagic",name:"Orb of Transmutation",effect:"Turns normal equipment magic with one random affix.",rarities:["Normal"],source:"https://poe2db.tw/us/Orb_of_Transmutation"},
+ {id:"Metadata/Items/Currency/CurrencyAddModToMagic",name:"Orb of Augmentation",effect:"Adds one random affix to magic equipment.",rarities:["Magic"],addsAffix:true,source:"https://poe2db.tw/us/Orb_of_Augmentation"},
+ {id:"Metadata/Items/Currency/CurrencyUpgradeMagicToRare",name:"Regal Orb",effect:"Turns magic equipment rare and adds one random affix.",rarities:["Magic"],source:"https://poe2db.tw/us/Regal_Orb"},
+ {id:"Metadata/Items/Currency/CurrencyAddModToRare",name:"Exalted Orb",effect:"Adds one random affix to rare equipment.",rarities:["Rare"],addsAffix:true,source:"https://poe2db.tw/us/Exalted_Orb"},
+ {id:"Metadata/Items/Currency/CurrencyUpgradeToRare",name:"Orb of Alchemy",effect:"Turns normal equipment rare with four random affixes.",rarities:["Normal"],source:"https://poe2db.tw/us/Orb_of_Alchemy"},
+ {id:"Metadata/Items/Currency/CurrencyRerollRare",name:"Chaos Orb",effect:"Replaces one random affix on rare equipment.",rarities:["Rare"],source:"https://poe2db.tw/us/Chaos_Orb"},
+ {id:"Metadata/Items/Currency/CurrencyRemoveMod",name:"Orb of Annulment",effect:"Removes one random affix from magic or rare equipment.",rarities:["Magic","Rare"],source:"https://poe2db.tw/us/Orb_of_Annulment"},
+ {id:"Metadata/Items/Currency/CurrencyUpgradeRandomly",name:"Orb of Chance",effect:"May produce a unique item or destroy normal equipment.",rarities:["Normal"],source:"https://poe2db.tw/us/Orb_of_Chance"}
+];
