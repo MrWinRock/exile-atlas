@@ -68,10 +68,10 @@
   white-space: nowrap;
 }
 .first {
-  --mode-color: #74c99a;
+  --mode-color: #e67878;
 }
 .second {
-  --mode-color: #83b9ed;
+  --mode-color: #74c99a;
 }
 .active {
   border-color: var(--mode-color);

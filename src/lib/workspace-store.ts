@@ -19,6 +19,7 @@ type WorkspaceStore = {
   weaponSet1Allocations: string[];
   weaponSet2Allocations: string[];
   weaponSet: AllocationMode;
+  showBothWeaponSets: boolean;
   ascendancy: string;
   classIndex: number;
   saveBuild: (build: Build, id?: string) => string;
@@ -28,6 +29,7 @@ type WorkspaceStore = {
   setAllocations: (ids: string[]) => void;
   setPassivePlan: (plan: PassivePlan) => void;
   setWeaponSet: (mode: AllocationMode) => void;
+  setShowBothWeaponSets: (value: boolean) => void;
   setAscendancy: (id: string) => void;
   setClassIndex: (index: number) => void;
   clearDrafts: () => void;
@@ -41,6 +43,7 @@ export const useWorkspace = create<WorkspaceStore>()(
       weaponSet1Allocations: [],
       weaponSet2Allocations: [],
       weaponSet: 0,
+      showBothWeaponSets: false,
       ascendancy: "",
       classIndex: 6,
       saveBuild: (build, id) => {
@@ -73,6 +76,7 @@ export const useWorkspace = create<WorkspaceStore>()(
           weaponSet2Allocations: plan.weapon2,
         }),
       setWeaponSet: (weaponSet) => set({ weaponSet }),
+      setShowBothWeaponSets: (showBothWeaponSets) => set({ showBothWeaponSets }),
       setAscendancy: (ascendancy) => set({ ascendancy }),
       setClassIndex: (classIndex) =>
         set({

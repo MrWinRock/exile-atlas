@@ -21,6 +21,7 @@ import {
 } from "@/lib/passive-plan";
 import { PlannerSelect } from "./planner-select";
 import styles from "./planner.module.css";
+import { passiveMembership } from "@/lib/passive-display";
 
 const emptyPlan = { shared: [], weapon1: [], weapon2: [] };
 const modes = ["Shared", "Weapon set I", "Weapon set II"] as const;
@@ -293,6 +294,9 @@ export function Planner() {
                   weaponSet={mode || undefined}
                   highlight={selected}
                   onSelect={setSelected}
+                  display={{...plan,shared:[...plan.shared,...passiveRoots(visibleTree,classIndex,ascendancy)],mode,showBoth:store.showBothWeaponSets??false}}
+                  onModeChange={store.setWeaponSet}
+                  onShowBothChange={store.setShowBothWeaponSets}
                 />
               </section>
               <aside className="panel node-panel">
@@ -315,6 +319,7 @@ export function Planner() {
                       <p key={i}>{s}</p>
                     ))}
                     <code>{selectedNode.id}</code>
+                    <p data-testid="passive-membership">{passiveMembership({...plan,mode,showBoth:true},selectedNode.hash).map(s=>modes[s]).join(" · ") || "Unallocated"}</p>
                     {selectedNode.kind === "start" ? (
                       <Badge tone="amber">PERMANENT START</Badge>
                     ) : allocated.includes(selectedNode.hash) ? (
