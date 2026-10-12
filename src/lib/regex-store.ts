@@ -1,6 +1,7 @@
 "use client";
 import { create } from "zustand";
-import { persist, createJSONStorage, type StateStorage } from "zustand/middleware";
+import { persist, createJSONStorage } from "zustand/middleware";
+import { recoverableBrowserStorage } from "./browser-storage";
 import { REGEX_CATEGORIES } from "./regex-catalogue";
 import {
   createRegexDraft,
@@ -32,55 +33,32 @@ const freshDrafts = () =>
     RegexCategory,
     RegexDraft
   >;
-/** Swallow storage failures only after reporting them; Zustand memory remains usable. */
-export function recoverableRegexStorage(
-  storage: StateStorage,
-  report: (message: string) => void,
-): StateStorage {
-  return {
-    getItem: (name) => {
-      try {
-        return storage.getItem(name);
-      } catch {
-        report("Browser storage could not be read. Export presets to keep a backup.");
-        return null;
-      }
-    },
-    setItem: (name, value) => {
-      try {
-        storage.setItem(name, value);
-      } catch {
-        report("Browser storage could not be saved. Export presets before closing this page.");
-      }
-    },
-    removeItem: (name) => {
-      try {
-        storage.removeItem(name);
-      } catch {
-        report("Browser storage could not be cleared.");
-      }
-    },
-  };
-}
+export { recoverableBrowserStorage as recoverableRegexStorage } from "./browser-storage";
+let warningOnly = false;
 const reportStorage = (message: string) =>
   queueMicrotask(() => {
-    if (useRegexWorkspace.getState().warning !== message)
-      useRegexWorkspace.setState({ warning: message });
+    if (useRegexWorkspace.getState().warning !== message) {
+      warningOnly = true;
+      try {
+        useRegexWorkspace.setState({ warning: message });
+      } finally {
+        warningOnly = false;
+      }
+    }
   });
-const storage = createJSONStorage(() =>
-  recoverableRegexStorage(
-    {
-      getItem: (k) => (typeof window === "undefined" ? null : window.localStorage.getItem(k)),
-      setItem: (k, v) => {
-        if (typeof window !== "undefined") window.localStorage.setItem(k, v);
-      },
-      removeItem: (k) => {
-        if (typeof window !== "undefined") window.localStorage.removeItem(k);
-      },
+const safeStorage = recoverableBrowserStorage(
+  {
+    getItem: (k) => (typeof window === "undefined" ? null : window.localStorage.getItem(k)),
+    setItem: (k, v) => {
+      if (!warningOnly && typeof window !== "undefined") window.localStorage.setItem(k, v);
     },
-    reportStorage,
-  ),
+    removeItem: (k) => {
+      if (typeof window !== "undefined") window.localStorage.removeItem(k);
+    },
+  },
+  reportStorage,
 );
+const storage = createJSONStorage(() => safeStorage);
 export const useRegexWorkspace = create<RegexWorkspace>()(
   persist(
     (set, get) => {
@@ -174,8 +152,10 @@ export const useRegexWorkspace = create<RegexWorkspace>()(
             const imported = parseRegexPresetImport(text, get().presets.length);
             set((s) => ({ presets: [...s.presets, ...imported] }));
           }),
-        clearAll: () =>
-          set({ drafts: freshDrafts(), presets: [], activeTab: "waystone", warning: "" }),
+        clearAll: () => {
+          useRegexWorkspace.persist.clearStorage();
+          set({ drafts: freshDrafts(), presets: [], activeTab: "waystone", warning: "" });
+        },
       };
     },
     {
@@ -184,6 +164,7 @@ export const useRegexWorkspace = create<RegexWorkspace>()(
       skipHydration: true,
       partialize: (s) => ({ drafts: s.drafts, presets: s.presets, activeTab: s.activeTab }),
       merge: (raw, current) => {
+        if (safeStorage.suspended()) return current;
         const decoded = decodeRegexState(raw);
         return {
           ...current,
@@ -194,10 +175,12 @@ export const useRegexWorkspace = create<RegexWorkspace>()(
         };
       },
       onRehydrateStorage: () => (_state, error) => {
-        if (error)
+        if (error) {
+          safeStorage.suspend();
           reportStorage(
             "Saved search data could not be loaded. Export any available presets before resetting.",
           );
+        }
       },
     },
   ),

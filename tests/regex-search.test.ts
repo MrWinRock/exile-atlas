@@ -19,6 +19,16 @@ test("integer ranges are exact across digit and sign boundaries", () => {
     expect(re.test(String(max + 1))).toBe(false);
   }
 });
+test("one practical minimum-value search fits the game budget without broadening", () => {
+  const d = createRegexDraft("equipment");
+  d.wanted = [{ id: "life", min: "50", max: "" }];
+  const c = compileRegexSearch(d);
+  expect(c.copyable).toBe(true);
+  expect(c.length).toBeLessThan(120);
+  const re = new RegExp(c.groups[0].conditions[0].pattern, "i");
+  for (const n of [49, 50, 99, 100, 999, 1000, 99999, 100000])
+    expect(re.test(`+${n} to maximum Life`)).toBe(n >= 50 && n <= 99999);
+});
 test("the selected numeric slot is constrained without using an unrelated roll", () => {
   const re = new RegExp("^" + templatePattern("# to # Physical Damage", [10, 20], 1));
   expect(re.test("1 to 15 Physical Damage")).toBe(true);

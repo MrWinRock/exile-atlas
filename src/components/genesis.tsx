@@ -10,6 +10,7 @@ import {
   allocateGenesisPath,
   refundGenesisNode,
   validateGenesisPlan,
+  repairGenesisPlan,
 } from "@/lib/genesis-plan";
 import { useGenesisWorkspace } from "@/lib/genesis-store";
 import { exportGenesisPlans } from "@/lib/genesis-presets";
@@ -73,6 +74,7 @@ export function Genesis() {
       `${n.name} ${n.effects.join(" ")}`.toLowerCase().includes(search.toLowerCase()),
   );
   const selectedValid = !!node && node.branch === branch;
+  const selectionPath=node?genesisPath(data,plan,node.id):undefined;
   function chooseBranch(value: GenesisBranch) {
     setBranch(value);
     setSelected("");
@@ -126,12 +128,35 @@ export function Genesis() {
       </div>
       {store.warning && <Notice error>{store.warning}</Notice>}
       {errors.length > 0 && <Notice error>{errors.join(" ")}</Notice>}
+      {errors.some(
+        (e) => e.startsWith("Disconnected node:") || e.startsWith("Roots are implicit"),
+      ) && (
+        <Notice>
+          Repair adds missing connected paths and removes implicit roots from the point count. Known
+          planned nodes and unrelated branches are retained.
+          <Button
+            variant="secondary"
+            onClick={() => {
+              const result = repairGenesisPlan(data, plan);
+              if (result.error) setMessage(result.error);
+              else {
+                store.setPlan(result.plan);
+                setMessage("Connections repaired. All known planned nodes are retained.");
+              }
+            }}
+          >
+            Repair connections
+          </Button>
+        </Notice>
+      )}
       {plan.dataset !== data.identity && (
         <Button
           variant="secondary"
           onClick={() => {
             const candidate = { ...plan, dataset: data.identity };
-            const e = validateGenesisPlan(data, candidate);
+            const e = validateGenesisPlan(data, candidate).filter((e) =>
+              e.startsWith("Unknown node:"),
+            );
             if (e.length) setMessage(e.join(" "));
             else {
               store.setPlan(candidate);
@@ -277,7 +302,7 @@ export function Genesis() {
                   ) : (
                     <Button
                       variant="secondary"
-                      disabled={errors.length > 0}
+                      disabled={!!selectionPath?.error&&!selectionPath.ids.length}
                       onClick={() => setPreview(node.id)}
                     >
                       Preview allocation

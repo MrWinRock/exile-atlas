@@ -53,7 +53,55 @@ export function integerRangePattern(min: number, max: number): string {
       const place = 10 ** (len - 1);
       for (let d = 1; d <= 9; d++) visit(String(d), len - 1, d * place, (d + 1) * place - 1);
     }
-    return patterns;
+    // Collapse sibling digit prefixes, then contiguous wildcard lengths. Both
+    // transformations are exact unions, so compactness never broadens a range.
+    const siblings = new Map<string, { prefix: string; suffix: string; digits: number[] }>();
+    for (const pattern of patterns) {
+      const match = /^(\d*)(\d)(\[0-9\](?:\{\d+\})?)?$/.exec(pattern)!;
+      const prefix = match[1],
+        suffix = match[3] ?? "",
+        key = prefix + ":" + suffix;
+      const group = siblings.get(key) ?? { prefix, suffix, digits: [] };
+      group.digits.push(Number(match[2]));
+      siblings.set(key, group);
+    }
+    const digitClass = (digits: number[]) => {
+      const ordered = [...new Set(digits)].sort((a, b) => a - b);
+      if (ordered.length === 1) return String(ordered[0]);
+      let text = "";
+      for (let i = 0; i < ordered.length; i++) {
+        let end = i;
+        while (end + 1 < ordered.length && ordered[end + 1] === ordered[end] + 1) end++;
+        text += end - i >= 2 ? `${ordered[i]}-${ordered[end]}` : ordered.slice(i, end + 1).join("");
+        i = end;
+      }
+      return `[${text}]`;
+    };
+    const collapsed = [...siblings.values()].map((g) => g.prefix + digitClass(g.digits) + g.suffix);
+    const lengths = new Map<string, number[]>(),
+      compact: string[] = [];
+    for (const pattern of collapsed) {
+      const match = /^(.*)\[0-9\](?:\{(\d+)\})?$/.exec(pattern);
+      if (!match) {
+        compact.push(pattern);
+        continue;
+      }
+      const counts = lengths.get(match[1]) ?? [];
+      counts.push(Number(match[2] ?? 1));
+      lengths.set(match[1], counts);
+    }
+    for (const [prefix, counts] of lengths) {
+      counts.sort((a, b) => a - b);
+      for (let i = 0; i < counts.length; i++) {
+        let end = i;
+        while (end + 1 < counts.length && counts[end + 1] === counts[end] + 1) end++;
+        const quantifier =
+          end > i ? `{${counts[i]},${counts[end]}}` : counts[i] === 1 ? "" : `{${counts[i]}}`;
+        compact.push(prefix + "[0-9]" + quantifier);
+        i = end;
+      }
+    }
+    return compact;
   };
   const parts: string[] = [];
   if (min < 0) {

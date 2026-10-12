@@ -37,6 +37,8 @@ Run `bun run worker` in another terminal to collect currency history. Check cont
 
 ## Features
 
+- Search Toolkit (`/regex`): five English generators for waystones, tablets, relics, vendor items and equipment; exact inclusive integer ranges, Any/All wanted modifiers, exclusions, length budgeting, clipboard feedback, and explained local item-text tests. Presets support rename/update/duplicate/favorite, browser persistence and versioned JSON import/export. Complete supported criteria can replace the existing trade draft after a preview; unmapped criteria block transfer. The curated modifier snapshot and local tester are references; game-client compatibility still needs in-game confirmation after patches.
+- Genesis Tree (`/genesis`): searchable crafting branches, verified graph geometry, connected path previews, allocation and cascading refunds, independent user-entered point budgets, effect/Wombgift references, and portable named plans. Imported unknown IDs remain visible; explicit connection repair preserves known targets. The bundled graph is a **historical 2026-07-04 snapshot**, with source identifier `4.5.4.3`, 243 records and 239 connections. It does not claim current patch parity, simulate choice mechanics/odds, detect account unlocks, or export Genesis allocations into `.build` files. Source details are in [public/data/poe2-genesis.NOTICE.md](public/data/poe2-genesis.NOTICE.md). Regenerate its integrity-checked pinned snapshot with `bun run scripts/prepare-genesis.ts`.
 - Overview with real counts from your browser workspace.
 - Build library: local persistence, validated JSON import, skills/supports, equipment hints, advanced JSON fields, `.build` download.
 - Filter editor: rule generator, styling preview, local syntax checks, local persistence, Monaco editor, `.filter` download, authenticated GGG create/update and full validation.
@@ -108,6 +110,8 @@ The separate Bun/BullMQ process backfills up to 24 completed hours at startup, t
 The `/api/status` configuration flags are setup diagnostics. `databaseConfigured` and `redisConfigured` indicate that connection values are present; `oauthConfigured` indicates that the required setup values pass local validation. These flags do not verify a running database, a working Redis connection, a running worker, or GGG approval. Historical trends require the database schema, PostgreSQL, Redis and the worker to be running. The VPS deployment runs schema setup and the worker through Compose services.
 
 ## Verification
+
+Search and Genesis libraries each accept up to 100 named records and 1 MiB JSON imports. Imports create copies and reject malformed files atomically. Failed storage reads suspend writes so unreadable saved data is preserved; export local changes before closing, or reload once browser storage is available. Settings clears both new stores only through its existing explicit confirmation.
 
 ```powershell
 bun run test

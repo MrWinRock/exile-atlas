@@ -1,4 +1,48 @@
 import { expect, test } from "@playwright/test";
+test("disconnected imports have explicit repair, and other branch budgets remain independent", async ({
+  page,
+}) => {
+  await page.goto("/genesis");
+  const data = await (await page.request.get("/data/poe2-genesis.json")).json();
+  const target = data.nodes.find((n: { name: string }) => n.name === "Nurture Divinity");
+  const ringRoot = data.nodes.find(
+    (n: { branch: string; root: boolean }) => n.branch === "Rings" && n.root,
+  );
+  const edge = data.edges.find((e: string[]) => e.includes(ringRoot.id));
+  const ringId = edge.find((id: string) => id !== ringRoot.id);
+  const ring = data.nodes.find((n: { id: string }) => n.id === ringId);
+  const file = {
+    format: "exile-atlas-genesis",
+    version: 1,
+    plans: [
+      {
+        id: "broken",
+        name: "Repair me",
+        plan: { dataset: data.identity, allocated: [target.id, ringRoot.id], budgets: {} },
+        createdAt: "2026-10-12T00:00:00Z",
+        updatedAt: "2026-10-12T00:00:00Z",
+      },
+    ],
+  };
+  await page
+    .getByLabel("Import Genesis plans", { exact: true })
+    .setInputFiles({
+      name: "broken.json",
+      mimeType: "application/json",
+      buffer: Buffer.from(JSON.stringify(file)),
+    });
+  await page.getByRole("button", { name: "Load Repair me", exact: true }).click();
+  await page.getByRole("button", { name: "Repair connections", exact: true }).click();
+  await expect(page.getByText(/Disconnected node:/)).toHaveCount(0);
+  await expect(page.getByText(/Roots are implicit/)).toHaveCount(0);
+  await page.getByLabel("Currency planning budget", { exact: true }).fill("0");
+  await page.getByRole("button", { name: "Rings", exact: true }).click();
+  await page.getByLabel("Search Genesis nodes", { exact: true }).fill(ring.name);
+  await page.getByRole("button", { name: `Select ${ring.name} (${ring.id})`, exact: true }).click();
+  await expect(page.getByRole("button", { name: "Preview allocation", exact: true })).toBeEnabled();
+  await page.getByRole("button", { name: "Preview allocation", exact: true }).click();
+  await expect(page.getByRole("button", { name: "Allocate path", exact: true })).toBeEnabled();
+});
 test("wheel zoom does not cause passive-listener errors", async ({ page }) => {
   const errors: string[] = [];
   page.on("console", (m) => {

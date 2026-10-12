@@ -205,6 +205,7 @@ export function RegexToolkit() {
                           />
                         ) : (
                           <select
+                            aria-label={p.label}
                             value={typeof value === "string" ? value : ""}
                             onChange={(e) =>
                               store.setDraft({
@@ -230,7 +231,7 @@ export function RegexToolkit() {
                   hint="Literal text, safely escaped. It must also appear on the item."
                 >
                   <input
-                  aria-label="Additional text"
+                    aria-label="Additional text"
                     value={draft.text}
                     maxLength={1000}
                     onChange={(e) => store.setDraft({ ...draft, text: e.target.value })}
@@ -326,6 +327,30 @@ export function RegexToolkit() {
                       Unsupported criterion: {m.id}{" "}
                       <Button variant="ghost" onClick={() => chooseModifier(m.id, "ignore")}>
                         Remove criterion
+                      </Button>
+                    </Notice>
+                  ))}
+                {Object.entries(draft.properties)
+                  .filter(
+                    ([id]) =>
+                      !REGEX_PROPERTIES.some((p) => p.id === id && p.categories.includes(category)),
+                  )
+                  .map(([id, value]) => (
+                    <Notice error key={id}>
+                      Unsupported property: {id} ·{" "}
+                      {typeof value === "string"
+                        ? value
+                        : `${value.min || "Any"} to ${value.max || "Any"}`}
+                      <Button
+                        variant="ghost"
+                        aria-label={`Remove property ${id}`}
+                        onClick={() => {
+                          const properties = { ...draft.properties };
+                          delete properties[id];
+                          store.setDraft({ ...draft, properties });
+                        }}
+                      >
+                        Remove property
                       </Button>
                     </Notice>
                   ))}

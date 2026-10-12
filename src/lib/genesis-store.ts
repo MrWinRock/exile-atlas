@@ -1,6 +1,7 @@
 "use client";
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
+import { recoverableBrowserStorage } from "./browser-storage";
 import type { GenesisPlan } from "./genesis-plan";
 import {
   genesisPlanSchema,
@@ -23,35 +24,32 @@ type GenesisWorkspace = {
   resetCurrent: (data: { identity: string }) => void;
   clearAll: () => void;
 };
+let warningOnly = false;
 const report = (message: string) =>
   queueMicrotask(() => {
-    if (useGenesisWorkspace.getState().warning !== message)
-      useGenesisWorkspace.setState({ warning: message });
+    if (useGenesisWorkspace.getState().warning !== message) {
+      warningOnly = true;
+      try {
+        useGenesisWorkspace.setState({ warning: message });
+      } finally {
+        warningOnly = false;
+      }
+    }
   });
-const storage = createJSONStorage(() => ({
-  getItem: (key: string) => {
-    try {
-      return typeof window === "undefined" ? null : window.localStorage.getItem(key);
-    } catch {
-      report("Genesis storage could not be read. Keep an exported backup.");
-      return null;
-    }
-  },
-  setItem: (key: string, value: string) => {
-    try {
-      if (typeof window !== "undefined") window.localStorage.setItem(key, value);
-    } catch {
-      report("Genesis storage could not be saved. Export plans before closing.");
-    }
-  },
-  removeItem: (key: string) => {
-    try {
+const safeStorage = recoverableBrowserStorage(
+  {
+    getItem: (key: string) =>
+      typeof window === "undefined" ? null : window.localStorage.getItem(key),
+    setItem: (key: string, value: string) => {
+      if (!warningOnly && typeof window !== "undefined") window.localStorage.setItem(key, value);
+    },
+    removeItem: (key: string) => {
       if (typeof window !== "undefined") window.localStorage.removeItem(key);
-    } catch {
-      report("Genesis storage could not be cleared.");
-    }
+    },
   },
-}));
+  report,
+);
+const storage = createJSONStorage(() => safeStorage);
 export const useGenesisWorkspace = create<GenesisWorkspace>()(
   persist(
     (set, get) => {
@@ -136,7 +134,10 @@ export const useGenesisWorkspace = create<GenesisWorkspace>()(
           }),
         resetCurrent: (data) =>
           set({ current: { dataset: data.identity, allocated: [], budgets: {} } }),
-        clearAll: () => set({ current: null, plans: [], warning: "" }),
+        clearAll: () => {
+          useGenesisWorkspace.persist.clearStorage();
+          set({ current: null, plans: [], warning: "" });
+        },
       };
     },
     {
@@ -145,6 +146,7 @@ export const useGenesisWorkspace = create<GenesisWorkspace>()(
       storage,
       partialize: (s) => ({ current: s.current, plans: s.plans }),
       merge: (raw, current) => {
+        if (safeStorage.suspended()) return current;
         if (!raw || typeof raw !== "object") return current;
         const value = raw as { current?: unknown; plans?: unknown },
           plan = genesisPlanSchema.safeParse(value.current),
@@ -164,10 +166,12 @@ export const useGenesisWorkspace = create<GenesisWorkspace>()(
         return { ...current, current: plan.success ? plan.data : null, plans, warning };
       },
       onRehydrateStorage: () => (_state, error) => {
-        if (error)
+        if (error) {
+          safeStorage.suspend();
           report(
             "Saved Genesis data could not be loaded. Export available plans before resetting.",
           );
+        }
       },
     },
   ),

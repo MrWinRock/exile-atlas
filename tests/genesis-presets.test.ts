@@ -34,3 +34,31 @@ test("current reset preserves saved plans and rejected imports leave the library
   expect(useGenesisWorkspace.getState().plans).toHaveLength(2);
   s.clearAll();
 });
+test("a failed Genesis storage read never writes empty state over existing plans", async () => {
+  const descriptor = Object.getOwnPropertyDescriptor(globalThis, "window"),
+    writes: string[] = [];
+  Object.defineProperty(globalThis, "window", {
+    configurable: true,
+    value: {
+      localStorage: {
+        getItem: () => {
+          throw new Error("read denied");
+        },
+        setItem: (_key: string, value: string) => writes.push(value),
+        removeItem: () => {},
+      },
+    },
+  });
+  try {
+    await useGenesisWorkspace.persist.rehydrate();
+    await Promise.resolve();
+    useGenesisWorkspace
+      .getState()
+      .setPlan({ dataset: "memory", allocated: ["retained"], budgets: {} });
+    expect(writes).toHaveLength(0);
+    expect(useGenesisWorkspace.getState().current?.allocated).toEqual(["retained"]);
+  } finally {
+    if (descriptor) Object.defineProperty(globalThis, "window", descriptor);
+    else Reflect.deleteProperty(globalThis, "window");
+  }
+});

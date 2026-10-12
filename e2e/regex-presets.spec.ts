@@ -1,4 +1,43 @@
 import { expect, test } from "@playwright/test";
+test("unknown imported properties can be removed without losing valid criteria", async ({
+  page,
+}) => {
+  await page.goto("/regex");
+  await page.getByRole("tab", { name: /Presets/ }).click();
+  const file = {
+    format: "exile-atlas-regex",
+    version: 1,
+    presets: [
+      {
+        id: "old",
+        name: "Older properties",
+        draft: {
+          category: "equipment",
+          match: "any",
+          wanted: [],
+          unwanted: [],
+          properties: { obsolete: { min: "10", max: "" }, rarity: "rare" },
+          text: "",
+        },
+        favorite: false,
+        createdAt: "2026-10-12T00:00:00Z",
+        updatedAt: "2026-10-12T00:00:00Z",
+      },
+    ],
+  };
+  await page
+    .getByLabel("Import preset file", { exact: true })
+    .setInputFiles({
+      name: "old.json",
+      mimeType: "application/json",
+      buffer: Buffer.from(JSON.stringify(file)),
+    });
+  await page.getByRole("button", { name: "Load Older properties", exact: true }).click();
+  await expect(page.getByRole("button", { name: "Copy search", exact: true })).toBeDisabled();
+  await page.getByRole("button", { name: "Remove property obsolete", exact: true }).click();
+  await expect(page.getByLabel("Rarity", { exact: true })).toHaveValue("rare");
+  await expect(page.getByRole("button", { name: "Copy search", exact: true })).toBeEnabled();
+});
 test("presets survive reload and support update, favorites, duplicates and portable files", async ({
   page,
 }) => {
@@ -19,13 +58,11 @@ test("presets survive reload and support update, favorites, duplicates and porta
   const download = page.waitForEvent("download");
   await page.getByRole("button", { name: "Export all presets", exact: true }).click();
   expect((await download).suggestedFilename()).toBe("exile-atlas-presets.json");
-  await page
-    .getByLabel("Import preset file", { exact: true })
-    .setInputFiles({
-      name: "bad.json",
-      mimeType: "application/json",
-      buffer: Buffer.from("bad json"),
-    });
+  await page.getByLabel("Import preset file", { exact: true }).setInputFiles({
+    name: "bad.json",
+    mimeType: "application/json",
+    buffer: Buffer.from("bad json"),
+  });
   await expect(page.getByRole("status").filter({ hasText: "valid JSON" })).toBeVisible();
   await expect(page.getByText("Vendor boots (copy)", { exact: true })).toBeVisible();
   await page.getByRole("button", { name: "Delete Vendor boots (copy)", exact: true }).click();

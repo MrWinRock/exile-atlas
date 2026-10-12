@@ -53,3 +53,21 @@ test("budgets, stale IDs and mismatched datasets block mutation", () => {
   expect(validateGenesisPlan(fixture, { ...p, dataset: "other" }).length).toBeGreaterThan(0);
   expect(validateGenesisPlan(fixture, { ...p, allocated: ["unknown"] }).length).toBeGreaterThan(0);
 });
+test("one branch exceeding its planning budget does not block another branch", () => {
+  const p = {
+    ...allocateGenesisPath(fixture, createGenesisPlan(fixture), "b").plan,
+    budgets: { Currency: 0 },
+  };
+  const result = allocateGenesisPath(fixture, p, "c");
+  expect(result.error).toBeUndefined();
+  expect(result.plan.allocated).toEqual(["a", "b", "c"]);
+});
+test("explicit connection repair preserves planned descendants and unrelated branches", async () => {
+  const { repairGenesisPlan } = await import("../src/lib/genesis-plan");
+  const p = { ...createGenesisPlan(fixture), allocated: ["b", "c", "root"] };
+  const result = repairGenesisPlan(fixture, p);
+  expect(result.error).toBeUndefined();
+  expect(new Set(result.plan.allocated)).toEqual(new Set(["a", "b", "c"]));
+  expect(p.allocated).toEqual(["b", "c", "root"]);
+  expect(repairGenesisPlan(fixture, { ...p, allocated: ["obsolete"] }).error).toBeDefined();
+});

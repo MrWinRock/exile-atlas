@@ -75,11 +75,13 @@ export function genesisPath(
   plan: GenesisPlan,
   target: string,
 ): { ids: string[]; error?: string } {
-  const errors = validateGenesisPlan(data, plan);
-  if (errors.length) return { ids: [], error: errors.join(" ") };
   const { nodes, neighbors } = graph(data),
     node = nodes.get(target);
   if (!node) return { ids: [], error: "Unknown Genesis node." };
+  const errors = validateGenesisPlan(data, plan).filter(
+    (e) => !e.includes("planning budget") || e.startsWith(`${node.branch}:`),
+  );
+  if (errors.length) return { ids: [], error: errors.join(" ") };
   if (node.root || plan.allocated.includes(target)) return { ids: [] };
   const seeds = data.nodes
     .filter((n) => n.branch === node.branch && (n.root || plan.allocated.includes(n.id)))
@@ -126,4 +128,23 @@ export function refundGenesisNode(
   const kept = plan.allocated.filter((id) => id !== target),
     reached = reachable(data, kept);
   return { ...plan, allocated: kept.filter((id) => reached.has(id)) };
+}
+/** Explicit repair keeps every known planned target and adds its missing path. */
+export function repairGenesisPlan(
+  data: GenesisData,
+  plan: GenesisPlan,
+): { plan: GenesisPlan; error?: string } {
+  if (plan.dataset !== data.identity)
+    return { plan, error: "Review the dataset identity before repairing connections." };
+  const nodes = new Map(data.nodes.map((n) => [n.id, n]));
+  if (plan.allocated.some((id) => !nodes.has(id)))
+    return { plan, error: "Remove or resolve unknown node IDs before repairing connections." };
+  let repaired: GenesisPlan = { ...plan, allocated: [] };
+  for (const target of plan.allocated) {
+    if (nodes.get(target)!.root) continue;
+    const next = allocateGenesisPath(data, repaired, target);
+    if (next.error) return { plan, error: next.error };
+    repaired = next.plan;
+  }
+  return { plan: repaired };
 }

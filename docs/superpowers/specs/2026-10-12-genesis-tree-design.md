@@ -1,7 +1,7 @@
 # Genesis Tree explorer and local planner
 
 Date: 2026-10-12
-Status: Proposed design for the user's requested Genesis addition.
+Status: Approved design; implementation plan also approved on 2026-10-12.
 
 ## Intent
 

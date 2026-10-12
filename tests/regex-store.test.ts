@@ -43,5 +43,65 @@ test("throwing storage reports failures without losing memory or throwing", () =
   );
   expect(storage.getItem("draft")).toBeNull();
   expect(() => storage.setItem("draft", "data")).not.toThrow();
+  expect(reports).toHaveLength(1);
+  const writable = recoverableRegexStorage(
+    {
+      getItem: () => null,
+      setItem: () => {
+        throw new Error("quota");
+      },
+      removeItem: () => {},
+    },
+    (m) => reports.push(m),
+  );
+  expect(() => writable.setItem("draft", "data")).not.toThrow();
   expect(reports).toHaveLength(2);
+});
+test("a failed storage read never overwrites the existing saved library", async () => {
+  const descriptor = Object.getOwnPropertyDescriptor(globalThis, "window"),
+    writes: string[] = [];
+  const original = JSON.stringify({
+    state: {
+      presets: [
+        {
+          id: "kept",
+          name: "Keep me",
+          draft: createRegexDraft("equipment"),
+          favorite: false,
+          createdAt: "2026-10-12T00:00:00Z",
+          updatedAt: "2026-10-12T00:00:00Z",
+        },
+      ],
+    },
+    version: 0,
+  });
+  let stored = original;
+  Object.defineProperty(globalThis, "window", {
+    configurable: true,
+    value: {
+      localStorage: {
+        getItem: () => {
+          throw new Error("temporarily unreadable");
+        },
+        setItem: (_key: string, value: string) => {
+          writes.push(value);
+          stored = value;
+        },
+        removeItem: () => {},
+      },
+    },
+  });
+  try {
+    await useRegexWorkspace.persist.rehydrate();
+    await Promise.resolve();
+    useRegexWorkspace
+      .getState()
+      .setDraft({ ...createRegexDraft("vendor"), text: "unsaved local change" });
+    expect(stored).toBe(original);
+    expect(writes).toHaveLength(0);
+    expect(useRegexWorkspace.getState().drafts.vendor.text).toBe("unsaved local change");
+  } finally {
+    if (descriptor) Object.defineProperty(globalThis, "window", descriptor);
+    else Reflect.deleteProperty(globalThis, "window");
+  }
 });
