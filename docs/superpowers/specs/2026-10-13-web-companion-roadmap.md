@@ -82,8 +82,17 @@ reload, save/export/import, and viewing both never change stored allocations or 
   meaningful parser/data/logic tests plus desktop/mobile integration tests,
   typecheck, lint, production build, and independent review precede release.
 
-## Review status
+## Implementation plans and review status
 
-Prepared for user review. Product implementation has not started. The next stage
-is detailed implementation planning after approval of these written requirements.
+The user approved these written specifications on 2026-10-13. Product implementation
+has not started. Implementation plans are prepared for review in dependency order:
+
+1. [Weapon-set views](../plans/2026-10-13-weapon-set-views.md)
+2. [Item inspection, datasets and regex coverage](../plans/2026-10-13-item-data-search.md)
+3. [Map safety and crafting workbench](../plans/2026-10-13-safety-crafting.md)
+4. [Build comparison and final release verification](../plans/2026-10-13-build-comparison.md)
+
+After written-plan review, use the already selected direct implementation in this
+chat and current checkout, followed by one independent final review. The existing
+authorization to merge master for deployment remains the release instruction.
 
