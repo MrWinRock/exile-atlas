@@ -1,6 +1,6 @@
 import { expect, test } from "bun:test";
 import { createRegexDraft } from "../src/lib/regex-schema";
-import { compileRegexSearch, integerRangePattern } from "../src/lib/regex-search";
+import { compileRegexSearch, integerRangePattern, templatePattern } from "../src/lib/regex-search";
 
 test("integer ranges are exact across digit and sign boundaries", () => {
   for (const [min, max] of [[0,0],[9,11],[19,21],[99,101],[-12,-9],[-2,2],[0,99999]]) {
@@ -9,6 +9,11 @@ test("integer ranges are exact across digit and sign boundaries", () => {
     expect(re.test(String(max))).toBe(true);
     expect(re.test(String(max + 1))).toBe(false);
   }
+});
+test("the selected numeric slot is constrained without using an unrelated roll",()=>{
+  const re=new RegExp("^"+templatePattern("# to # Physical Damage",[10,20],1));
+  expect(re.test("1 to 15 Physical Damage")).toBe(true);
+  expect(re.test("15 to 100 Physical Damage")).toBe(false);
 });
 test("modifier ranges reject longer numbers and preserve negative sign", () => {
   const d = createRegexDraft("equipment");
@@ -47,4 +52,8 @@ test("literals cannot inject tokens, alternatives, or uncontrolled regex", () =>
   const c=compileRegexSearch(d); const re=new RegExp(c.groups[0].conditions[0].pattern,"i");
   expect(re.test(d.text)).toBe(true); expect(re.test("x")).toBe(false);
   expect(c.text).not.toContain('"x"');
+});
+test("an exclusion with no bounds excludes the modifier regardless of sign",()=>{
+  const d=createRegexDraft("equipment");d.unwanted=[{id:"life",min:"",max:""}];
+  const c=compileRegexSearch(d);expect(new RegExp(c.groups[0].conditions[0].pattern,"i").test("-10 to maximum Life")).toBe(true);
 });

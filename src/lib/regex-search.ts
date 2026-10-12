@@ -42,12 +42,13 @@ export function rangeBounds(value:RegexRange,domain:[number,number],label:string
   return [min,max];
 }
 export const hasRegexValue=(v:string|RegexRange)=>typeof v==="string"?!!v.trim():!!(v.min.trim()||v.max.trim());
-export function templatePattern(template:string,bounds:[number,number],slot=0):string {
+export function templatePattern(template:string,bounds?:[number,number],slot=0):string {
   const parts=template.split("#");
   let pattern=escapeRegexLiteral(parts[0]);
   for(let i=1;i<parts.length;i++) {
-    const num=i-1===slot?integerRangePattern(...bounds):"[0-9]{1,5}";
-    pattern+=(bounds[0]>=0?"\\+?":"")+num+escapeRegexLiteral(parts[i]);
+    const constrained=i-1===slot&&bounds;
+    const num=constrained?integerRangePattern(...bounds):"[0-9]{1,5}";
+    pattern+=(constrained?(bounds[0]>=0?"\\+?":""):"[+-]?")+num+escapeRegexLiteral(parts[i]);
   }
   // Header/searchable modifier lines permit suffix annotations, but never longer numeric values.
   return pattern+"($|[^0-9.])";
@@ -68,7 +69,8 @@ export function compileRegexSearch(draft:RegexDraft):CompiledRegexSearch {
     if(!m.categories.includes(draft.category)){errors.push(`${m.label}: unavailable for this generator.`);return;}
     try{
       if(!m.numericDomain&&(selection.min.trim()||selection.max.trim()))throw new Error(`${m.label}: has no numeric range.`);
-      const pattern="^"+(m.numericDomain?templatePattern(m.template,rangeBounds(selection,m.numericDomain,m.label),m.numericSlot):escapeRegexLiteral(m.template));
+      const bounds=m.numericDomain?rangeBounds(selection,m.numericDomain,m.label):undefined;
+      const pattern="^"+(m.numericDomain?templatePattern(m.template,hasRegexValue(selection)?bounds:undefined,m.numericSlot):escapeRegexLiteral(m.template));
       return {key:(negative?"exclude:":"wanted:")+m.id,label:m.label,pattern,negative,source:"modifier"};
     }catch(e){errors.push((e as Error).message);}
   };
