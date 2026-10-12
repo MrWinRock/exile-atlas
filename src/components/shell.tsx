@@ -21,6 +21,7 @@ import {
   Regex,
   Sprout,
   Search,
+  ShieldCheck,
 } from "lucide-react";
 import { useStatus } from "@/lib/client";
 const nav = [
@@ -32,6 +33,7 @@ const nav = [
   { href: "/trade", label: "Item trade", icon: ShoppingBag },
   { href: "/regex", label: "Search Toolkit", icon: Regex },
   { href: "/inspect", label: "Item inspector", icon: Search },
+  { href: "/safety", label: "Map safety", icon: ShieldCheck },
   { href: "/genesis", label: "Genesis Tree", icon: Sprout },
   { href: "/planner", label: "Passive planner", icon: GitBranch },
   { href: "/builds", label: "Build library", icon: BookOpen },

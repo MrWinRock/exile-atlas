@@ -11,6 +11,7 @@ import { Trade } from "@/components/trade";
 import { RegexToolkit } from "@/components/regex-toolkit";
 import { Genesis } from "@/components/genesis";
 import {ItemInspector} from "@/components/item-inspector";
+import {MapSafety} from "@/components/map-safety";
 const sections = {
   characters: Characters,
   filters: Filters,
@@ -24,6 +25,7 @@ const sections = {
   regex: RegexToolkit,
   genesis: Genesis,
   inspect: ItemInspector,
+  safety: MapSafety,
 };
 export default async function Page({ params }: { params: Promise<{ section: string }> }) {
   const { section } = await params;
