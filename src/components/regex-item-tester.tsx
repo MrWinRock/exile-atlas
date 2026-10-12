@@ -1,13 +1,16 @@
 "use client";
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import {useGameData} from "@/lib/game-data-store";
+import {buildRegexCatalogue} from "@/lib/regex-catalogue-builder";
 import { testRegexItem, type RegexItemTestResult } from "@/lib/regex-item-test";
 import type { RegexDraft } from "@/lib/regex-schema";
 import { Button, Field, Notice, SectionHeader } from "./ui";
 import styles from "./regex-toolkit.module.css";
 export function RegexItemTester({ draft }: { draft: RegexDraft }) {
+  const snapshot=useGameData(s=>s.snapshot);const catalogue=useMemo(()=>snapshot?buildRegexCatalogue(snapshot):undefined,[snapshot]);
   const [text, setText] = useState(""),
     [tested, setTested] = useState<{ signature: string; result: RegexItemTestResult } | null>(null);
-  const signature = JSON.stringify(draft) + text;
+  const signature = JSON.stringify(draft) + text + snapshot?.id;
   const result = tested?.signature === signature ? tested.result : undefined;
   const labels = {
     match: "Match",
@@ -33,7 +36,7 @@ export function RegexItemTester({ draft }: { draft: RegexDraft }) {
       <Button
         variant="secondary"
         disabled={!text.trim()}
-        onClick={() => setTested({ signature, result: testRegexItem(draft, text) })}
+        onClick={() => setTested({ signature, result: testRegexItem(draft, text,catalogue) })}
       >
         Test item
       </Button>

@@ -5,7 +5,7 @@ export type RegexCategory = z.infer<typeof categorySchema>;
 const numericText = z.string().max(16);
 export const regexRangeSchema = z.object({ min: numericText, max: numericText }).strict();
 export type RegexRange = z.infer<typeof regexRangeSchema>;
-export const modifierSelectionSchema = regexRangeSchema.extend({ id: z.string().min(1).max(160) });
+export const modifierSelectionSchema = regexRangeSchema.extend({ id: z.string().min(1).max(160), slots:z.record(z.string().regex(/^\d{1,2}$/),regexRangeSchema).optional() });
 export type ModifierSelection = z.infer<typeof modifierSelectionSchema>;
 export const regexDraftSchema = z
   .object({
@@ -19,6 +19,7 @@ export const regexDraftSchema = z
     ),
     text: z.string().max(1000),
     roundNumbers: z.boolean().optional(),
+    snapshotId:z.string().optional(),
   })
   .strict()
   .refine((d) => Object.keys(d.properties).length <= 30, "Too many property conditions");
@@ -31,6 +32,7 @@ export const regexPresetSchema = z
     favorite: z.boolean(),
     createdAt: z.iso.datetime(),
     updatedAt: z.iso.datetime(),
+    snapshotId:z.string().optional(),
   })
   .strict();
 export type RegexPreset = z.infer<typeof regexPresetSchema>;

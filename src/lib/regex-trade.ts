@@ -1,6 +1,7 @@
 import { REGEX_MODIFIERS, REGEX_PROPERTIES } from "./regex-catalogue";
 import { compileRegexSearch, hasRegexValue, rangeBounds } from "./regex-search";
 import type { ModifierSelection, RegexDraft } from "./regex-schema";
+import type {RegexCatalogue} from "./regex-catalogue-builder";
 import {
   createTradeDraft,
   validateTradeDraft,
@@ -10,6 +11,7 @@ import {
 export function prepareRegexTrade(
   input: RegexDraft,
   league: string,
+  catalogue?:RegexCatalogue,
 ): {
   draft: TradeDraft;
   supported: string[];
@@ -20,7 +22,7 @@ export function prepareRegexTrade(
   const draft = createTradeDraft(),
     supported: string[] = [],
     unsupported: string[] = [];
-  const compiled = compileRegexSearch(input);
+  const compiled = compileRegexSearch(input,catalogue);
   const errors = [...compiled.errors];
   draft.league = league.trim();
   draft.statGroups = [];
@@ -33,13 +35,14 @@ export function prepareRegexTrade(
   }[input.category];
   if (category) draft.fields["type_filters.category"] = category;
   const mapped = (selection: ModifierSelection): TradeStatFilter | undefined => {
-    const m = REGEX_MODIFIERS.find(
+    const m = (catalogue?.modifiers??REGEX_MODIFIERS).find(
       (m) => m.id === selection.id && m.categories.includes(input.category),
     );
     if (!m?.tradeStatId) {
       unsupported.push(m?.label ?? selection.id);
       return;
     }
+    if(m.tradeSemantics==="average"&&[selection,...Object.values(selection.slots??{})].some(s=>hasRegexValue(s))){unsupported.push(`${m.label}: individual rolls have only an average trade mapping`);return;}
     supported.push(m.label);
     let min = selection.min.trim(),
       max = selection.max.trim();
@@ -81,7 +84,7 @@ export function prepareRegexTrade(
   });
   for (const [id, value] of Object.entries(input.properties)) {
     if (!hasRegexValue(value)) continue;
-    const p = REGEX_PROPERTIES.find((p) => p.id === id && p.categories.includes(input.category));
+    const p = (catalogue?.properties??REGEX_PROPERTIES).find((p) => p.id === id && p.categories.includes(input.category));
     if (id === "rarity" && typeof value === "string" && value.includes(",")) {
       if (value !== "normal,magic,rare" || input.category !== "waystone")
         unsupported.push("Multiple rarities");

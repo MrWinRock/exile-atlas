@@ -30,6 +30,8 @@ export type RegexModifier = {
   rollRange?: [number, number];
   tradeStatId?: string;
   source: typeof REGEX_SOURCE;
+  numericSlots?:import("./game-data").ModifierDefinition["numericSlots"];
+  tradeSemantics?:"exact"|"presence"|"average"|"unmapped";
 };
 const equipment: RegexCategory[] = ["vendor", "equipment"];
 function mod(
@@ -144,6 +146,7 @@ export type RegexProperty = {
   tradeField?: string;
   options?: { value: string; label: string }[];
   source: typeof REGEX_SOURCE;
+  scale?:1|10|100;
 };
 const all = REGEX_CATEGORIES.map((c) => c.id);
 const range = (

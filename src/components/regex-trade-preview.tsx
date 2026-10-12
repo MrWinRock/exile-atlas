@@ -1,5 +1,7 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import {useGameData} from "@/lib/game-data-store";
+import {buildRegexCatalogue} from "@/lib/regex-catalogue-builder";
 import { useRouter } from "next/navigation";
 import { prepareRegexTrade } from "@/lib/regex-trade";
 import { useTradeWorkspace } from "@/lib/trade-store";
@@ -8,10 +10,11 @@ import type { RegexDraft } from "@/lib/regex-schema";
 import { Button, Field, Notice } from "./ui";
 import styles from "./regex-toolkit.module.css";
 export function RegexTradePreview({ draft, onClose }: { draft: RegexDraft; onClose: () => void }) {
+  const snapshot=useGameData(s=>s.snapshot);const catalogue=useMemo(()=>snapshot?buildRegexCatalogue(snapshot):undefined,[snapshot]);
   const dialog = useRef<HTMLDialogElement>(null),
     router = useRouter();
   const [league, setLeague] = useState(() => useTradeWorkspace.getState().draft.league);
-  const result = prepareRegexTrade(draft, league);
+  const result = prepareRegexTrade(draft, league,catalogue);
   useEffect(() => {
     dialog.current?.showModal();
   }, []);

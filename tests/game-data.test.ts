@@ -23,7 +23,7 @@ test("normalizer retains ordered eligibility, bounds, groups and ambiguous match
  const matches=matchItemModifiers(parseItemText("Rarity: Rare\nA\nGold Ring\n--------\n+6 to Strength"),snapshot);expect(matches[0].candidates[0].id).toBe("ModItem:Strength1");expect(matches[0].status).toBe("ambiguous");
 });
 test("bundled source-qualified snapshot validates stable IDs and reproducible content",async()=>{
- const raw=await Bun.file("public/data/poe2-game-data.json").json();const s=validateGameSnapshot(raw);expect(s.modifiers).toHaveLength(9071);expect(s.bases).toHaveLength(1440);expect(s.sourceRefs).toHaveLength(29);expect(s.modifiers.find(m=>m.id==="ModItem:Strength8")?.requiredLevel).toBe(74);
+ const raw=await Bun.file("public/data/poe2-game-data.json").json();const s=validateGameSnapshot(raw);expect(s.modifiers).toHaveLength(9071);expect(s.bases).toHaveLength(1440);expect(s.sourceRefs).toHaveLength(31);expect(s.modifiers.find(m=>m.id==="ModItem:Strength8")?.requiredLevel).toBe(74);
  expect(createHash("sha256").update(JSON.stringify({...s,id:undefined,verifiedAt:undefined})).digest("hex")).toBe(s.id);
  expect(()=>validateGameSnapshot({...raw,schemaVersion:2})).toThrow();expect(()=>validateGameSnapshot({...raw,bases:[s.bases[0],s.bases[0]]})).toThrow();
  expect(()=>parseLuaLiterals("return "+"{".repeat(34)+"}".repeat(34))).toThrow();

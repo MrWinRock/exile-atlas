@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   Copy,
   Bookmark,
@@ -11,8 +11,6 @@ import {
 } from "lucide-react";
 import {
   REGEX_CATEGORIES,
-  REGEX_MODIFIERS,
-  REGEX_PROPERTIES,
   REGEX_SOURCE,
 } from "@/lib/regex-catalogue";
 import { compileRegexSearch } from "@/lib/regex-search";
@@ -23,7 +21,12 @@ import { RegexPresets } from "./regex-presets";
 import { RegexItemTester } from "./regex-item-tester";
 import { RegexTradePreview } from "./regex-trade-preview";
 import styles from "./regex-toolkit.module.css";
+import {useGameData} from "@/lib/game-data-store";
+import {buildRegexCatalogue,defaultRegexCatalogue} from "@/lib/regex-catalogue-builder";
 export function RegexToolkit() {
+  const snapshot=useGameData(s=>s.snapshot);
+  const catalogue=useMemo(()=>snapshot?buildRegexCatalogue(snapshot):defaultRegexCatalogue,[snapshot]);
+  const REGEX_MODIFIERS=catalogue.modifiers,REGEX_PROPERTIES=catalogue.properties;
   const store = useRegexWorkspace(),
     [search, setSearch] = useState(""),
     [name, setName] = useState(""),
@@ -34,7 +37,7 @@ export function RegexToolkit() {
     [live, setLive] = useState("");
   const category: RegexCategory = store.activeTab === "presets" ? "waystone" : store.activeTab,
     draft = store.drafts[category],
-    compiled = compileRegexSearch(draft);
+    compiled = compileRegexSearch(draft,catalogue);
   const announcement = compiled.errors.length
     ? compiled.errors.join(" ")
     : `Search: ${compiled.length} of ${compiled.limit} characters.`;
@@ -129,6 +132,7 @@ export function RegexToolkit() {
         ))}
       </div>
       {store.warning && <Notice error>{store.warning}</Notice>}
+      {snapshot&&<p className="fine-print">Dataset {snapshot.id.slice(0,12)} · Criteria source: {draft.snapshotId?.slice(0,12)??"version unrecorded"}. {draft.snapshotId!==snapshot.id&&<Button variant="ghost" disabled={!compiled.valid} onClick={()=>store.setDraft({...draft,snapshotId:snapshot.id})}>Revalidate current criteria</Button>}</p>}
       <div id="regex-panel" role="tabpanel" aria-labelledby={`tab-${store.activeTab}`}>
         {store.activeTab === "presets" ? (
           <RegexPresets
@@ -282,7 +286,7 @@ export function RegexToolkit() {
                   </Field>
                 </div>
                 <div className={styles.modifiers}>
-                  {options.map((m) => {
+                  {options.slice(0,300).map((m) => {
                     const selected = [...draft.wanted, ...draft.unwanted].find(
                       (s) => s.id === m.id,
                     );
@@ -315,6 +319,7 @@ export function RegexToolkit() {
                           <option value="want">Want</option>
                           <option value="exclude">Avoid</option>
                         </select>
+                        {selected && (m.numericSlots?.length??0)>1 && m.numericSlots!.slice(1).map(slot=><div className={styles.modRange} key={slot.index}><span>Roll {slot.index+1}</span>{(["min","max"] as const).map(bound=><input key={bound} aria-label={`${m.label} roll ${slot.index+1} ${bound}`} placeholder={bound} inputMode="decimal" value={selected.slots?.[String(slot.index)]?.[bound]??""} onChange={e=>{const update=(s:ModifierSelection)=>s.id===m.id?{...s,slots:{...s.slots,[String(slot.index)]:{min:s.slots?.[String(slot.index)]?.min??"",max:s.slots?.[String(slot.index)]?.max??"",[bound]:e.target.value}}}:s;store.setDraft({...draft,snapshotId:snapshot?.id,wanted:draft.wanted.map(update),unwanted:draft.unwanted.map(update)});}}/>)}</div>)}
                         {selected && m.numericDomain && (
                           <div className={styles.modRange}>
                             <input

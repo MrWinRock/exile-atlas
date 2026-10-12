@@ -4,11 +4,12 @@ import { normalizePobBundle } from "../src/server/game-data/pob-adapter";
 import { validateGameSnapshot } from "../src/lib/game-data";
 import trade from "../public/data/poe2-trade-stats.json";
 import {parseTradeStatsLua} from "./prepare-trade-stats";
+import {extractDbDefinitions} from "../src/server/game-data/db-adapter";
 const revision="bb52d6b368307457eb9c54bb13f1829993d390b1";
 const modFiles=["ModItem.lua","ModItemExclusive.lua","ModCharm.lua","ModFlask.lua","ModJewel.lua","ModCorrupted.lua","ModRunes.lua","ModVeiled.lua"];
 const baseFiles=["amulet","belt","body","boots","bow","crossbow","flail","flask","focus","gloves","helmet","jewel","mace","quiver","ring","sceptre","shield","spear","staff","talisman","wand"];
 export const GAME_SOURCE_PATHS=[...modFiles.map(p=>`src/Data/${p}`),...baseFiles.map(p=>`src/Data/Bases/${p}.lua`)];
-export async function prepareGameData(rev=revision){
+export async function prepareGameData(rev=revision,refreshDb=false){
  if(!/^[a-f0-9]{40}$/.test(rev))throw new Error("Invalid source revision");
  const files:Record<string,string>={},refs=[];
  await mkdir("data/game-data-raw",{recursive:true});
@@ -25,6 +26,7 @@ export async function prepareGameData(rev=revision){
  snapshot.stats=groups.filter(g=>g.id!=="pseudo").flatMap(g=>g.entries);
  const categories=(text:string):string[]=>/\(Sanctum\)|Honour|Sacred Water|Merchant|Affliction/i.test(text)?["relic"]:/\(Map\)|in Map|in your Maps|Tablets?|Tower|Precursor/i.test(text)?["tablet"]:["vendor","equipment"];
  snapshot.regexDefinitions=[...new Map(snapshot.stats.filter(s=>s.type==="explicit"||s.type==="sanctum"||s.type==="rune").map(s=>[s.id+":"+s.text,{id:s.id+":"+createHash("sha256").update(s.text).digest("hex").slice(0,8),template:s.text.replace(/ \((?:Map|Sanctum)\)$/,""),categories:categories(s.text),tradeStatId:s.id}])).values()];
+ for(const [category,page,file] of [["relic","Relics","relics"],["tablet","Tablet","tablets"]] as const){const url=`https://poe2db.tw/us/${page}`;const cachedPath=`data/regex-reference/${file}.html`;let html:string;if(!refreshDb&&await Bun.file(cachedPath).exists())html=await Bun.file(cachedPath).text();else{const response=await fetch(url,{signal:AbortSignal.timeout(20000)});if(!response.ok)throw new Error("Modifier source unavailable");html=await response.text();}const definitions=extractDbDefinitions(html,category,url);const checksum=createHash("sha256").update(html).digest("hex"),revision=createHash("sha256").update(JSON.stringify(definitions)).digest("hex").slice(0,40);snapshot.sourceRefs.push({source:`PoE2DB ${page} game-data extraction`,revision,url,checksum});snapshot.regexDefinitions=snapshot.regexDefinitions.filter(d=>!d.categories.includes(category));snapshot.regexDefinitions.push(...definitions);}
  snapshot.id=createHash("sha256").update(JSON.stringify({...snapshot,id:undefined,verifiedAt:undefined})).digest("hex");
  return validateGameSnapshot(snapshot);
 }
