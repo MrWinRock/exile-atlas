@@ -1,0 +1,4 @@
+import {z} from "zod";
+const condition=z.discriminatedUnion("kind",[z.object({kind:z.literal("modifier"),id:z.string().min(1).max(160),slot:z.number().int().min(0).max(20).optional(),min:z.string().max(16).optional(),max:z.string().max(16).optional()}),z.object({kind:z.literal("trait"),id:z.string().min(1).max(100),value:z.boolean()})]);
+export const safetyRuleSchema=z.object({id:z.string().min(1),label:z.string().trim().min(1).max(120),severity:z.enum(["avoid","caution"]),operator:z.enum(["all","any"]),conditions:z.array(condition).min(1).max(20),reason:z.string().max(2000)});
+export const safetyProfileSchema=z.object({id:z.string().min(1),name:z.string().trim().min(1).max(120),snapshotId:z.string().optional(),traits:z.record(z.string().min(1).max(100),z.boolean()),rules:z.array(safetyRuleSchema).max(100)});
