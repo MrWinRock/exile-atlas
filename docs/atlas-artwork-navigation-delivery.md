@@ -17,7 +17,7 @@ references rather than simulations. Atlas backups use the app's JSON format.
 Verification:
 
 - RED: no sidebar scroll, missing canvas Undo, zero Genesis graph images, missing Atlas route/model.
-- GREEN: 315 unit tests / 10,539 assertions; all 106 desktop/mobile browser stories.
+- GREEN: 315 unit tests / 10,539 assertions; all 108 desktop/mobile browser stories after the review correction.
 - Typecheck, lint, production build and `git diff --check` passed.
 - Real-data screenshots checked on desktop/mobile after decoding both image sheets;
   no page errors or viewport overflow. Earlier screenshots captured before image
@@ -25,4 +25,13 @@ Verification:
 - Initial full unit run hit sandbox-denied Bash/Python deployment subprocesses;
   the permitted full rerun passed. No tests skipped or production code changed for that restriction.
 
-Independent review and deployment: pending.
+Independent review of `8aa13fa..4d02b02` found one Important issue: Undo after loading
+a saved Atlas plan restored nodes but omitted name/record identity, allowing Update
+to overwrite the wrong saved record. It was reproduced RED, then fixed in
+`c2dcfd3`: checkpoints restore name/identity and record context-only loads even when
+node lists match. All eight focused Atlas browser stories and the full suite passed
+afterwards. No Critical or additional Minor findings were reported. Live-game parity,
+upstream anomalies and deployment were declined: these are explicitly versioned
+snapshots, and deployed behavior will be verified below.
+
+Deployment: pending.

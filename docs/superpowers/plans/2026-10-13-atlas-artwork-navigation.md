@@ -53,5 +53,5 @@ Planning budgets 0–5000; visit Undo 50. Source effects are references. Preserv
 - [x] Write/run browser tests for allocation, Undo/refund/reset, branch budget isolation, save/reload/import/dataset guards; expect RED.
 - [x] Build sourced branch tabs/graph/search/details and saved-plan backup actions; restore full draft per Undo.
 - [x] Run unit/lint/type/build/full desktop/mobile tests and artwork smoke; expect PASS.
-- [ ] Commit, dispatch one fresh reviewer, fix reproduced significant findings, record receipt.
+- [x] Commit, dispatch one fresh reviewer, fix reproduced significant findings, record receipt.
 - [ ] Merge/push master, await workflow success, verify live Atlas/Genesis/passive/navigation cases.
