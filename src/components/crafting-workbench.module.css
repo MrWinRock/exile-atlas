@@ -1,0 +1,79 @@
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.2fr);
+  gap: 24px;
+  align-items: start;
+}
+.panel {
+  padding: 22px;
+  min-width: 0;
+}
+.row {
+  display: flex;
+  align-items: end;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.row > label {
+  flex: 1;
+  min-width: 120px;
+}
+.pool {
+  max-height: 440px;
+  overflow: auto;
+  border: 1px solid var(--line);
+  margin-top: 14px;
+}
+.modifier {
+  display: block;
+  padding: 12px;
+  border-bottom: 1px solid var(--line);
+  font-size: 12px;
+  line-height: 1.7;
+}
+.modifier small {
+  display: block;
+  color: var(--muted);
+}
+.step {
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--accent);
+  padding: 16px;
+  margin: 16px 0;
+}
+.step p {
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--muted);
+}
+.budget {
+  padding: 18px;
+  background: #dab07709;
+  border: 1px solid var(--accent);
+  margin: 16px 0;
+}
+.budget strong {
+  display: block;
+  font-family: var(--serif);
+  font-size: 24px;
+  color: var(--accent);
+}
+.panel textarea {
+  min-height: 120px;
+  font-family: var(--mono, monospace);
+  font-size: 12px;
+}
+.target {
+  padding: 8px;
+  border-bottom: 1px solid var(--line);
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  .panel {
+    padding: 16px;
+  }
+}
