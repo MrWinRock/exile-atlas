@@ -5,7 +5,7 @@ import type { TreeRenderer } from "@/lib/tree-renderer";
 import { WEAPON_PASSIVE_COLORS } from "@/lib/passive-colors";
 import type { PassiveDisplay } from "@/lib/passive-display";
 import type { AllocationMode } from "@/lib/passive-plan";
-import { Minus, Plus, Scan } from "lucide-react";
+import { Minus, Plus, Scan, Undo2 } from "lucide-react";
 export function TreeCanvas({
   tree,
   ascendancy,
@@ -19,6 +19,7 @@ export function TreeCanvas({
   onShowBothChange,
   readOnly,
   difference,
+  undoAction,
 }: {
   tree: Tree;
   ascendancy?: string;
@@ -32,6 +33,7 @@ export function TreeCanvas({
   onShowBothChange?: (value: boolean) => void;
   readOnly?: boolean;
   difference?: { added: string[]; removed: string[] };
+  undoAction?: { disabled: boolean; onClick: () => void };
 }) {
   const ref = useRef<HTMLDivElement>(null),
     rendererRef = useRef<TreeRenderer | null>(null),
@@ -133,6 +135,21 @@ export function TreeCanvas({
               </button>
             ))}
           </div>
+          {undoAction && !readOnly && (
+            <button
+              type="button"
+              aria-label="Undo last passive change"
+              disabled={undoAction.disabled}
+              onClick={undoAction.onClick}
+              title="Undo the last planner change during this visit"
+            >
+              <Undo2
+                size={12}
+                style={{ display: "inline", verticalAlign: "middle", marginRight: 5 }}
+              />
+              Undo
+            </button>
+          )}
           {onShowBothChange && (
             <button
               type="button"

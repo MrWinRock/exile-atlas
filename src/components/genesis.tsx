@@ -16,6 +16,7 @@ import { useGenesisWorkspace } from "@/lib/genesis-store";
 import { exportGenesisPlans } from "@/lib/genesis-presets";
 import { downloadFile } from "@/lib/build";
 import { GenesisGraph } from "./genesis-graph";
+import { PassiveIcon } from "./artwork";
 import { Badge, Button, Field, Loading, Notice, PageTitle, SectionHeader } from "./ui";
 import styles from "./genesis.module.css";
 export function Genesis() {
@@ -74,7 +75,7 @@ export function Genesis() {
       `${n.name} ${n.effects.join(" ")}`.toLowerCase().includes(search.toLowerCase()),
   );
   const selectedValid = !!node && node.branch === branch;
-  const selectionPath=node?genesisPath(data,plan,node.id):undefined;
+  const selectionPath = node ? genesisPath(data, plan, node.id) : undefined;
   function chooseBranch(value: GenesisBranch) {
     setBranch(value);
     setSelected("");
@@ -247,9 +248,7 @@ export function Genesis() {
                     setPreview(undefined);
                   }}
                 >
-                  <span
-                    className={`${styles.nodeDot} ${plan.allocated.includes(n.id) ? styles.activeDot : ""}`}
-                  />
+                  <PassiveIcon sprite={n.sprite} name={n.name} size={34} />
                   <span>
                     {n.name}
                     <small>{n.root ? "Branch root" : (n.effects[0] ?? n.id)}</small>
@@ -275,6 +274,9 @@ export function Genesis() {
                       : "UNALLOCATED"}
                 </span>
                 <h2 className={styles.nodeTitle}>{node.name}</h2>
+                <span data-testid="genesis-selected-art">
+                  <PassiveIcon sprite={node.sprite} name={node.name} size={76} />
+                </span>
                 <ul className={styles.effects}>
                   {node.effects.map((e, i) => (
                     <li key={i}>{e}</li>
@@ -302,7 +304,7 @@ export function Genesis() {
                   ) : (
                     <Button
                       variant="secondary"
-                      disabled={!!selectionPath?.error&&!selectionPath.ids.length}
+                      disabled={!!selectionPath?.error && !selectionPath.ids.length}
                       onClick={() => setPreview(node.id)}
                     >
                       Preview allocation

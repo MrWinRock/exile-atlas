@@ -1,4 +1,6 @@
 import { z } from "zod";
+import type { PassiveSprite } from "./artwork";
+import { planningSpriteSchema } from "./planning-artwork";
 export const GENESIS_BRANCHES = ["Currency", "Rings", "Amulets", "Belts", "Breachstones"] as const;
 export const genesisBranchSchema = z.enum(GENESIS_BRANCHES);
 export type GenesisBranch = z.infer<typeof genesisBranchSchema>;
@@ -10,6 +12,7 @@ const nodeSchema = z.object({
   y: z.number().finite(),
   effects: z.array(z.string()),
   root: z.boolean(),
+  sprite: planningSpriteSchema.optional(),
 });
 export type GenesisNode = z.infer<typeof nodeSchema>;
 const dataSchema = z.object({
@@ -58,6 +61,7 @@ export function normalizeGenesisSource(
   graph: unknown,
   crafting: unknown,
   revision: string,
+  sprites: Map<string, PassiveSprite> = new Map(),
 ): GenesisData {
   const raw = z
     .object({
@@ -66,6 +70,7 @@ export function normalizeGenesisSource(
         z.object({
           id: z.string(),
           name: z.string(),
+          icon: z.string().optional(),
           x: z.number(),
           y: z.number(),
           subTree: genesisBranchSchema,
@@ -93,6 +98,7 @@ export function normalizeGenesisSource(
     x: n.x,
     y: n.y,
     root: rootKeys.has(key),
+    sprite: n.icon ? sprites.get(n.icon) : undefined,
     effects: [
       ...n.stats,
       ...(n.choices ?? []).flatMap((c) => c.stats.map((s) => `Option (${c.name}): ${s}`)),

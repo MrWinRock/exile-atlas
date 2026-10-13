@@ -21,6 +21,12 @@ Do not interpret the allocated effect list as an aggregated crafting simulation.
 No upstream application or rendering code is included; game data is not
 relicensed by the upstream software MIT license or by Exile Atlas.
 
+Node artwork is now retained from the same revision's `genesisIcons.json` and
+`src/assets/tree/genesis-icons.webp` (game art © GGG). Every one of the 243
+records has a bounded sprite crop. Adding artwork does not change the plan
+dataset identity, graph connectivity or effect snapshot. The preparation script
+also verifies icon metadata and image SHA-256 digests.
+
 Regenerate with `bun run scripts/prepare-genesis.ts`. The script verifies pinned
 SHA-256 digests and validates every root, node ID, connection and branch before
 writing. Refer to [current PoE2DB data](https://poe2db.tw/us/The_Genesis_Tree) when

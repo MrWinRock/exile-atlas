@@ -121,7 +121,7 @@ test("both sets remain visible, exclusive nodes cannot overlap, and mutations un
   await page.getByRole("button", { name: "Select passive: Green branch", exact: true }).click();
   await page.getByRole("button", { name: "Allocate connected path", exact: true }).click();
   await expect(page.getByTestId("weapon-set-2-count")).toHaveText("1 / 24");
-  await undo.click();
+  await page.getByRole("button", { name: "Undo last passive change", exact: true }).click();
   await expect(page.getByTestId("weapon-set-1-count")).toHaveText("1 / 24");
   await expect(page.getByTestId("weapon-set-2-count")).toHaveText("0 / 24");
   await expect(undo).toBeDisabled();

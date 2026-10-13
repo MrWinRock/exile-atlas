@@ -141,6 +141,14 @@ code {
   background: #14191b;
   border-right: 1px solid var(--line);
   z-index: 30;
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: #52615c #14191b;
+}
+.sidebar > * {
+  flex-shrink: 0;
 }
 .brand {
   display: flex;
@@ -2182,9 +2190,12 @@ tbody tr:hover {
   }
   .sidebar-close.icon-button {
     display: inline-flex;
-    position: absolute;
-    top: 13px;
-    right: 7px;
+    position: sticky;
+    top: 0;
+    align-self: flex-end;
+    margin: -16px -13px -18px auto;
+    z-index: 2;
+    background: #14191b;
   }
   .nav-overlay {
     display: block;

@@ -14,7 +14,16 @@
       "effects": [
         "Birthed Items have 5% chance to be Stalking Belts"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 730,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeRings18_",
@@ -25,7 +34,16 @@
       "effects": [
         "Modifiers on Birthed Items roll their values an additional 2 times, keeping the highest value"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 819,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeBelts32",
@@ -36,7 +54,16 @@
       "effects": [
         "10% Surpassing chance to Birth an additional Item"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 730,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeRings47",
@@ -49,7 +76,16 @@
         "Option (Burdensome): Birthed Items have 5% chance to be crafted with ''Burdensome''",
         "Option (Vastness): Birthed Items have 5% chance to be crafted with ''of Vastness''"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 628,
+        "y": 498,
+        "w": 176,
+        "h": 176
+      }
     },
     {
       "id": "BrequelTreeCurrency6",
@@ -60,7 +96,16 @@
       "effects": [
         "40% Surpassing chance to Birth an additional Item"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 908,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeAmulets62",
@@ -71,7 +116,16 @@
       "effects": [
         "10% Surpassing chance to Birth an additional Item"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 1,
+        "y": 884,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeCurrency77_",
@@ -82,7 +136,16 @@
       "effects": [
         "100% increased chance to Birth Regal Orbs"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 908,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeRings21",
@@ -96,7 +159,16 @@
         "Option (Cold): Birthed Items cannot have Cold Modifiers",
         "Option (Lightning): Birthed Items cannot have Lightning Modifiers"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 628,
+        "y": 498,
+        "w": 176,
+        "h": 176
+      }
     },
     {
       "id": "BrequelTreeAmulets23",
@@ -110,7 +182,16 @@
         "Option (Dexterity): Birthed Items always have a Dexterity Modifier",
         "Option (Intelligence): Birthed Items always have an Intelligence Modifier"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 805,
+        "y": 498,
+        "w": 176,
+        "h": 176
+      }
     },
     {
       "id": "BrequelTreeAmulets11___",
@@ -121,7 +202,16 @@
       "effects": [
         "Birthed Items always have an empty Prefix Modifier"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 1,
+        "y": 884,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeCurrency58",
@@ -132,7 +222,16 @@
       "effects": [
         "20% Surpassing chance to Birth an additional Item"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 908,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeBelts46_",
@@ -143,7 +242,16 @@
       "effects": [
         "10% Surpassing chance to Birth an additional Item"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 730,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeAmulets7",
@@ -154,7 +262,16 @@
       "effects": [
         "Strength Modifiers on Birthed Items have Minimum Modifier Level 60"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 1,
+        "y": 884,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeRings50",
@@ -167,7 +284,16 @@
         "Option (Amplification): Birthed Items have an 5% chance to be crafted with ''of Amplification''",
         "Option (Drenching): Birthed Items have 5% chance to be crafted with ''of Drenching''"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 628,
+        "y": 498,
+        "w": 176,
+        "h": 176
+      }
     },
     {
       "id": "BrequelTreeCurrency56_",
@@ -178,7 +304,16 @@
       "effects": [
         "20% Surpassing chance to Birth an additional Item"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 908,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeAmulets34",
@@ -189,7 +324,16 @@
       "effects": [
         "Birthed Items have 100% increased chance to be Portent Amulets"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 1,
+        "y": 884,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeRings6",
@@ -200,7 +344,16 @@
       "effects": [
         "Damage Modifiers on Birthed Items have Minimum Modifier Level 40"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 819,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeAmulets9",
@@ -211,7 +364,16 @@
       "effects": [
         "Dexterity Modifiers on Birthed Items have Minimum Modifier Level 60"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 1,
+        "y": 884,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeAmulets42",
@@ -222,7 +384,16 @@
       "effects": [
         "Birthing consumes 5% reduced Hiveblood"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 1,
+        "y": 884,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeBelts10",
@@ -233,7 +404,16 @@
       "effects": [
         "Modifiers on Birthed Items roll their values an additional 2 times, keeping the highest value"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 730,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeBelts18",
@@ -244,7 +424,16 @@
       "effects": [
         "Modifiers on Birthed Items roll their values an additional 2 times, keeping the highest value"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 730,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeCurrency55",
@@ -255,7 +444,16 @@
       "effects": [
         "20% Surpassing chance to Birth an additional Item"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 908,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeBelts50",
@@ -266,7 +464,16 @@
       "effects": [
         "Birthed Items always have two Caster Modifiers"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 730,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeRings26",
@@ -277,7 +484,16 @@
       "effects": [
         "10% Surpassing chance to Birth an additional Item"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 819,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeAmulets39",
@@ -292,7 +508,16 @@
         "Option (Jade Amulet): Birthed Items cannot be Jade Amulets",
         "Option (Stellar Amulet): Birthed Items cannot be Stellar Amulets"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 805,
+        "y": 498,
+        "w": 176,
+        "h": 176
+      }
     },
     {
       "id": "BrequelTreeRings12_",
@@ -303,7 +528,16 @@
       "effects": [
         "10% Surpassing chance to Birth an additional Item"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 819,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeRings29",
@@ -314,7 +548,16 @@
       "effects": [
         "Birthed Items have an 5% chance to be crafted with ''of Multitudes''"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 628,
+        "y": 498,
+        "w": 176,
+        "h": 176
+      }
     },
     {
       "id": "BrequelTreeAmulets63",
@@ -325,7 +568,16 @@
       "effects": [
         "Armour Modifiers on Birthed Items have Minimum Modifier Level 60"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 1,
+        "y": 884,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeCurrency32",
@@ -336,7 +588,16 @@
       "effects": [
         "15% chance for Birthed Currency to be a Catalyst"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 908,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeAmulets1_",
@@ -347,7 +608,16 @@
       "effects": [
         "Birthed Items have Minimum Modifier Level 20"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 1,
+        "y": 884,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeCurrency8",
@@ -358,7 +628,16 @@
       "effects": [
         "10% chance to Birth 5 additional Items of the same type"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 908,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeCurrency61",
@@ -369,7 +648,16 @@
       "effects": [
         "100% increased chance to Birth Orbs of Annulment"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 908,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeBelts49",
@@ -380,7 +668,16 @@
       "effects": [
         "Caster Modifiers on Birthed Items roll their values an additional 2 times,\nkeeping the highest value"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 730,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeCurrency51",
@@ -391,7 +688,16 @@
       "effects": [
         "50% chance to Birth an 16 to 24 additional Breach Splinters when Birthing Breach Splinters"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 908,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeBelts16",
@@ -402,7 +708,16 @@
       "effects": [
         "10% Surpassing chance to Birth an additional Item"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 730,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeAmulets2",
@@ -413,7 +728,16 @@
       "effects": [
         "Suffix Modifiers on Birthed Items roll their values an additional 2 times,\nkeeping the highest value"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 1,
+        "y": 884,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeAmulets47_",
@@ -424,7 +748,16 @@
       "effects": [
         "Birthed Items cannot have Critical Modifiers"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 1,
+        "y": 884,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeBelts1_",
@@ -435,7 +768,16 @@
       "effects": [
         "Birthed Items have Minimum Modifier Level 20"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 730,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeAmulets40",
@@ -450,7 +792,16 @@
         "Option (Lunar Amulet): Birthed Items cannot be Lunar Amulets",
         "Option (Bloodstone Amulet): Birthed Items cannot be Bloodstone Amulets"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 805,
+        "y": 498,
+        "w": 176,
+        "h": 176
+      }
     },
     {
       "id": "BrequelTreeRings53",
@@ -461,7 +812,16 @@
       "effects": [
         "10% Surpassing chance to Birth an additional Item"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 819,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeRings13",
@@ -472,7 +832,16 @@
       "effects": [
         "10% Surpassing chance to Birth an additional Item"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 819,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeCurrencySlot",
@@ -481,7 +850,16 @@
       "x": -727.7,
       "y": 172.9,
       "effects": [],
-      "root": true
+      "root": true,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 1,
+        "y": 1,
+        "w": 324,
+        "h": 496
+      }
     },
     {
       "id": "BrequelTreeCurrency81_",
@@ -492,7 +870,16 @@
       "effects": [
         "15% chance to Birth 10 additional items of the same type when Birthing Exalted Orbs"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 908,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeRings35",
@@ -503,7 +890,16 @@
       "effects": [
         "Minion speed Modifiers on Birthed Items have Minimum Modifier Level 60"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 819,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeBelts17",
@@ -514,7 +910,16 @@
       "effects": [
         "10% Surpassing chance to Birth an additional Item"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 730,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeAmulets38",
@@ -527,7 +932,16 @@
         "Option (Solar Amulet): Birthed Items cannot be Solar Amulets",
         "Option (Gold Amulet): Birthed Items cannot be Gold Amulets"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 805,
+        "y": 498,
+        "w": 176,
+        "h": 176
+      }
     },
     {
       "id": "BrequelTreeAmulets45",
@@ -542,7 +956,16 @@
         "Option (Uul-Netol): Birthed Items have 5% chance to be crafted with ''Uul-Netol's''",
         "Option (Esh): Birthed Items have 5% chance to be crafted with ''of Esh''"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 805,
+        "y": 498,
+        "w": 176,
+        "h": 176
+      }
     },
     {
       "id": "BrequelTreeRings45",
@@ -553,7 +976,16 @@
       "effects": [
         "Birthed Items always have two Caster Modifiers"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 819,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeBelts15",
@@ -564,7 +996,16 @@
       "effects": [
         "Charm Modifiers on Birthed Items have Minimum Modifier Level 40"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 730,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeAmulets32",
@@ -575,7 +1016,16 @@
       "effects": [
         "Birthed Items have 10% chance to be Lament, Portent or Absent Amulets"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 1,
+        "y": 884,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeBelts22_",
@@ -588,7 +1038,16 @@
         "Option (Life): Birthed Items cannot have Life Modifiers",
         "Option (Mana): Birthed Items cannot have Mana Modifiers"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 1,
+        "y": 707,
+        "w": 176,
+        "h": 176
+      }
     },
     {
       "id": "BrequelTreeRings3",
@@ -599,7 +1058,16 @@
       "effects": [
         "Birthed Items have Minimum Modifier Level 30"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 819,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeAmulets54",
@@ -612,7 +1080,16 @@
         "Option (Life): Birthed Items always have a Life Modifier",
         "Option (Mana): Birthed Items always have a Mana Modifier"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 805,
+        "y": 498,
+        "w": 176,
+        "h": 176
+      }
     },
     {
       "id": "BrequelTreeBelts28",
@@ -623,7 +1100,16 @@
       "effects": [
         "Minion Modifiers on Birthed Items roll their values an additional 2 times,\nkeeping the highest value"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 730,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeCurrency13_",
@@ -634,7 +1120,16 @@
       "effects": [
         "20% Surpassing chance to Birth an additional Item"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 908,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeBelts38",
@@ -645,7 +1140,16 @@
       "effects": [
         "Minion Suffix Modifiers on Birthed Items have Minimum Modifier Level 50"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 730,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeBelts4",
@@ -656,7 +1160,16 @@
       "effects": [
         "Modifiers on Birthed Items roll their values an additional 2 times, keeping the highest value"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 730,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeAmulets25",
@@ -667,7 +1180,16 @@
       "effects": [
         "Prefix Modifiers on Birthed Items have Minimum Modifier Level 30"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 1,
+        "y": 884,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeCurrency5_",
@@ -678,7 +1200,16 @@
       "effects": [
         "20% Surpassing chance to Birth an additional Item"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 908,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeCurrency22",
@@ -689,7 +1220,16 @@
       "effects": [
         "100% increased chance to Birth Quality Currency"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 908,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeRings54",
@@ -700,7 +1240,16 @@
       "effects": [
         "Caster Prefix Modifiers on Birthed Items have Minimum Modifier Level 50"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 819,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeBelts51",
@@ -713,7 +1262,16 @@
         "Option (Exertion): Birthed Items have 5% chance to be crafted with ''of Exertion''",
         "Option (Unshackling): Birthed Items have 5% chance to be crafted with ''Unshackling''"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 1,
+        "y": 707,
+        "w": 176,
+        "h": 176
+      }
     },
     {
       "id": "BrequelTreeAmulets49",
@@ -724,7 +1282,16 @@
       "effects": [
         "Birthed Items always have a Life or Mana Modifier"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 1,
+        "y": 884,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeAmulets31_",
@@ -735,7 +1302,16 @@
       "effects": [
         "Birthing consumes 5% reduced Hiveblood"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 1,
+        "y": 884,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeBelts35",
@@ -746,7 +1322,16 @@
       "effects": [
         "10% Surpassing chance to Birth an additional Item"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 730,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeRings11",
@@ -757,7 +1342,16 @@
       "effects": [
         "10% Surpassing chance to Birth an additional Item"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 819,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeAmulets36",
@@ -768,7 +1362,16 @@
       "effects": [
         "10% chance for Birthing to not consume Hiveblood"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 1,
+        "y": 884,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeRings8",
@@ -779,7 +1382,16 @@
       "effects": [
         "10% Surpassing chance to Birth an additional Item"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 819,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeRings16",
@@ -792,7 +1404,16 @@
         "Option (Vitalic Ring): Birthed Items have 10% chance to be Vitalic Rings",
         "Option (Mnemonic Ring): Birthed Items have 10% chance to be Mnemonic Rings"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 628,
+        "y": 498,
+        "w": 176,
+        "h": 176
+      }
     },
     {
       "id": "BrequelTreeRings42",
@@ -803,7 +1424,16 @@
       "effects": [
         "Birthed Items always have a Caster Modifier"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 819,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeAmulets43",
@@ -814,7 +1444,16 @@
       "effects": [
         "10% Surpassing chance to Birth an additional Item"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 1,
+        "y": 884,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeCurrency15",
@@ -825,7 +1464,16 @@
       "effects": [
         "100% increased chance to Birth Jeweller's Orbs"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 908,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeCurrency62",
@@ -836,7 +1484,16 @@
       "effects": [
         "50% increased chance to Birth Orbs of Annulment"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 908,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeCurrency71",
@@ -849,7 +1506,16 @@
         "150% increased chance to Birth Orbs of Alchemy",
         "150% increased chance to Birth Regal Orbs"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 908,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeBelts19",
@@ -860,7 +1526,16 @@
       "effects": [
         "10% Surpassing chance to Birth an additional Item"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 730,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeAmulets21",
@@ -871,7 +1546,16 @@
       "effects": [
         "Cold Resistance Modifiers on Birthed Items have Minimum Modifier Level 60"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 1,
+        "y": 884,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeBelts36",
@@ -882,7 +1566,16 @@
       "effects": [
         "10% Surpassing chance to Birth an additional Item"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 730,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeAmulets10",
@@ -893,7 +1586,16 @@
       "effects": [
         "Suffix Modifiers on Birthed Items roll their values an additional 2 times,\nkeeping the highest value"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 1,
+        "y": 884,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeCurrency66",
@@ -904,7 +1606,16 @@
       "effects": [
         "10% chance for Birthing to not consume Hiveblood"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 908,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeCurrency11",
@@ -915,7 +1626,16 @@
       "effects": [
         "20% Surpassing chance to Birth an additional Item"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 908,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeCurrency54_",
@@ -926,7 +1646,16 @@
       "effects": [
         "20% Surpassing chance to Birth an additional Item"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 908,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeBelts24",
@@ -937,7 +1666,16 @@
       "effects": [
         "Birthed Items can roll additional Minion-related Modifiers"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 730,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeBelts9",
@@ -948,7 +1686,16 @@
       "effects": [
         "Birthed Items have 10% chance to be Forking Belts"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 730,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeAmulets24",
@@ -959,7 +1706,16 @@
       "effects": [
         "Prefix Modifiers on Birthed Items roll their values an additional 2 times,\nkeeping the highest value"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 1,
+        "y": 884,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeCurrency67",
@@ -971,7 +1727,16 @@
         "67% increased chance to Birth Chaos Orbs",
         "67% increased chance to Birth Vaal Orbs"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 908,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeAmulets6",
@@ -982,7 +1747,16 @@
       "effects": [
         "10% Surpassing chance to Birth an additional Item"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 1,
+        "y": 884,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeCurrency16",
@@ -993,7 +1767,16 @@
       "effects": [
         "100% increased chance to Birth Jeweller's Orbs"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 908,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeBelts48",
@@ -1004,7 +1787,16 @@
       "effects": [
         "Birthed Items always have a Caster Modifier"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 730,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeCurrency45",
@@ -1015,7 +1807,16 @@
       "effects": [
         "Can only Birth Catalysts"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 908,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeAmulets35_",
@@ -1026,7 +1827,16 @@
       "effects": [
         "Birthed Items have 100% increased chance to be Absent Amulets"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 1,
+        "y": 884,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeCurrency59",
@@ -1037,7 +1847,16 @@
       "effects": [
         "20% Surpassing chance to Birth an additional Item"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 908,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeCurrency43",
@@ -1048,7 +1867,16 @@
       "effects": [
         "15% chance for Birthed Currency to be a Catalyst"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 908,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeCurrency34",
@@ -1059,7 +1887,16 @@
       "effects": [
         "30% Surpassing chance to Birth an additional Catalyst of the same type\nwhen Birthing Catalysts"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 908,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeRings41",
@@ -1070,7 +1907,16 @@
       "effects": [
         "10% Surpassing chance to Birth an additional Item"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 819,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeRings15",
@@ -1083,7 +1929,16 @@
         "Option (Kinetic Ring): Birthed Items have 10% chance to be Kinetic Rings",
         "Option (Oneiric Ring): Birthed Items have 10% chance to be Oneiric Rings"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 628,
+        "y": 498,
+        "w": 176,
+        "h": 176
+      }
     },
     {
       "id": "BrequelTreeBelts7____",
@@ -1094,7 +1949,16 @@
       "effects": [
         "Birthed Items have 10% chance to be Sinew Belts"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 730,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeBelts34",
@@ -1108,7 +1972,16 @@
         "Option (Monstrous): Birthed Items have 5% chance to be crafted with ''Monstrous''",
         "Option (Scattering): Birthed Items have 5% chance to be crafted with ''of Scattering''"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 1,
+        "y": 707,
+        "w": 176,
+        "h": 176
+      }
     },
     {
       "id": "BrequelTreeAmulets28",
@@ -1119,7 +1992,16 @@
       "effects": [
         "10% Surpassing chance to Birth an additional Item"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 1,
+        "y": 884,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeCurrency79",
@@ -1130,7 +2012,16 @@
       "effects": [
         "100% increased chance to Birth Exalted Orbs"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 908,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeRings20",
@@ -1144,7 +2035,16 @@
         "Option (Dexterity): Birthed Items cannot have Dexterity Modifiers",
         "Option (Intelligence): Birthed Items cannot have Intelligence Modifiers"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 628,
+        "y": 498,
+        "w": 176,
+        "h": 176
+      }
     },
     {
       "id": "BrequelTreeCurrency38",
@@ -1155,7 +2055,16 @@
       "effects": [
         "30% Surpassing chance to Birth an additional Catalyst of the same type\nwhen Birthing Catalysts"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 908,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeCurrency60_",
@@ -1166,7 +2075,16 @@
       "effects": [
         "50% increased chance to Birth Orbs of Annulment"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 908,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeAmulets50",
@@ -1177,7 +2095,16 @@
       "effects": [
         "10% Surpassing chance to Birth an additional Item"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 1,
+        "y": 884,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeCurrency2",
@@ -1188,7 +2115,16 @@
       "effects": [
         "All Birthed items are converted to Gold"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 908,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeRings7_",
@@ -1199,7 +2135,16 @@
       "effects": [
         "Resistance Modifiers on Birthed Items have Minimum Modifier Level 40"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 819,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeCurrency64",
@@ -1210,7 +2155,16 @@
       "effects": [
         "50% increased chance to Birth Divine Orbs"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 908,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeRings23",
@@ -1221,7 +2175,16 @@
       "effects": [
         "Birthed Items can roll additional Minion-related Modifiers"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 628,
+        "y": 498,
+        "w": 176,
+        "h": 176
+      }
     },
     {
       "id": "BrequelTreeBelts8",
@@ -1232,7 +2195,16 @@
       "effects": [
         "Birthed Items have 10% chance to be Invoking Belts"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 730,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeAmulets52",
@@ -1243,7 +2215,16 @@
       "effects": [
         "Mana Modifiers on Birthed Items have Minimum Modifier Level 55"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 1,
+        "y": 884,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeAmulets55",
@@ -1254,7 +2235,16 @@
       "effects": [
         "Life Modifiers on Birthed Items have Minimum Modifier Level 55"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 1,
+        "y": 884,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeCurrency49_",
@@ -1265,7 +2255,16 @@
       "effects": [
         "10% chance for Birthed Catalysts to be Jewel Catalysts"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 908,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeAmulets15",
@@ -1276,7 +2275,16 @@
       "effects": [
         "Birthed Items always have a Resistance Modifier"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 1,
+        "y": 884,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeCurrency48",
@@ -1287,7 +2295,16 @@
       "effects": [
         "4% chance for Birthed Catalysts to be Jewel Catalysts"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 908,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeCurrency10",
@@ -1298,7 +2315,16 @@
       "effects": [
         "2% chance for Birthed Currency to be an Essence of the Breach"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 908,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeAmulets22",
@@ -1309,7 +2335,16 @@
       "effects": [
         "Lightning Resistance Modifiers on Birthed Items have Minimum Modifier Level 60"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 1,
+        "y": 884,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeRings55",
@@ -1323,7 +2358,16 @@
         "Option (Fire Breather's): Birthed Items have 5% chance to be crafted with ''Fire Breather's''",
         "Option (Tempest Rider's): Birthed Items have 5% chance to be crafted with ''Tempest Rider's''"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 628,
+        "y": 498,
+        "w": 176,
+        "h": 176
+      }
     },
     {
       "id": "BrequelTreeBelts40",
@@ -1334,7 +2378,16 @@
       "effects": [
         "Caster Modifiers on Birthed Items have Minimum Modifier Level 35"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 730,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeRings33",
@@ -1345,7 +2398,16 @@
       "effects": [
         "10% Surpassing chance to Birth an additional Item"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 819,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeBelts39",
@@ -1356,7 +2418,16 @@
       "effects": [
         "10% Surpassing chance to Birth an additional Item"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 730,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeAmuletsSlot",
@@ -1365,7 +2436,16 @@
       "x": 1601.5,
       "y": 78,
       "effects": [],
-      "root": true
+      "root": true,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 1,
+        "y": 1,
+        "w": 324,
+        "h": 496
+      }
     },
     {
       "id": "BrequelTreeAmulets30",
@@ -1376,7 +2456,16 @@
       "effects": [
         "10% Surpassing chance to Birth an additional Item"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 1,
+        "y": 884,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeCurrency31",
@@ -1387,7 +2476,16 @@
       "effects": [
         "100% increased chance to Birth Orbs of Augmentation"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 908,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeBelts11",
@@ -1398,7 +2496,16 @@
       "effects": [
         "Birthed Items have Minimum Modifier Level 30"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 730,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeCurrency3",
@@ -1409,7 +2516,16 @@
       "effects": [
         "20% Surpassing chance to Birth an additional Item"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 908,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeCurrency36",
@@ -1420,7 +2536,16 @@
       "effects": [
         "30% Surpassing chance to Birth an additional Catalyst of the same type\nwhen Birthing Catalysts"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 908,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeCurrency19_",
@@ -1432,7 +2557,16 @@
         "500% increased chance to Birth Quality Currency",
         "Cannot Birth Gemcutter's Prisms"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 908,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeRings38_",
@@ -1443,7 +2577,16 @@
       "effects": [
         "Minion Resistance Modifiers on Birthed Items have Minimum Modifier Level 60"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 819,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeCurrency68",
@@ -1455,7 +2598,16 @@
         "67% increased chance to Birth Chaos Orbs",
         "67% increased chance to Birth Vaal Orbs"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 908,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeRings34",
@@ -1468,7 +2620,16 @@
         "Option (Punctuality): Birthed Items have an 5% chance to be crafted with ''of Punctuality''",
         "Option (Invigoration): Birthed Items have an 5% chance to be crafted with ''of Invigoration''"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 628,
+        "y": 498,
+        "w": 176,
+        "h": 176
+      }
     },
     {
       "id": "BrequelTreeCurrency23",
@@ -1481,7 +2642,16 @@
         "Option (Improved Orbs of Transmutation): Birthed Orbs of Transmutation are always Greater or Perfect",
         "Option (Improved Orbs of Augmentation): Birthed Orbs of Augmentation are always Greater or Perfect"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 178,
+        "y": 707,
+        "w": 176,
+        "h": 176
+      }
     },
     {
       "id": "BrequelTreeAmulets64",
@@ -1492,7 +2662,16 @@
       "effects": [
         "Evasion Modifiers on Birthed Items have Minimum Modifier Level 60"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 1,
+        "y": 884,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeCurrency65",
@@ -1503,7 +2682,16 @@
       "effects": [
         "100% increased chance to Birth Divine Orbs"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 908,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeBelts13",
@@ -1514,7 +2702,16 @@
       "effects": [
         "Life and Mana Modifiers on Birthed Items have Minimum Modifier Level 40"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 730,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeCurrency63",
@@ -1525,7 +2722,16 @@
       "effects": [
         "50% increased chance to Birth Divine Orbs"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 908,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeRingsSlot",
@@ -1534,7 +2740,16 @@
       "x": -1703.8,
       "y": 3076,
       "effects": [],
-      "root": true
+      "root": true,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 1,
+        "y": 1,
+        "w": 324,
+        "h": 496
+      }
     },
     {
       "id": "BrequelTreeCurrency74",
@@ -1545,7 +2760,16 @@
       "effects": [
         "Birth an additional item of the same type when Birthing Regal Orbs"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 908,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeCurrency14",
@@ -1556,7 +2780,16 @@
       "effects": [
         "20% Surpassing chance to Birth an additional Item"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 908,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeBelts45",
@@ -1567,7 +2800,16 @@
       "effects": [
         "Caster Suffix Modifiers on Birthed Items have Minimum Modifier Level 50"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 730,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeAmulets4",
@@ -1578,7 +2820,16 @@
       "effects": [
         "Attribute Modifiers on Birthed Items have Minimum Modifier Level 40"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 1,
+        "y": 884,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeCurrency37",
@@ -1594,7 +2845,16 @@
         "Option (Uul-Netol's Catalysts): Cannot Birth Uul-Netol's Catalysts",
         "Option (Chayula's Catalysts): Cannot Birth Chayula's Catalysts"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 178,
+        "y": 707,
+        "w": 176,
+        "h": 176
+      }
     },
     {
       "id": "BrequelTreeRings39__",
@@ -1605,7 +2865,16 @@
       "effects": [
         "Birthed Items can roll additional Caster-related Modifiers"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 819,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeCurrency50",
@@ -1616,7 +2885,16 @@
       "effects": [
         "10% chance for Birthed Currency to be a stack of Breach Splinters"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 908,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeRings46",
@@ -1627,7 +2905,16 @@
       "effects": [
         "10% Surpassing chance to Birth an additional Item"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 819,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeRings28",
@@ -1638,7 +2925,16 @@
       "effects": [
         "Birthed Items always have two Minion Modifiers"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 628,
+        "y": 498,
+        "w": 176,
+        "h": 176
+      }
     },
     {
       "id": "BrequelTreeAmulets17",
@@ -1649,7 +2945,16 @@
       "effects": [
         "Chaos Resistance Modifiers on Birthed Items have Minimum Modifier Level 59"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 1,
+        "y": 884,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeRings22",
@@ -1662,7 +2967,16 @@
         "Option (Life): Birthed Items cannot have Life Modifiers",
         "Option (Mana): Birthed Items cannot have Mana Modifiers"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 628,
+        "y": 498,
+        "w": 176,
+        "h": 176
+      }
     },
     {
       "id": "BrequelTreeAmulets48",
@@ -1673,7 +2987,16 @@
       "effects": [
         "Birthed Items cannot have Attack Modifiers"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 1,
+        "y": 884,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeRings27",
@@ -1684,7 +3007,16 @@
       "effects": [
         "Minion Modifiers on Birthed Items roll their values an additional 2 times,\nkeeping the highest value"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 819,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeCurrency70",
@@ -1695,7 +3027,16 @@
       "effects": [
         "29% chance to Birth an additional 3 to 7 items of the same type when\nBirthing Vaal Orbs or Chaos Orbs"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 908,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeBelts2",
@@ -1706,7 +3047,16 @@
       "effects": [
         "10% Surpassing chance to Birth an additional Item"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 730,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeCurrency7",
@@ -1717,7 +3067,16 @@
       "effects": [
         "40% Surpassing chance to Birth an additional Item"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 908,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeCurrency72",
@@ -1728,7 +3087,16 @@
       "effects": [
         "100% increased chance to Birth Orbs of Alchemy"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 908,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeBelts21",
@@ -1741,7 +3109,16 @@
         "Option (Prefix): Birthed Items always have an empty Prefix Modifier",
         "Option (Suffix): Birthed Items always have an empty Suffix Modifier"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 1,
+        "y": 707,
+        "w": 176,
+        "h": 176
+      }
     },
     {
       "id": "BrequelTreeCurrency4_",
@@ -1752,7 +3129,16 @@
       "effects": [
         "20% Surpassing chance to Birth an additional Item"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 908,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeAmulets5",
@@ -1763,7 +3149,16 @@
       "effects": [
         "Birthed Items always have an Attribute Modifier"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 1,
+        "y": 884,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeBelts41",
@@ -1774,7 +3169,16 @@
       "effects": [
         "Caster Prefix Modifiers on Birthed Items have Minimum Modifier Level 50"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 730,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeBelts47",
@@ -1785,7 +3189,16 @@
       "effects": [
         "Birthed Items can roll additional Caster-related Modifiers"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 730,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeCurrency39",
@@ -1800,7 +3213,16 @@
         "Option (Adaptive Catalysts): Cannot Birth Adaptive Catalysts",
         "Option (Carapace Catalysts): Cannot Birth Carapace Catalysts"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 178,
+        "y": 707,
+        "w": 176,
+        "h": 176
+      }
     },
     {
       "id": "BrequelTreeRings31",
@@ -1813,7 +3235,16 @@
         "Option (Dedicated): Birthed Items have an 5% chance to be crafted with ''Sacrificial''",
         "Option (Cabal): Birthed Items have an 5% chance to be crafted with ''of the Cabal''"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 628,
+        "y": 498,
+        "w": 176,
+        "h": 176
+      }
     },
     {
       "id": "BrequelTreeRings37",
@@ -1826,7 +3257,16 @@
         "Option (Scratching): Birthed Items have an 5% chance to be crafted with ''Scratching''",
         "Option (Contaminating): Birthed Items have an 5% chance to be crafted with ''Contaminating''"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 628,
+        "y": 498,
+        "w": 176,
+        "h": 176
+      }
     },
     {
       "id": "BrequelTreeBelts25",
@@ -1837,7 +3277,16 @@
       "effects": [
         "Minion Modifiers on Birthed Items have Minimum Modifier Level 35"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 730,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeCurrency42",
@@ -1848,7 +3297,16 @@
       "effects": [
         "30% Surpassing chance to Birth an additional Catalyst of a different type when Birthing Catalysts"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 908,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeAmulets26",
@@ -1859,7 +3317,16 @@
       "effects": [
         "Prefix Modifiers on Birthed Items roll their values an additional 2 times,\nkeeping the highest value"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 1,
+        "y": 884,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeRings4",
@@ -1870,7 +3337,16 @@
       "effects": [
         "Attribute Modifiers on Birthed Items have Minimum Modifier Level 40"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 819,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeCurrency29",
@@ -1881,7 +3357,16 @@
       "effects": [
         "100% increased chance to Birth Orbs of Augmentation"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 908,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeCurrency75",
@@ -1892,7 +3377,16 @@
       "effects": [
         "Birth an additional item of the same type when Birthing Orbs of Alchemy"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 908,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeRings10",
@@ -1905,7 +3399,16 @@
         "Option (Prefix): Birthed Items always have an empty Prefix Modifier",
         "Option (Suffix): Birthed Items always have an empty Suffix Modifier"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 628,
+        "y": 498,
+        "w": 176,
+        "h": 176
+      }
     },
     {
       "id": "BrequelTreeAmulets46",
@@ -1916,7 +3419,16 @@
       "effects": [
         "Birthed Items cannot have Caster Modifiers"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 1,
+        "y": 884,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeAmulets41",
@@ -1927,7 +3439,16 @@
       "effects": [
         "10% Surpassing chance to Birth an additional Item"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 1,
+        "y": 884,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeAmulets13",
@@ -1938,7 +3459,16 @@
       "effects": [
         "Suffix Modifiers on Birthed Items have maximum values"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 1,
+        "y": 884,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeCurrency73",
@@ -1949,7 +3479,16 @@
       "effects": [
         "100% increased chance to Birth Orbs of Alchemy"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 908,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeRings24",
@@ -1960,7 +3499,16 @@
       "effects": [
         "Minion Modifiers on Birthed Items have Minimum Modifier Level 35"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 819,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeAmulets3",
@@ -1971,7 +3519,16 @@
       "effects": [
         "Suffix Modifiers on Birthed Items have Minimum Modifier Level 30"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 1,
+        "y": 884,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeCurrency33",
@@ -1982,7 +3539,16 @@
       "effects": [
         "15% chance for Birthed Currency to be a Catalyst"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 908,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeAmulets8___",
@@ -1993,7 +3559,16 @@
       "effects": [
         "Intelligence Modifiers on Birthed Items have Minimum Modifier Level 60"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 1,
+        "y": 884,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeCurrency12",
@@ -2004,7 +3579,16 @@
       "effects": [
         "20% Surpassing chance to Birth an additional Item"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 908,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeCurrency17",
@@ -2016,7 +3600,16 @@
         "500% increased chance to Birth Jeweller's Orbs",
         "Cannot Birth Perfect Jeweller's Orbs"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 908,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeRings19",
@@ -2027,7 +3620,16 @@
       "effects": [
         "10% Surpassing chance to Birth an additional Item"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 819,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeAmulets37",
@@ -2038,7 +3640,16 @@
       "effects": [
         "Birthed Items have 5% chance to be Corona Amulets"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 1,
+        "y": 884,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeBelts30",
@@ -2051,7 +3662,16 @@
         "Option (Unending): Birthed Items have 5% chance to have a ''of Unending''",
         "Option (Underling's): Birthed Items have 5% chance to be crafted with ''Underling's''"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 1,
+        "y": 707,
+        "w": 176,
+        "h": 176
+      }
     },
     {
       "id": "BrequelTreeRings52",
@@ -2062,7 +3682,16 @@
       "effects": [
         "10% Surpassing chance to Birth an additional Item"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 819,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeAmulets27",
@@ -2073,7 +3702,16 @@
       "effects": [
         "10% Surpassing chance to Birth an additional Item"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 1,
+        "y": 884,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeCurrency44",
@@ -2084,7 +3722,16 @@
       "effects": [
         "30% Surpassing chance to Birth an additional Catalyst of the same type\nwhen Birthing Catalysts"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 908,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeCurrency52",
@@ -2095,7 +3742,16 @@
       "effects": [
         "50% chance to Birth an 16 to 24 additional Breach Splinters when Birthing Breach Splinters"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 908,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeBreachstonesSlot",
@@ -2104,7 +3760,16 @@
       "x": 181.5,
       "y": 3169.1,
       "effects": [],
-      "root": true
+      "root": true,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 1,
+        "y": 1,
+        "w": 324,
+        "h": 496
+      }
     },
     {
       "id": "BrequelTreeCurrency27_",
@@ -2116,7 +3781,16 @@
         "Cannot Birth Orbs of Augmentation",
         "Cannot Birth Divine Orbs"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 908,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeBelts37_",
@@ -2129,7 +3803,16 @@
         "Option (Coherence): Birthed Items have 5% chance to be crafted with ''of Coherence''",
         "Option (Binding): Birthed Items have 5% chance to be crafted with ''of Binding''"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 1,
+        "y": 707,
+        "w": 176,
+        "h": 176
+      }
     },
     {
       "id": "BrequelTreeAmulets14_",
@@ -2140,7 +3823,16 @@
       "effects": [
         "Resistance Modifiers on Birthed Items have Minimum Modifier Level 40"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 1,
+        "y": 884,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeRings25",
@@ -2151,7 +3843,16 @@
       "effects": [
         "Birthed Items always have a Minion Modifier"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 628,
+        "y": 498,
+        "w": 176,
+        "h": 176
+      }
     },
     {
       "id": "BrequelTreeCurrency69",
@@ -2164,7 +3865,16 @@
         "Option (Chaos Orbs): Cannot Birth Chaos Orbs",
         "Option (Vaal Orbs): Cannot Birth Vaal Orbs"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 178,
+        "y": 707,
+        "w": 176,
+        "h": 176
+      }
     },
     {
       "id": "BrequelTreeAmulets65",
@@ -2175,7 +3885,16 @@
       "effects": [
         "Energy Shield Modifiers on Birthed Items have Minimum Modifier Level 60"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 1,
+        "y": 884,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeCurrency18",
@@ -2186,7 +3905,16 @@
       "effects": [
         "100% increased chance to Birth Quality Currency"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 908,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeAmulets61_",
@@ -2197,7 +3925,16 @@
       "effects": [
         "Armour, Evasion and Energy Shield Modifiers on Birthed Items\nhave Minimum Modifier Level 40"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 1,
+        "y": 884,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeRings9",
@@ -2208,7 +3945,16 @@
       "effects": [
         "Birthed Breach Rings have 5% chance to instead Birth as a Refined Breach Ring"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 628,
+        "y": 498,
+        "w": 176,
+        "h": 176
+      }
     },
     {
       "id": "BrequelTreeRings51",
@@ -2219,7 +3965,16 @@
       "effects": [
         "Caster Critical Modifiers on Birthed Items have Minimum Modifier Level 60"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 819,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeCurrency25",
@@ -2230,7 +3985,16 @@
       "effects": [
         "100% increased chance to Birth Orbs of Transmutation"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 908,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeBelts26",
@@ -2241,7 +4005,16 @@
       "effects": [
         "Birthed Items always have a Minion Modifier"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 730,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeRings32",
@@ -2252,7 +4025,16 @@
       "effects": [
         "Minion damage Modifiers on Birthed Items have Minimum Modifier Level 60"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 819,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeAmulets58",
@@ -2263,7 +4045,16 @@
       "effects": [
         "Prefix Modifiers on Birthed Items have maximum values"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 1,
+        "y": 884,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeCurrency78",
@@ -2274,7 +4065,16 @@
       "effects": [
         "100% increased chance to Birth Exalted Orbs"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 908,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeCurrency53",
@@ -2285,7 +4085,16 @@
       "effects": [
         "0.3% chance for Birthed Currency to be a Breachlord Sac"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 908,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeBelts3",
@@ -2296,7 +4105,16 @@
       "effects": [
         "10% Surpassing chance to Birth an additional Item"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 730,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeRings40",
@@ -2307,7 +4125,16 @@
       "effects": [
         "Caster Modifiers on Birthed Items have Minimum Modifier Level 35"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 819,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeAmulets20",
@@ -2318,7 +4145,16 @@
       "effects": [
         "Fire Resistance Modifiers on Birthed Items have Minimum Modifier Level 60"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 1,
+        "y": 884,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeBelts43",
@@ -2329,7 +4165,16 @@
       "effects": [
         "10% Surpassing chance to Birth an additional Item"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 730,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeBelts14",
@@ -2340,7 +4185,16 @@
       "effects": [
         "Flask Modifiers on Birthed Items have Minimum Modifier Level 40"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 730,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeCurrency20",
@@ -2351,7 +4205,16 @@
       "effects": [
         "100% increased chance to Birth Quality Currency"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 908,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeRings2_",
@@ -2362,7 +4225,16 @@
       "effects": [
         "Birthed Items have 10% chance to be Breach Rings"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 628,
+        "y": 498,
+        "w": 176,
+        "h": 176
+      }
     },
     {
       "id": "BrequelTreeRings30",
@@ -2373,7 +4245,16 @@
       "effects": [
         "10% Surpassing chance to Birth an additional Item"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 819,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeCurrency9",
@@ -2384,7 +4265,16 @@
       "effects": [
         "2% chance for Birthed Currency to be an Altered Collarbone"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 908,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeBelts44",
@@ -2397,7 +4287,16 @@
         "Option (Imbuing): Birthed Items have 5% chance to be crafted with ''of Imbuing''",
         "Option (Expectation): Birthed Items have an 5% chance to be crafted with ''of Expectation''"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 1,
+        "y": 707,
+        "w": 176,
+        "h": 176
+      }
     },
     {
       "id": "BrequelTreeCurrency21",
@@ -2408,7 +4307,16 @@
       "effects": [
         "Birth an additional item of the same type when Birthing Quality Currency"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 908,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeBeltsSlot",
@@ -2417,7 +4325,16 @@
       "x": 1808.2,
       "y": 3039.7,
       "effects": [],
-      "root": true
+      "root": true,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 1,
+        "y": 1,
+        "w": 324,
+        "h": 496
+      }
     },
     {
       "id": "BrequelTreeRings36_",
@@ -2428,7 +4345,16 @@
       "effects": [
         "10% Surpassing chance to Birth an additional Item"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 819,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeAmulets57_",
@@ -2439,7 +4365,16 @@
       "effects": [
         "Birthed Items always have an empty Suffix Modifier"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 1,
+        "y": 884,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeRings43",
@@ -2450,7 +4385,16 @@
       "effects": [
         "Caster Modifiers on Birthed Items roll their values an additional 2 times,\nkeeping the highest value"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 819,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeRings14",
@@ -2463,7 +4407,16 @@
         "Option (Biostatic Ring): Birthed Items have 5% chance to be Biostatic Rings",
         "Option (Grasping Ring): Birthed Items have 5% chance to be Grasping Rings"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 628,
+        "y": 498,
+        "w": 176,
+        "h": 176
+      }
     },
     {
       "id": "BrequelTreeBelts33_",
@@ -2474,7 +4427,16 @@
       "effects": [
         "Minion Prefix Modifiers on Birthed Items have Minimum Modifier Level 50"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 730,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeAmulets60_",
@@ -2488,7 +4450,16 @@
         "Option (Evasion): Birthed Items always have an Evasion Modifier",
         "Option (Energy Shield): Birthed Items always have an Energy Shield Modifier"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 805,
+        "y": 498,
+        "w": 176,
+        "h": 176
+      }
     },
     {
       "id": "BrequelTreeCurrency41",
@@ -2499,7 +4470,16 @@
       "effects": [
         "30% Surpassing chance to Birth an additional Catalyst of a different type when Birthing Catalysts"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 908,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeBelts42",
@@ -2513,7 +4493,16 @@
         "Option (Energising): Birthed Items have 5% chance to be crafted with ''Energising''",
         "Option (Glacial): Birthed Items have 5% chance to be crafted with ''Glacial''"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 1,
+        "y": 707,
+        "w": 176,
+        "h": 176
+      }
     },
     {
       "id": "BrequelTreeAmulets33",
@@ -2524,7 +4513,16 @@
       "effects": [
         "Birthed Items have 100% increased chance to be Lament Amulets"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 1,
+        "y": 884,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeCurrency35",
@@ -2537,7 +4535,16 @@
         "Option (Skittering Catalysts): Cannot Birth Skittering Catalysts",
         "Option (Reaver Catalysts): Cannot Birth Reaver Catalysts"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 178,
+        "y": 707,
+        "w": 176,
+        "h": 176
+      }
     },
     {
       "id": "BrequelTreeBelts23",
@@ -2550,7 +4557,16 @@
         "Option (Flask): Birthed Items cannot have Flask Modifiers",
         "Option (Charm): Birthed Items cannot have Charm Modifiers"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 1,
+        "y": 707,
+        "w": 176,
+        "h": 176
+      }
     },
     {
       "id": "BrequelTreeRings44",
@@ -2563,7 +4579,16 @@
         "Option (Soul Stealer's): Birthed Items have 5% chance to be crafted with ''Soul Stealer's''",
         "Option (Lancing): Birthed Items have 5% chance to be crafted with ''of Lancing''"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 628,
+        "y": 498,
+        "w": 176,
+        "h": 176
+      }
     },
     {
       "id": "BrequelTreeBelts20",
@@ -2577,7 +4602,16 @@
         "Option (Cold): Birthed Items cannot have Cold Modifiers",
         "Option (Lightning): Birthed Items cannot have Lightning Modifiers"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 1,
+        "y": 707,
+        "w": 176,
+        "h": 176
+      }
     },
     {
       "id": "BrequelTreeRings5",
@@ -2588,7 +4622,16 @@
       "effects": [
         "Life and Mana Modifiers on Birthed Items have Minimum Modifier Level 40"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 819,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeRings17",
@@ -2599,7 +4642,16 @@
       "effects": [
         "10% Surpassing chance to Birth an additional Item"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 819,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeAmulets18",
@@ -2610,7 +4662,16 @@
       "effects": [
         "10% Surpassing chance to Birth an additional Item"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 1,
+        "y": 884,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeCurrency76",
@@ -2621,7 +4682,16 @@
       "effects": [
         "100% increased chance to Birth Regal Orbs"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 908,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeCurrency1",
@@ -2632,7 +4702,16 @@
       "effects": [
         "20% Surpassing chance to Birth an additional Item"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 908,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeBelts12",
@@ -2643,7 +4722,16 @@
       "effects": [
         "Resistance Modifiers on Birthed Items have Minimum Modifier Level 40"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 730,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeRings48",
@@ -2654,7 +4742,16 @@
       "effects": [
         "Caster speed Modifiers on Birthed Items have Minimum Modifier Level 60"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 819,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeCurrency47_",
@@ -2665,7 +4762,16 @@
       "effects": [
         "30% Surpassing chance to Birth an additional Catalyst of the same type\nwhen Birthing Catalysts"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 908,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeAmulets59",
@@ -2676,7 +4782,16 @@
       "effects": [
         "Birthed Items always have an Armour, Evasion or Energy Shield Modifier"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 1,
+        "y": 884,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeCurrency30",
@@ -2688,7 +4803,16 @@
         "Cannot Birth Orbs of Transmutation",
         "Cannot Birth Orbs of Annulment"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 908,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeCurrency57",
@@ -2699,7 +4823,16 @@
       "effects": [
         "20% Surpassing chance to Birth an additional Item"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 908,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeBelts29",
@@ -2710,7 +4843,16 @@
       "effects": [
         "Birthed Items always have two Minion Modifiers"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 730,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeCurrency80",
@@ -2721,7 +4863,16 @@
       "effects": [
         "Birth an additional item of the same type when Birthing Exalted Orbs"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 908,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeAmulets19",
@@ -2735,7 +4886,16 @@
         "Option (Cold Resistance): Birthed Items always have a Cold Resistance Modifier",
         "Option (Lightning Resistance): Birthed Items always have a Lightning Resistance Modifier"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 805,
+        "y": 498,
+        "w": 176,
+        "h": 176
+      }
     },
     {
       "id": "BrequelTreeRings1",
@@ -2746,7 +4906,16 @@
       "effects": [
         "Birthed Items have Minimum Modifier Level 20"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 819,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeCurrency40",
@@ -2757,7 +4926,16 @@
       "effects": [
         "15% chance for Birthed Currency to be a Catalyst"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 908,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     },
     {
       "id": "BrequelTreeCurrency26",
@@ -2768,7 +4946,16 @@
       "effects": [
         "100% increased chance to Birth Orbs of Transmutation"
       ],
-      "root": false
+      "root": false,
+      "sprite": {
+        "sheet": "/art/planning/genesis-icons.webp",
+        "sheetWidth": 1024,
+        "sheetHeight": 973,
+        "x": 908,
+        "y": 707,
+        "w": 88,
+        "h": 88
+      }
     }
   ],
   "edges": [

@@ -2,6 +2,7 @@ import { createHash } from "node:crypto";
 import { mkdir } from "node:fs/promises";
 import { resolve } from "node:path";
 import { normalizeGenesisSource } from "../src/lib/genesis-data";
+import { parsePlanningSprites } from "../src/lib/planning-artwork";
 const REVISION = "27f5dad0d0979aa23a604defd11fcf7ae4668444";
 const ROOT = `https://raw.githubusercontent.com/PraedythXIV/poe2-build-converter/${REVISION}/src/data`;
 const SOURCES = [
@@ -12,6 +13,10 @@ const SOURCES = [
   {
     name: "genesisCrafting.json",
     sha: "bfe55a9da73438fe40cdc50b37db6e59ff124a0edc15f123b1da814c2938b038",
+  },
+  {
+    name: "genesisIcons.json",
+    sha: "cb0cc956e119213c95e2a34c0e063b57b97fd79c5f0aa5605879de826873f8af",
   },
 ] as const;
 async function prepare() {
@@ -25,7 +30,22 @@ async function prepare() {
       return JSON.parse(new TextDecoder().decode(bytes)) as unknown;
     }),
   );
-  const normalized = normalizeGenesisSource(raw[0], raw[1], REVISION);
+  const sprites = parsePlanningSprites(raw[2], "/art/planning/genesis-icons.webp");
+  const normalized = normalizeGenesisSource(raw[0], raw[1], REVISION, sprites);
+  if (normalized.nodes.some((n) => !n.sprite))
+    throw new Error("Genesis artwork coverage is incomplete.");
+  const image = await fetch(
+    `https://raw.githubusercontent.com/PraedythXIV/poe2-build-converter/${REVISION}/src/assets/tree/genesis-icons.webp`,
+  );
+  if (!image.ok) throw new Error(`Genesis image fetch failed: ${image.status}`);
+  const bytes = new Uint8Array(await image.arrayBuffer());
+  if (
+    createHash("sha256").update(bytes).digest("hex") !==
+    "d0c627af6c86fc8c7e891bac8b8cde6516eb4e15e3479716d9599c420b10369a"
+  )
+    throw new Error("Genesis image integrity check failed.");
+  await mkdir(resolve("public/art/planning"), { recursive: true });
+  await Bun.write(resolve("public/art/planning/genesis-icons.webp"), bytes);
   await mkdir(resolve("public/data"), { recursive: true });
   await Bun.write(
     resolve("public/data/poe2-genesis.json"),

@@ -395,6 +395,7 @@ export function Planner() {
                     showBoth: true,
                   }}
                   onModeChange={store.setWeaponSet}
+                  undoAction={{ disabled: !history.length, onClick: undo }}
                 />
               </section>
               <aside className="panel node-panel">

@@ -39,6 +39,7 @@ const nav = [
   { href: "/crafting", label: "Crafting workbench", icon: Hammer },
   { href: "/genesis", label: "Genesis Tree", icon: Sprout },
   { href: "/planner", label: "Passive planner", icon: GitBranch },
+  { href: "/atlas", label: "Atlas planner", icon: Compass },
   { href: "/builds", label: "Build library", icon: BookOpen },
   { href: "/compare", label: "Build comparison", icon: GitCompare },
   { href: "/items", label: "Item gallery", icon: Images },
@@ -53,6 +54,13 @@ export function Shell({ children }: { children: React.ReactNode }) {
         Skip to content
       </a>
       <aside className={`sidebar ${open ? "open" : ""}`}>
+        <button
+          className="sidebar-close icon-button"
+          aria-label="Close navigation"
+          onClick={() => setOpen(false)}
+        >
+          <X size={20} />
+        </button>
         <Link href="/" className="brand">
           <span className="brand-mark">
             <Compass size={25} />
@@ -62,13 +70,6 @@ export function Shell({ children }: { children: React.ReactNode }) {
           </span>
           <span className="brand-version">II</span>
         </Link>
-        <button
-          className="sidebar-close icon-button"
-          aria-label="Close navigation"
-          onClick={() => setOpen(false)}
-        >
-          <X size={20} />
-        </button>
         <div className="realm-switch">
           <span className="realm-symbol">Ⅱ</span>
           <div>
