@@ -21,5 +21,7 @@ Verification: missing script/configuration helper reproduced before implementati
 317 unit tests passed; production build, sequential typecheck/lint and shell syntax
 checks passed. A build made with an empty ID loaded the dummy ID when started with
 that runtime setting, and preserved one script across desktop/mobile navigation.
-Analytics requests were blocked during tests. Full disabled-runtime browser suite,
-independent review and production rollout are pending.
+Analytics requests were blocked during tests. All 110 disabled-runtime desktop/mobile
+browser stories passed. Independent review of `fb6a0b3..e95e704` found no Critical,
+Important or Minor issues; focused environment-helper checks passed independently.
+Production rollout and actual collector acceptance are pending.
