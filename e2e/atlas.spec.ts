@@ -123,13 +123,11 @@ test("Atlas plans allocate, refund, undo, save, reload and back up separately", 
   const exported = JSON.parse(await readFile(file!, "utf8"));
   expect(exported.format).toBe("exile-atlas-atlas");
   expect(exported.records[0].plan.allocated).toEqual(["a", "b", "c"]);
-  await page
-    .getByLabel("Import Atlas plans", { exact: true })
-    .setInputFiles({
-      name: "backup.json",
-      mimeType: "application/json",
-      buffer: Buffer.from(JSON.stringify(exported)),
-    });
+  await page.getByLabel("Import Atlas plans", { exact: true }).setInputFiles({
+    name: "backup.json",
+    mimeType: "application/json",
+    buffer: Buffer.from(JSON.stringify(exported)),
+  });
   await expect(page.getByRole("button", { name: "Load Endgame route", exact: true })).toHaveCount(
     2,
   );
@@ -162,13 +160,11 @@ test("Atlas budgets and source guards prevent unsafe allocation while preserving
       },
     ],
   };
-  await page
-    .getByLabel("Import Atlas plans", { exact: true })
-    .setInputFiles({
-      name: "old.json",
-      mimeType: "application/json",
-      buffer: Buffer.from(JSON.stringify(old)),
-    });
+  await page.getByLabel("Import Atlas plans", { exact: true }).setInputFiles({
+    name: "old.json",
+    mimeType: "application/json",
+    buffer: Buffer.from(JSON.stringify(old)),
+  });
   await page.getByRole("button", { name: "Load Old Atlas", exact: true }).click();
   await expect(page.getByText(/different Atlas dataset/)).toBeVisible();
   await expect(page.getByText("Unknown node: unknown", { exact: true })).toBeVisible();
@@ -204,4 +200,33 @@ test("bundled Atlas displays real sourced node images and independent branch vie
   await expect(page.getByRole("img", { name: /Breach Atlas tree/ })).toBeVisible();
   await expect(page.getByTestId("atlas-Core-count")).toHaveText("1");
   expect((await page.request.get("/art/planning/atlas-icons.webp")).ok()).toBe(true);
+});
+
+test("Undo restores the saved Atlas identity so Update cannot overwrite another route", async ({
+  page,
+}) => {
+  await page.route("**/data/poe2-atlas.json", (r) => r.fulfill({ json: fixture }));
+  await page.goto("/atlas");
+  await select(page, "Reward", "b");
+  await page.getByRole("button", { name: "Allocate Atlas path", exact: true }).click();
+  await page.getByLabel("Atlas plan name", { exact: true }).fill("Plan A");
+  await page.getByRole("button", { name: "Save Atlas plan", exact: true }).click();
+  await page.getByRole("button", { name: "Reset Atlas plan", exact: true }).click();
+  await page.getByLabel("Atlas plan name", { exact: true }).fill("Plan B");
+  await page.getByRole("button", { name: "Save Atlas plan", exact: true }).click();
+  await page.getByRole("button", { name: "Load Plan A", exact: true }).click();
+  await page.getByRole("button", { name: "Undo Atlas change", exact: true }).click();
+  await expect(page.getByLabel("Atlas plan name", { exact: true })).toHaveValue("Plan B");
+  await expect(page.getByTestId("atlas-Core-count")).toHaveText("0");
+  await page.getByRole("button", { name: "Update Atlas plan", exact: true }).click();
+  await page.getByRole("button", { name: "Load Plan A", exact: true }).click();
+  await expect(page.getByTestId("atlas-Core-count")).toHaveText("2");
+  await page.getByRole("button", { name: "Load Plan B", exact: true }).click();
+  await expect(page.getByTestId("atlas-Core-count")).toHaveText("0");
+  // Equal node lists still have different saved identities: loading is undoable.
+  await page.getByLabel("Atlas plan name", { exact: true }).fill("Plan C");
+  await page.getByRole("button", { name: "Save Atlas plan", exact: true }).click();
+  await page.getByRole("button", { name: "Load Plan B", exact: true }).click();
+  await page.getByRole("button", { name: "Undo Atlas change", exact: true }).click();
+  await expect(page.getByLabel("Atlas plan name", { exact: true })).toHaveValue("Plan C");
 });

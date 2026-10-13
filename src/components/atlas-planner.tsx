@@ -19,7 +19,13 @@ import { PlanningGraph } from "./planning-graph";
 import { Badge, Button, Field, Loading, Notice, PageTitle, SectionHeader } from "./ui";
 import styles from "./atlas-planner.module.css";
 
-type Checkpoint = { plan: AtlasPlan; branch: AtlasBranch; selected: string };
+type Checkpoint = {
+  plan: AtlasPlan;
+  branch: AtlasBranch;
+  selected: string;
+  name: string;
+  savedId?: string;
+};
 export function AtlasPlanner() {
   const draft = useAtlasDraft(),
     library = useAtlasPlans();
@@ -86,10 +92,25 @@ export function AtlasPlanner() {
       setMessage(e instanceof Error ? e.message : "The Atlas plan could not be updated.");
     }
   }
-  function change(next: AtlasPlan) {
-    if (JSON.stringify(next) === JSON.stringify(plan)) return;
+  function change(next: AtlasPlan, context?: Pick<Checkpoint, "name" | "savedId" | "selected">) {
+    const nextName = context?.name ?? name,
+      nextSavedId = context ? context.savedId : savedId,
+      nextSelected = context?.selected ?? selected;
+    if (
+      JSON.stringify(next) === JSON.stringify(plan) &&
+      nextName === name &&
+      nextSavedId === savedId &&
+      nextSelected === selected
+    )
+      return;
     draft.setPlan(next);
-    setHistory((h) => [...h.slice(-49), structuredClone({ plan, branch, selected })]);
+    setHistory((h) => [
+      ...h.slice(-49),
+      structuredClone({ plan, branch, selected, name, savedId }),
+    ]);
+    setName(nextName);
+    setSavedId(nextSavedId);
+    setSelected(nextSelected);
   }
   function undo() {
     const checkpoint = history.at(-1);
@@ -97,6 +118,8 @@ export function AtlasPlanner() {
     draft.setPlan(checkpoint.plan);
     setBranch(checkpoint.branch);
     setSelected(checkpoint.selected);
+    setName(checkpoint.name);
+    setSavedId(checkpoint.savedId);
     setHistory(history.slice(0, -1));
     setMessage("Last Atlas change undone.");
   }
@@ -138,9 +161,11 @@ export function AtlasPlanner() {
             aria-label="Reset Atlas plan"
             onClick={() =>
               attempt(() => {
-                change(createAtlasPlan(data));
-                setSelected("");
-                setSavedId(undefined);
+                change(createAtlasPlan(data), {
+                  name: "My Atlas plan",
+                  savedId: undefined,
+                  selected: "",
+                });
                 setMessage("New Atlas plan started. Saved plans are kept.");
               })
             }
@@ -469,10 +494,7 @@ export function AtlasPlanner() {
                   aria-label={`Load ${p.name}`}
                   onClick={() =>
                     attempt(() => {
-                      change(p.plan);
-                      setName(p.name);
-                      setSavedId(p.id);
-                      setSelected("");
+                      change(p.plan, { name: p.name, savedId: p.id, selected: "" });
                       setMessage("Atlas plan loaded.");
                     })
                   }
