@@ -23,6 +23,13 @@ import { Badge, SectionHeader } from "./ui";
 import { OrbitArt } from "./orbit-art";
 const tools = [
   {
+    href: "/atlas",
+    title: "Shape your endgame",
+    description: "Plan connected Atlas branches and keep your mapping routes.",
+    icon: Compass,
+    tag: "ATLAS PLANNER",
+  },
+  {
     href: "/inspect",
     title: "Read your next drop",
     description: "Inspect copied item facts and prepare complete searches.",

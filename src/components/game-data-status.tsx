@@ -77,6 +77,10 @@ export function GameDataStatus() {
         records with no source revision remain version unrecorded.
       </p>
       <p>
+        Atlas: bundled RePoE snapshot from 2026-09-15, source patch 4.5.5.2. Its graph and artwork
+        sources are linked in the Atlas planner; automatic updates are unavailable.
+      </p>
+      <p>
         Currency effects: eight manually verified core operations, verified 2026-10-13. Their source
         links are shown in the crafting workbench; automatic effect updates are unavailable.
       </p>

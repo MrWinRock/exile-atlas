@@ -14,6 +14,7 @@ import { ItemInspector } from "@/components/item-inspector";
 import { MapSafety } from "@/components/map-safety";
 import { CraftingWorkbench } from "@/components/crafting-workbench";
 import { BuildComparison } from "@/components/build-comparison";
+import { AtlasPlanner } from "@/components/atlas-planner";
 const sections = {
   characters: Characters,
   filters: Filters,
@@ -30,6 +31,7 @@ const sections = {
   safety: MapSafety,
   crafting: CraftingWorkbench,
   compare: BuildComparison,
+  atlas: AtlasPlanner,
 };
 export default async function Page({ params }: { params: Promise<{ section: string }> }) {
   const { section } = await params;

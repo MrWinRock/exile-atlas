@@ -12,6 +12,7 @@ import { Badge, Button, Loading, Notice, PageTitle, SectionHeader } from "./ui";
 import { GameDataStatus } from "./game-data-status";
 import { useSafetyProfiles } from "@/lib/map-safety-store";
 import { useCraftingRecipes } from "@/lib/crafting-store";
+import { useAtlasDraft, useAtlasPlans } from "@/lib/atlas-store";
 export function Settings() {
   const { data: status, isLoading, error } = useStatus(),
     client = useQueryClient(),
@@ -21,6 +22,7 @@ export function Settings() {
     genesisStore = useGenesisWorkspace(),
     safetyStore = useSafetyProfiles(),
     craftingStore = useCraftingRecipes(),
+    atlasPlans = useAtlasPlans(),
     [message, setMessage] = useState(""),
     [confirmClear, setConfirmClear] = useState(false),
     [busy, setBusy] = useState(false);
@@ -113,9 +115,9 @@ export function Settings() {
         <p className="muted">
           {store.builds.length} saved builds, {store.filters.length} filter drafts and{" "}
           {tradeStore.searches.length} trade searches, and {regexStore.presets.length} search
-          presets, plus {genesisStore.plans.length} Genesis plans, {safetyStore.records.length}{" "}
-          safety profiles and {craftingStore.records.length} crafting recipes are stored in this
-          browser. Export files to keep a portable backup.
+          presets, plus {genesisStore.plans.length} Genesis plans, {atlasPlans.records.length} Atlas
+          plans, {safetyStore.records.length} safety profiles and {craftingStore.records.length}{" "}
+          crafting recipes are stored in this browser. Export files to keep a portable backup.
         </p>
         {confirmClear ? (
           <div className="button-group">
@@ -128,6 +130,8 @@ export function Settings() {
                 genesisStore.clearAll();
                 safetyStore.clear();
                 craftingStore.clear();
+                atlasPlans.clear();
+                useAtlasDraft.getState().clear();
                 setConfirmClear(false);
                 setMessage("Browser drafts cleared.");
               }}
