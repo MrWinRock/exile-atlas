@@ -34,4 +34,10 @@ afterwards. No Critical or additional Minor findings were reported. Live-game pa
 upstream anomalies and deployment were declined: these are explicitly versioned
 snapshots, and deployed behavior will be verified below.
 
-Deployment: pending.
+Deployment: master `328c4187eddf9b47e1133e86dce0bebf54e23da1` published and deployed
+successfully in [workflow run 38388546532](https://github.com/MrWinRock/exile-atlas/actions/runs/38388546532).
+All 26 Atlas/Genesis/navigation/passive-Undo desktop/mobile stories passed against
+[production](https://poe2.nonglabs.cloud/atlas). Separate real-data smoke checks
+decoded both art sheets, allocated an Atlas node, rendered the official character
+passive tree and verified both-set controls, with no page errors or viewport overflow.
+The current checkout remains on develop; this post-deployment receipt is a documentation-only follow-up.
