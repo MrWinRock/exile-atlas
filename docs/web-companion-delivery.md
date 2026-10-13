@@ -1,7 +1,7 @@
 # Browser companion delivery — 2026-10-13
 
 The four approved plans are implemented in the current checkout. Independent
-review is addressed; master deployment and live verification are the remaining gates.
+review, master deployment and live verification are complete.
 
 | Tool | Browser workflow |
 | --- | --- |
@@ -92,4 +92,22 @@ unavailable until initialized, with delayed-JavaScript tests RED-to-GREEN on bot
 layouts. The complete post-correction suite passed 302 unit tests and 90 browser
 stories; typecheck, lint and production build passed.
 
-Corrected release deployment and final live verification: pending.
+The corrected master release is `53f57754236d8bd3d3e5f0ea37b0db08851f85e9`.
+[Run 38355341699](https://github.com/MrWinRock/exile-atlas/actions/runs/38355341699)
+successfully published the image and deployed it to the VPS.
+
+Final live verification at [Exile Atlas](https://poe2.nonglabs.cloud):
+- 26/26 targeted desktop/mobile stories passed, including delayed startup, imports,
+  support details, source-aware presets, safe crafting prices, regex parity and
+  weapon-set views.
+- Six actual tool routes on both layouts had no horizontal overflow or browser
+  errors; official tree artwork rendered and its persistent set controls worked.
+- Actual game-data status, all three live source checks, and allowlisted source
+  staging passed; no browser snapshot was activated by staging verification.
+- The local development preview loads the real tree using the supported in-memory
+  cache while local Docker services are stopped. Environment files were preserved.
+
+The complete local suite is 302/302 unit tests and 90/90 desktop/mobile stories;
+final typecheck, lint and production build passed. Independent review findings are
+addressed, with no deferred minor findings. Code is released on master; this
+post-release receipt is retained in the development checkout.
