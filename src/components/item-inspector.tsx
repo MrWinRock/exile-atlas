@@ -10,10 +10,12 @@ import { compileRegexSearch } from "@/lib/regex-search";
 import { useRegexWorkspace } from "@/lib/regex-store";
 import { Button, Field, Notice, PageTitle, SectionHeader } from "./ui";
 import { RegexTradePreview } from "./regex-trade-preview";
+import { useItemTransfer, clearItemTransfer } from "@/lib/item-transfer-hook";
 import styles from "./item-inspector.module.css";
 export function ItemInspector() {
   const data = useGameData(),
     router = useRouter();
+  const pending = useItemTransfer();
   const [text, setText] = useState(""),
     [error, setError] = useState(""),
     [analysis, setAnalysis] = useState<{
@@ -60,12 +62,32 @@ export function ItemInspector() {
         description="Paste basic or advanced English item text to inspect its facts and prepare your next search."
       />
       {(error || data.error) && <Notice error>{error || data.error}</Notice>}
+      {pending.error && <Notice error>{pending.error}</Notice>}
+      {pending.transfer && (
+        <Notice>
+          Item text is available from another tool.{" "}
+          <Button
+            onClick={() => {
+              setText(pending.transfer!.itemText);
+              setAnalysis(undefined);
+              setTrade(false);
+              setPreview(false);
+              clearItemTransfer();
+            }}
+          >
+            Use transferred item text
+          </Button>{" "}
+          <Button variant="secondary" onClick={() => clearItemTransfer()}>
+            Discard transfer
+          </Button>
+        </Notice>
+      )}
       <div className={styles.grid}>
         <section className={`panel ${styles.input}`}>
           <SectionHeader title="Copied item" />
           <Field label="Item text">
             <textarea
-            aria-label="Item text"
+              aria-label="Item text"
               value={text}
               onChange={(e) => setText(e.target.value)}
               placeholder="Paste the item’s copied English text…"
@@ -174,7 +196,10 @@ export function ItemInspector() {
                 </Button>
                 <Button
                   variant="secondary"
-                  disabled={!analysis.transfer.complete}
+                  disabled={
+                    !analysis.transfer.complete ||
+                    analysis.transfer.snapshotId !== data.snapshot?.id
+                  }
                   onClick={() => setTrade(true)}
                 >
                   Preview trade
@@ -220,7 +245,7 @@ export function ItemInspector() {
                   </div>
                 </div>
               )}
-              {trade && (
+              {trade && analysis.transfer.snapshotId === data.snapshot?.id && (
                 <RegexTradePreview
                   draft={analysis.transfer.draft}
                   onClose={() => setTrade(false)}

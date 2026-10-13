@@ -22,6 +22,8 @@ import {
   Sprout,
   Search,
   ShieldCheck,
+  Hammer,
+  GitCompare,
 } from "lucide-react";
 import { useStatus } from "@/lib/client";
 const nav = [
@@ -34,9 +36,11 @@ const nav = [
   { href: "/regex", label: "Search Toolkit", icon: Regex },
   { href: "/inspect", label: "Item inspector", icon: Search },
   { href: "/safety", label: "Map safety", icon: ShieldCheck },
+  { href: "/crafting", label: "Crafting workbench", icon: Hammer },
   { href: "/genesis", label: "Genesis Tree", icon: Sprout },
   { href: "/planner", label: "Passive planner", icon: GitBranch },
   { href: "/builds", label: "Build library", icon: BookOpen },
+  { href: "/compare", label: "Build comparison", icon: GitCompare },
   { href: "/items", label: "Item gallery", icon: Images },
 ];
 export function Shell({ children }: { children: React.ReactNode }) {

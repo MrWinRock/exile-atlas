@@ -23,7 +23,7 @@ export async function getCurrency(hour: number) {
 }
 export async function getTree() {
   const cached = await cacheGet<ReturnType<typeof normalizeTree> & { source: string }>(
-    "artwork:tree:v4",
+    "artwork:tree:v5",
   );
   if (cached) return cached;
   const version = await fetchJson<{ sha: string }>(
@@ -56,6 +56,6 @@ export async function getTree() {
     source: "GGG official PoE2 passive-tree export",
     revision: version.sha,
   };
-  await cacheSet("artwork:tree:v4", result, 86400);
+  await cacheSet("artwork:tree:v5", result, 86400);
   return result;
 }

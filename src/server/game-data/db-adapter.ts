@@ -1,13 +1,77 @@
-import {createHash} from "node:crypto";
-import type {GameSnapshot,ModifierDefinition} from "../../lib/game-data";
-function plaintext(html:string){return html.replace(/<br\s*\/?\s*>/gi,"\n").replace(/<[^>]*>/g,"").replace(/&amp;/g,"&").replace(/&nbsp;/g," ").replace(/&#(\d+);/g,(_,n)=>String.fromCodePoint(Number(n))).replace(/&quot;/g,'"').replace(/&#039;/g,"'").replace(/—|–/g,"-").trim();}
-export function extractDbDefinitions(html:string,category:"relic"|"tablet",sourceUrl:string):GameSnapshot["regexDefinitions"] {
- if(html.length>10*1024*1024)throw new Error("Modifier page exceeds limit");const texts:string[]=[];const marker="new ModsView(";const start=html.indexOf(marker);
- if(start>=0){let end=start+marker.length,depth=0,string=false,escaped=false;for(;end<html.length;end++){const c=html[end];if(string){if(escaped)escaped=false;else if(c==="\\")escaped=true;else if(c==='"')string=false;}else if(c==='"')string=true;else if(c==="{")depth++;else if(c==="}"&&--depth===0){end++;break;}}
- const data=JSON.parse(html.slice(start+marker.length,end));if(!Array.isArray(data.normal))throw new Error("Unsupported modifier page schema");for(const row of data.normal){if(typeof row.str!=="string")throw new Error("Missing modifier text");texts.push(plaintext(row.str));}
- }else for(const row of html.matchAll(/<tr\b[^>]*>([\s\S]*?)<\/tr>/gi)){const cells=[...row[1].matchAll(/<td\b[^>]*>([\s\S]*?)<\/td>/gi)].map(c=>plaintext(c[1]));if(cells.length===3&&/^\d+$/.test(cells[0])&&/^(Prefix|Suffix)$/.test(cells[1]))texts.push(cells[2]);}
- if(!texts.length)throw new Error("No verified modifier rows found");const definitions=new Map<string,GameSnapshot["regexDefinitions"][number]>();
- for(const text of texts){const slots:ModifierDefinition["numericSlots"]=[];const template=text.replace(/\((-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?)\)/g,(_,a,b)=>{const digits=Math.max(a.split(".")[1]?.length??0,b.split(".")[1]?.length??0);if(digits>2)throw new Error("Unsupported numeric precision");slots.push({index:slots.length,scale:digits>1?100:digits?10:1,domain:[Math.min(Number(a),Number(b)),Math.max(Number(a),Number(b))],unit:text.includes("%")?"%":"value",sign:Number(a)<0||Number(b)<0?"signed":"positive"});return "#";});
- const id=`db:${category}:${createHash("sha256").update(template).digest("hex").slice(0,16)}`;const old=definitions.get(id);if(old){slots.forEach((s,i)=>{const previous=old.numericSlots?.[i];if(previous)previous.domain=[Math.min(previous.domain[0],s.domain[0]),Math.max(previous.domain[1],s.domain[1])];});}else definitions.set(id,{id,template,categories:[category],numericSlots:slots,sourceUrl});}
- return [...definitions.values()];
+import { normalizeNumericTemplate } from "./numeric-template";
+import { createHash } from "node:crypto";
+import type { GameSnapshot, ModifierDefinition } from "../../lib/game-data";
+function plaintext(html: string) {
+  return html
+    .replace(/<br\s*\/?\s*>/gi, "\n")
+    .replace(/<[^>]*>/g, "")
+    .replace(/&amp;/g, "&")
+    .replace(/&nbsp;/g, " ")
+    .replace(/&#(\d+);/g, (_, n) => String.fromCodePoint(Number(n)))
+    .replace(/&quot;/g, '"')
+    .replace(/&#039;/g, "'")
+    .replace(/—|–/g, "-")
+    .trim();
+}
+export function extractDbDefinitions(
+  html: string,
+  category: "relic" | "tablet",
+  sourceUrl: string,
+): GameSnapshot["regexDefinitions"] {
+  if (html.length > 10 * 1024 * 1024) throw new Error("Modifier page exceeds limit");
+  const texts: string[] = [];
+  const marker = "new ModsView(";
+  const start = html.indexOf(marker);
+  if (start >= 0) {
+    let end = start + marker.length,
+      depth = 0,
+      string = false,
+      escaped = false;
+    for (; end < html.length; end++) {
+      const c = html[end];
+      if (string) {
+        if (escaped) escaped = false;
+        else if (c === "\\") escaped = true;
+        else if (c === '"') string = false;
+      } else if (c === '"') string = true;
+      else if (c === "{") depth++;
+      else if (c === "}" && --depth === 0) {
+        end++;
+        break;
+      }
+    }
+    const data = JSON.parse(html.slice(start + marker.length, end));
+    if (!Array.isArray(data.normal)) throw new Error("Unsupported modifier page schema");
+    for (const row of data.normal) {
+      if (typeof row.str !== "string") throw new Error("Missing modifier text");
+      texts.push(plaintext(row.str));
+    }
+  } else
+    for (const row of html.matchAll(/<tr\b[^>]*>([\s\S]*?)<\/tr>/gi)) {
+      const cells = [...row[1].matchAll(/<td\b[^>]*>([\s\S]*?)<\/td>/gi)].map((c) =>
+        plaintext(c[1]),
+      );
+      if (cells.length === 3 && /^\d+$/.test(cells[0]) && /^(Prefix|Suffix)$/.test(cells[1]))
+        texts.push(cells[2]);
+    }
+  if (!texts.length) throw new Error("No verified modifier rows found");
+  const definitions = new Map<string, GameSnapshot["regexDefinitions"][number]>();
+  for (const text of texts) {
+    const slots: ModifierDefinition["numericSlots"] = [];
+    const template = normalizeNumericTemplate(text, slots);
+    const id = `db:${category}:${createHash("sha256").update(template).digest("hex").slice(0, 16)}`;
+    const old = definitions.get(id);
+    if (old) {
+      slots.forEach((s, i) => {
+        const previous = old.numericSlots?.[i];
+        if (previous)
+          previous.domain = [
+            Math.min(previous.domain[0], s.domain[0]),
+            Math.max(previous.domain[1], s.domain[1]),
+          ];
+      });
+    } else
+      definitions.set(id, { id, template, categories: [category], numericSlots: slots, sourceUrl });
+  }
+  return [...definitions.values()];
 }

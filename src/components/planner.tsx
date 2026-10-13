@@ -294,7 +294,12 @@ export function Planner() {
                   weaponSet={mode || undefined}
                   highlight={selected}
                   onSelect={setSelected}
-                  display={{...plan,shared:[...plan.shared,...passiveRoots(visibleTree,classIndex,ascendancy)],mode,showBoth:store.showBothWeaponSets??false}}
+                  display={{
+                    ...plan,
+                    shared: [...plan.shared, ...passiveRoots(visibleTree, classIndex, ascendancy)],
+                    mode,
+                    showBoth: store.showBothWeaponSets ?? false,
+                  }}
                   onModeChange={store.setWeaponSet}
                   onShowBothChange={store.setShowBothWeaponSets}
                 />
@@ -319,12 +324,24 @@ export function Planner() {
                       <p key={i}>{s}</p>
                     ))}
                     <code>{selectedNode.id}</code>
-                    <p data-testid="passive-membership">{passiveMembership({...plan,mode,showBoth:true},selectedNode.hash).map(s=>modes[s]).join(" · ") || "Unallocated"}</p>
+                    <p data-testid="passive-membership">
+                      {passiveMembership({ ...plan, mode, showBoth: true }, selectedNode.hash)
+                        .map((s) => modes[s])
+                        .join(" · ") || "Unallocated"}
+                    </p>
                     {selectedNode.kind === "start" ? (
                       <Badge tone="amber">PERMANENT START</Badge>
                     ) : allocated.includes(selectedNode.hash) ? (
                       <>
-                        <Badge tone="green">
+                        <Badge
+                          tone={
+                            selectedNode.ascendancy || plan.shared.includes(selectedNode.hash)
+                              ? "amber"
+                              : mode === 1
+                                ? "red"
+                                : "green"
+                          }
+                        >
                           {selectedNode.ascendancy
                             ? "ASCENDANCY"
                             : plan.shared.includes(selectedNode.hash)

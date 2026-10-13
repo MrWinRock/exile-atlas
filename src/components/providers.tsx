@@ -5,7 +5,9 @@ import { useWorkspace } from "@/lib/workspace-store";
 import { useTradeWorkspace } from "@/lib/trade-store";
 import { useRegexWorkspace } from "@/lib/regex-store";
 import { useGenesisWorkspace } from "@/lib/genesis-store";
-import {useGameData} from "@/lib/game-data-store";
+import { useGameData } from "@/lib/game-data-store";
+import { useSafetyProfiles } from "@/lib/map-safety-store";
+import { useCraftingRecipes } from "@/lib/crafting-store";
 export function Providers({ children }: { children: React.ReactNode }) {
   const [client] = useState(
     () =>
@@ -21,6 +23,8 @@ export function Providers({ children }: { children: React.ReactNode }) {
     void useRegexWorkspace.persist.rehydrate();
     void useGenesisWorkspace.persist.rehydrate();
     void useGameData.getState().load();
+    useSafetyProfiles.getState().load();
+    useCraftingRecipes.getState().load();
   }, []);
   return <QueryClientProvider client={client}>{children}</QueryClientProvider>;
 }

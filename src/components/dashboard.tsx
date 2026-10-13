@@ -23,6 +23,34 @@ import { Badge, SectionHeader } from "./ui";
 import { OrbitArt } from "./orbit-art";
 const tools = [
   {
+    href: "/inspect",
+    title: "Read your next drop",
+    description: "Inspect copied item facts and prepare complete searches.",
+    icon: Compass,
+    tag: "LOCAL INSPECTOR",
+  },
+  {
+    href: "/safety",
+    title: "Check your next Waystone",
+    description: "Apply saved build-risk rules with actual-roll explanations.",
+    icon: ShieldCheck,
+    tag: "MAP SAFETY",
+  },
+  {
+    href: "/crafting",
+    title: "Plan your crafting budget",
+    description: "Browse sourced modifiers and save recipes with actual spend.",
+    icon: Coins,
+    tag: "CRAFTING WORKBENCH",
+  },
+  {
+    href: "/compare",
+    title: "Compare your build plans",
+    description: "Inspect differences while preserving weapon-set membership.",
+    icon: GitBranch,
+    tag: "BUILD COMPARISON",
+  },
+  {
     href: "/regex",
     title: "Find what’s worth keeping",
     description: "Create in-game searches and keep your favorite presets.",

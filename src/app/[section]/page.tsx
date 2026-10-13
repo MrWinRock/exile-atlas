@@ -10,8 +10,10 @@ import { Items } from "@/components/items";
 import { Trade } from "@/components/trade";
 import { RegexToolkit } from "@/components/regex-toolkit";
 import { Genesis } from "@/components/genesis";
-import {ItemInspector} from "@/components/item-inspector";
-import {MapSafety} from "@/components/map-safety";
+import { ItemInspector } from "@/components/item-inspector";
+import { MapSafety } from "@/components/map-safety";
+import { CraftingWorkbench } from "@/components/crafting-workbench";
+import { BuildComparison } from "@/components/build-comparison";
 const sections = {
   characters: Characters,
   filters: Filters,
@@ -26,6 +28,8 @@ const sections = {
   genesis: Genesis,
   inspect: ItemInspector,
   safety: MapSafety,
+  crafting: CraftingWorkbench,
+  compare: BuildComparison,
 };
 export default async function Page({ params }: { params: Promise<{ section: string }> }) {
   const { section } = await params;

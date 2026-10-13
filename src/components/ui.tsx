@@ -29,7 +29,7 @@ export function Badge({
   tone = "muted",
 }: {
   children: React.ReactNode;
-  tone?: "muted" | "green" | "amber";
+  tone?: "muted" | "green" | "amber" | "red";
 }) {
   return (
     <span className={`badge ${tone}`}>

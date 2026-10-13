@@ -11,5 +11,12 @@ source eligibility and are not advertised as crafting probabilities. Tier number
 are not inferred from modifier ID suffixes.
 
 Regex definitions are independently derived from the attributed trade-stat export.
+Tablet and Relic facts are also extracted from public modifier tables at
+[PoE2DB Tablet](https://poe2db.tw/us/Tablet) and
+[PoE2DB Relics](https://poe2db.tw/us/Relics). Each source has a normalized definition
+revision and an HTML SHA-256 receipt. No source JavaScript is executed or distributed.
+The eight core currency effects are our summaries of the individually linked PoE2DB
+currency pages, manually verified 2026-10-13; this registry requires explicit adapter
+maintenance and is not automatically updated with modifier snapshots.
 The reference application's code, generated tokens and datasets are not bundled.
 Regenerate with `bun run scripts/prepare-game-data.ts`.

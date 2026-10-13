@@ -128,6 +128,9 @@ export function Builds() {
                     {b.build.passives?.length ?? 0} passives · {b.build.skills?.length ?? 0} skills
                   </small>
                 </button>
+                <Link className="button ghost" href={`/compare?left=${encodeURIComponent(b.id)}`}>
+                  Compare
+                </Link>
                 <button
                   className="icon-button"
                   aria-label={`Delete build ${b.build.name}`}

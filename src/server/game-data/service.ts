@@ -1,16 +1,133 @@
-import {readFile} from "node:fs/promises";
-import {resolve} from "node:path";
-import {cacheGet,cacheSet,withLock} from "../cache";
-import {getRecord,putRecord} from "../storage";
-import {verifySnapshotIntegrity} from "../../lib/game-data-cache";
-import type {GameSnapshot} from "../../lib/game-data";
-import {prepareGameData} from "../../../scripts/prepare-game-data";
-import {ApiError} from "../responses";
-export async function bundledSnapshot(){return verifySnapshotIntegrity(JSON.parse(await readFile(resolve(process.cwd(),"public/data/poe2-game-data.json"),"utf8")));}
-export type UpdateStatus={installedRevision:string;upstreamRevision?:string;checkedAt?:string;state:"available"|"current"|"offline";message?:string;counts:{modifiers:number;bases:number}};
-export async function checkGameDataUpdates():Promise<UpdateStatus>{const cached=await cacheGet<UpdateStatus>("game-data:check:v1");if(cached)return cached;const bundle=await bundledSnapshot();const installedRevision=bundle.sourceRefs[0].revision;const counts={modifiers:bundle.modifiers.length,bases:bundle.bases.length};let status:UpdateStatus;
- try{const response=await fetch("https://api.github.com/repos/PathOfBuildingCommunity/PathOfBuilding-PoE2/commits/dev",{headers:{Accept:"application/vnd.github+json"},signal:AbortSignal.timeout(15000)});if(!response.ok)throw new Error(`Upstream check failed (${response.status})`);const data=await response.json();if(!/^[a-f0-9]{40}$/.test(data.sha))throw new Error("Invalid upstream revision");status={installedRevision,upstreamRevision:data.sha,checkedAt:new Date().toISOString(),state:data.sha===installedRevision?"current":"available",counts};}catch(error){status={installedRevision,state:"offline",checkedAt:new Date().toISOString(),counts,message:error instanceof Error?error.message:"Check unavailable"};}
- await cacheSet("game-data:check:v1",status,3600);return status;
+import { readFile } from "node:fs/promises";
+import { resolve } from "node:path";
+import { cacheGet, cacheSet, withLock } from "../cache";
+import { getRecord, putRecord } from "../storage";
+import { verifySnapshotIntegrity } from "../../lib/game-data-cache";
+import type { GameSnapshot } from "../../lib/game-data";
+import { prepareGameData } from "../../../scripts/prepare-game-data";
+import { ApiError } from "../responses";
+import { createHash } from "node:crypto";
+import { extractDbDefinitions } from "./db-adapter";
+import { sourceUpdateStatus, type DatasetCheck } from "./source-status";
+export async function bundledSnapshot() {
+  return verifySnapshotIntegrity(
+    JSON.parse(await readFile(resolve(process.cwd(), "public/data/poe2-game-data.json"), "utf8")),
+  );
 }
-export async function getGameSnapshot(id:string):Promise<GameSnapshot>{if(!/^[a-f0-9]{64}$/.test(id))throw new ApiError("Invalid snapshot identity",400);const bundle=await bundledSnapshot();if(id===bundle.id)return bundle;const cached=await cacheGet<GameSnapshot>("game-data:snapshot:"+id);const stored=cached??(process.env.DATABASE_URL?await getRecord<GameSnapshot>("game-data:snapshot:"+id):null);if(!stored)throw new ApiError("Snapshot unavailable; use your cached copy or explicitly select bundled data",404);return verifySnapshotIntegrity(stored);}
-export async function stageGameSnapshot(revision:string):Promise<GameSnapshot>{if(!/^[a-f0-9]{40}$/.test(revision))throw new ApiError("Invalid source revision",400);const status=await checkGameDataUpdates();if(revision!==status.upstreamRevision&&revision!==status.installedRevision)throw new ApiError("Choose an allowlisted checked source revision",400);return withLock("game-data:stage",async()=>{const bundle=await bundledSnapshot();const snapshot=revision===status.installedRevision?bundle:await prepareGameData(revision);if(snapshot.modifiers.length<bundle.modifiers.length*.8||snapshot.bases.length<bundle.bases.length*.8||snapshot.diagnostics.length>bundle.diagnostics.length+10)throw new ApiError("Extraction coverage changed; update adapter before selecting this source",409);await verifySnapshotIntegrity(snapshot);await cacheSet("game-data:snapshot:"+snapshot.id,snapshot,86400*30);if(process.env.DATABASE_URL)await putRecord("game-data:snapshot:"+snapshot.id,snapshot);return snapshot;});}
+export type UpdateStatus = {
+  installedRevision: string;
+  upstreamRevision?: string;
+  checkedAt?: string;
+  state: "available" | "current" | "offline";
+  message?: string;
+  sources?: DatasetCheck[];
+  counts: { modifiers: number; bases: number };
+};
+export async function checkGameDataUpdates(): Promise<UpdateStatus> {
+  const cached = await cacheGet<UpdateStatus>("game-data:check:v1");
+  if (cached) return cached;
+  const bundle = await bundledSnapshot();
+  const installedRevision = bundle.sourceRefs[0].revision;
+  const counts = { modifiers: bundle.modifiers.length, bases: bundle.bases.length };
+  let status: UpdateStatus;
+  try {
+    const response = await fetch(
+      "https://api.github.com/repos/PathOfBuildingCommunity/PathOfBuilding-PoE2/commits/dev",
+      { headers: { Accept: "application/vnd.github+json" }, signal: AbortSignal.timeout(15000) },
+    );
+    if (!response.ok) throw new Error(`Upstream check failed (${response.status})`);
+    const data = await response.json();
+    if (!/^[a-f0-9]{40}$/.test(data.sha)) throw new Error("Invalid upstream revision");
+    status = {
+      installedRevision,
+      upstreamRevision: data.sha,
+      checkedAt: new Date().toISOString(),
+      state: data.sha === installedRevision ? "current" : "available",
+      counts,
+    };
+  } catch (error) {
+    status = {
+      installedRevision,
+      state: "offline",
+      checkedAt: new Date().toISOString(),
+      counts,
+      message: error instanceof Error ? error.message : "Check unavailable",
+    };
+  }
+  const sources: DatasetCheck[] = [
+    {
+      source: "PoB modifiers & bases",
+      installed: installedRevision,
+      upstream: status.upstreamRevision,
+      error: status.state === "offline" ? status.message : undefined,
+    },
+  ];
+  await Promise.all(
+    (["relic", "tablet"] as const).map(async (category) => {
+      const page = category === "relic" ? "Relics" : "Tablet",
+        url = `https://poe2db.tw/us/${page}`,
+        installed = bundle.sourceRefs.find((s) => s.url === url)?.revision ?? "unrecorded";
+      try {
+        const response = await fetch(url, { signal: AbortSignal.timeout(15000) });
+        if (!response.ok) throw new Error(`Source check failed (${response.status})`);
+        const definitions = extractDbDefinitions(await response.text(), category, url);
+        sources.push({
+          source: `PoE2DB ${page}`,
+          installed,
+          upstream: createHash("sha256")
+            .update(JSON.stringify(definitions))
+            .digest("hex")
+            .slice(0, 40),
+        });
+      } catch (error) {
+        sources.push({
+          source: `PoE2DB ${page}`,
+          installed,
+          error: error instanceof Error ? error.message : "Check unavailable",
+        });
+      }
+    }),
+  );
+  status = { ...status, sources, state: sourceUpdateStatus(sources) };
+  await cacheSet("game-data:check:v1", status, 3600);
+  return status;
+}
+export async function getGameSnapshot(id: string): Promise<GameSnapshot> {
+  if (!/^[a-f0-9]{64}$/.test(id)) throw new ApiError("Invalid snapshot identity", 400);
+  const bundle = await bundledSnapshot();
+  if (id === bundle.id) return bundle;
+  const cached = await cacheGet<GameSnapshot>("game-data:snapshot:" + id);
+  const stored =
+    cached ??
+    (process.env.DATABASE_URL ? await getRecord<GameSnapshot>("game-data:snapshot:" + id) : null);
+  if (!stored)
+    throw new ApiError(
+      "Snapshot unavailable; use your cached copy or explicitly select bundled data",
+      404,
+    );
+  return verifySnapshotIntegrity(stored);
+}
+export async function stageGameSnapshot(revision: string): Promise<GameSnapshot> {
+  if (!/^[a-f0-9]{40}$/.test(revision)) throw new ApiError("Invalid source revision", 400);
+  const status = await checkGameDataUpdates();
+  if (revision !== status.upstreamRevision && revision !== status.installedRevision)
+    throw new ApiError("Choose an allowlisted checked source revision", 400);
+  return withLock("game-data:stage", async () => {
+    const bundle = await bundledSnapshot();
+    const snapshot = await prepareGameData(revision, true);
+    if (
+      snapshot.modifiers.length < bundle.modifiers.length * 0.8 ||
+      snapshot.bases.length < bundle.bases.length * 0.8 ||
+      snapshot.diagnostics.length > bundle.diagnostics.length + 10 ||
+      snapshot.regexDefinitions.length < bundle.regexDefinitions.length * 0.8
+    )
+      throw new ApiError(
+        "Extraction coverage changed; update adapter before selecting this source",
+        409,
+      );
+    await verifySnapshotIntegrity(snapshot);
+    await cacheSet("game-data:snapshot:" + snapshot.id, snapshot, 86400 * 30);
+    if (process.env.DATABASE_URL) await putRecord("game-data:snapshot:" + snapshot.id, snapshot);
+    return snapshot;
+  });
+}

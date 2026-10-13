@@ -59,6 +59,8 @@ export type TreeNode = {
   displayScale?: number;
 };
 export type Tree = {
+  source?: string;
+  revision?: string;
   nodes: TreeNode[];
   edges: [string, string][];
   edgeArcs?: Record<string, { x: number; y: number }>;

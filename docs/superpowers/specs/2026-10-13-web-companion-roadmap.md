@@ -84,15 +84,15 @@ reload, save/export/import, and viewing both never change stored allocations or 
 
 ## Implementation plans and review status
 
-The user approved these written specifications on 2026-10-13. Product implementation
-has not started. Implementation plans are prepared for review in dependency order:
+The user approved these written specifications on 2026-10-13. All four implementation plans were approved for direct implementation in the current
+checkout. Implementation is recorded in [the delivery log](../../web-companion-delivery.md).
+Plans are listed in dependency order:
 
 1. [Weapon-set views](../plans/2026-10-13-weapon-set-views.md)
 2. [Item inspection, datasets and regex coverage](../plans/2026-10-13-item-data-search.md)
 3. [Map safety and crafting workbench](../plans/2026-10-13-safety-crafting.md)
 4. [Build comparison and final release verification](../plans/2026-10-13-build-comparison.md)
 
-After written-plan review, use the already selected direct implementation in this
-chat and current checkout, followed by one independent final review. The existing
+Implementation uses the selected direct workflow, followed by one independent final review. The existing
 authorization to merge master for deployment remains the release instruction.
 

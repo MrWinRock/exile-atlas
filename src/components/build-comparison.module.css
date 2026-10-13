@@ -1,0 +1,66 @@
+.inputs,
+.trees {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  margin-bottom: 24px;
+}
+.panel {
+  padding: 22px;
+  min-width: 0;
+}
+.section {
+  margin-bottom: 24px;
+}
+.entry {
+  border-left: 3px solid var(--line);
+  padding: 12px;
+  margin: 10px 0;
+  background: #dab07705;
+  overflow-wrap: anywhere;
+}
+.entry strong {
+  display: block;
+  font-size: 14px;
+}
+.entry p {
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--muted);
+}
+.entry .set1 {
+  color: #e67878;
+}
+.entry .set2 {
+  color: #74c99a;
+}
+.entry .shared {
+  color: #dab077;
+}
+.facts {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  line-height: 1.7;
+  font-size: 12px;
+}
+.trees .panel {
+  padding: 0;
+  overflow: hidden;
+}
+.trees h3,
+.trees p {
+  padding: 0 16px;
+}
+.trees :global(.tree-viewport) {
+  min-height: 400px;
+  height: 460px;
+}
+@media (max-width: 900px) {
+  .inputs,
+  .trees {
+    grid-template-columns: 1fr;
+  }
+  .panel {
+    padding: 16px;
+  }
+}

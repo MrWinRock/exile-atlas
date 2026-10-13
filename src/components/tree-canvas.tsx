@@ -17,6 +17,8 @@ export function TreeCanvas({
   display,
   onModeChange,
   onShowBothChange,
+  readOnly,
+  difference,
 }: {
   tree: Tree;
   ascendancy?: string;
@@ -26,21 +28,30 @@ export function TreeCanvas({
   highlight?: string;
   onSelect: (id: string) => void;
   display?: PassiveDisplay;
-  onModeChange?: (mode:AllocationMode)=>void;
-  onShowBothChange?: (value:boolean)=>void;
+  onModeChange?: (mode: AllocationMode) => void;
+  onShowBothChange?: (value: boolean) => void;
+  readOnly?: boolean;
+  difference?: { added: string[]; removed: string[] };
 }) {
   const ref = useRef<HTMLDivElement>(null),
     rendererRef = useRef<TreeRenderer | null>(null),
-    stateRef = useRef({ allocated, highlight, weaponAllocated, weaponSet, display }),
+    stateRef = useRef({ allocated, highlight, weaponAllocated, weaponSet, display, difference }),
     selectRef = useRef(onSelect),
     [error, setError] = useState("");
   useEffect(() => {
     selectRef.current = onSelect;
   }, [onSelect]);
   useEffect(() => {
-    stateRef.current = { allocated, highlight, weaponAllocated, weaponSet, display };
-    rendererRef.current?.update(allocated, highlight, weaponAllocated, weaponSet, display);
-  }, [allocated, highlight, weaponAllocated, weaponSet, display]);
+    stateRef.current = { allocated, highlight, weaponAllocated, weaponSet, display, difference };
+    rendererRef.current?.update(
+      allocated,
+      highlight,
+      weaponAllocated,
+      weaponSet,
+      display,
+      difference,
+    );
+  }, [allocated, highlight, weaponAllocated, weaponSet, display, difference]);
   useEffect(() => {
     const host = ref.current;
     if (!host) return;
@@ -63,7 +74,14 @@ export function TreeCanvas({
         }
         rendererRef.current = renderer;
         const state = stateRef.current;
-        renderer.update(state.allocated, state.highlight, state.weaponAllocated, state.weaponSet, state.display);
+        renderer.update(
+          state.allocated,
+          state.highlight,
+          state.weaponAllocated,
+          state.weaponSet,
+          state.display,
+          state.difference,
+        );
         setError("");
       })
       .catch(() => {
@@ -91,11 +109,41 @@ export function TreeCanvas({
         role="img"
       />
       {error && <div className="canvas-error">{error}</div>}
-      {display && onModeChange && <div className="tree-set-controls" aria-label="Canvas weapon sets">
-        <span data-testid="editing-set">Editing: {display.mode===0 ? "Shared" : display.mode===1 ? "Weapon set I" : "Weapon set II"}</span>
-        <div>{([0,1,2] as const).map(mode=><button key={mode} type="button" aria-label={mode===0 ? "View shared passives" : `View weapon set ${mode===1?"I":"II"}`} aria-pressed={display.mode===mode} style={{color:mode===0?"#dab077":`#${WEAPON_PASSIVE_COLORS[mode].toString(16)}`}} onClick={()=>onModeChange(mode)}>{mode===0?"Shared":mode===1?"Set I":"Set II"}</button>)}</div>
-        {onShowBothChange && <button type="button" aria-pressed={display.showBoth} onClick={()=>onShowBothChange(!display.showBoth)}>Show both sets</button>}
-      </div>}
+      {display && onModeChange && (
+        <div className="tree-set-controls" aria-label="Canvas weapon sets">
+          <span data-testid="editing-set">
+            {readOnly ? "Viewing" : "Editing"}:{" "}
+            {display.mode === 0 ? "Shared" : display.mode === 1 ? "Weapon set I" : "Weapon set II"}
+          </span>
+          <div>
+            {([0, 1, 2] as const).map((mode) => (
+              <button
+                key={mode}
+                type="button"
+                aria-label={
+                  mode === 0 ? "View shared passives" : `View weapon set ${mode === 1 ? "I" : "II"}`
+                }
+                aria-pressed={display.mode === mode}
+                style={{
+                  color: mode === 0 ? "#dab077" : `#${WEAPON_PASSIVE_COLORS[mode].toString(16)}`,
+                }}
+                onClick={() => onModeChange(mode)}
+              >
+                {mode === 0 ? "Shared" : mode === 1 ? "Set I" : "Set II"}
+              </button>
+            ))}
+          </div>
+          {onShowBothChange && (
+            <button
+              type="button"
+              aria-pressed={display.showBoth}
+              onClick={() => onShowBothChange(!display.showBoth)}
+            >
+              Show both sets
+            </button>
+          )}
+        </div>
+      )}
       <div className="tree-controls">
         <button className="icon-button" aria-label="Zoom in" onClick={() => zoom(1.3)}>
           <Plus size={18} />
@@ -128,12 +176,17 @@ export function TreeCanvas({
           <i className="allocated" />
           {weaponSet ? "Shared" : "Allocated"}
         </span>
-        {([1,2] as const).filter(set=>display?.showBoth || weaponSet===set).map(set => (
-          <span key={set}>
-            <i data-set={set} style={{ backgroundColor: `#${WEAPON_PASSIVE_COLORS[set].toString(16)}` }} />
-            Weapon set {set === 1 ? "I" : "II"}
-          </span>
-        ))}
+        {([1, 2] as const)
+          .filter((set) => display?.showBoth || weaponSet === set)
+          .map((set) => (
+            <span key={set}>
+              <i
+                data-set={set}
+                style={{ backgroundColor: `#${WEAPON_PASSIVE_COLORS[set].toString(16)}` }}
+              />
+              Weapon set {set === 1 ? "I" : "II"}
+            </span>
+          ))}
       </div>
       <span className="tree-hint">SCROLL TO ZOOM · DRAG TO EXPLORE</span>
     </div>

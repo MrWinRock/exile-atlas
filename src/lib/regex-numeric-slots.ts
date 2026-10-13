@@ -47,6 +47,10 @@ export function numericSlotsPattern(
   advanced = false,
 ): string {
   const parts = template.split("#");
+  for (const key of Object.keys(ranges)) {
+    if (!/^\d+$/.test(key) || Number(key) >= parts.length - 1)
+      if (ranges[key].min.trim() || ranges[key].max.trim()) throw new Error("Unknown numeric slot");
+  }
   let result = escapeRegexLiteral(parts[0]);
   for (let i = 0; i < parts.length - 1; i++) {
     const slot = slots[i],
@@ -54,7 +58,12 @@ export function numericSlotsPattern(
     if (range && (range.min || range.max) && !slot)
       throw new Error("Numeric precision is unverified for this slot");
     let number = "[+-]?\\d+(\\.\\d+)?";
-    if (slot) {
+    if (slot && !(range?.min.trim() || range?.max.trim()))
+      number =
+        (parts[i].endsWith("+") ? "" : "[+-]?") +
+        "\\d+" +
+        (slot.scale === 1 ? "" : `(\\.\\d{1,${slot.scale === 10 ? 1 : 2}})?`);
+    if (slot && (range?.min.trim() || range?.max.trim())) {
       const parse = (s: string, fallback: number) => {
         if (!s.trim()) return fallback;
         const digits = slot.scale === 100 ? 2 : slot.scale === 10 ? 1 : 0;

@@ -69,7 +69,7 @@ export function buildRegexCatalogue(snapshot: GameSnapshot): RegexCatalogue {
       (c) => !seen.has(`${c}:${r.template}`),
     ) as RegexCategory[];
     if (!categories.length) continue;
-    const slots = r.numericSlots;
+    const slots = r.numericSlots ?? (r.template.includes("#") ? [] : undefined);
     modifiers.push({
       id: r.id,
       categories,
@@ -91,7 +91,13 @@ export function buildRegexCatalogue(snapshot: GameSnapshot): RegexCatalogue {
       label: "Item class",
       categories: equipment,
       kind: "select",
-      options: [...new Set(snapshot.bases.map((b) => b.itemClass))]
+      options: [
+        ...new Set([
+          ...snapshot.bases.map((b) => b.itemClass),
+          ...(snapshot.bases.some((b) => b.tags.includes("warstaff")) ? ["Quarterstaff"] : []),
+          ...(snapshot.bases.some((b) => b.tags.includes("buckler")) ? ["Buckler"] : []),
+        ]),
+      ]
         .sort()
         .map((value) => ({ value, label: value })),
       source,

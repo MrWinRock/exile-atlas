@@ -1,6 +1,6 @@
 import { REGEX_MODIFIERS, REGEX_PROPERTIES } from "./regex-catalogue";
-import {numericSlotsPattern} from "./regex-numeric-slots";
-import type {RegexCatalogue} from "./regex-catalogue-builder";
+import { numericSlotsPattern } from "./regex-numeric-slots";
+import type { RegexCatalogue } from "./regex-catalogue-builder";
 import {
   regexDraftSchema,
   type ModifierSelection,
@@ -215,7 +215,10 @@ const yieldPrefixes: Record<string, string> = {
 export function validateRegexDraft(draft: RegexDraft, allowUnknown = false): string[] {
   return compileRegexSearch(draft).errors.filter((e) => !allowUnknown || !e.startsWith("Unknown "));
 }
-export function compileRegexSearch(draft: RegexDraft, catalogue?:RegexCatalogue): CompiledRegexSearch {
+export function compileRegexSearch(
+  draft: RegexDraft,
+  catalogue?: RegexCatalogue,
+): CompiledRegexSearch {
   const errors: string[] = [],
     groups: SearchGroup[] = [];
   const result = (text = ""): CompiledRegexSearch => ({
@@ -234,7 +237,7 @@ export function compileRegexSearch(draft: RegexDraft, catalogue?:RegexCatalogue)
     );
     return result();
   }
-  const modifiers = new Map((catalogue?.modifiers??REGEX_MODIFIERS).map((m) => [m.id, m]));
+  const modifiers = new Map((catalogue?.modifiers ?? REGEX_MODIFIERS).map((m) => [m.id, m]));
   const wantedIds = new Set(draft.wanted.map((m) => m.id));
   const compileMod = (
     selection: ModifierSelection,
@@ -250,7 +253,17 @@ export function compileRegexSearch(draft: RegexDraft, catalogue?:RegexCatalogue)
       return;
     }
     try {
-      if(m.numericSlots){const ranges={"0":{min:selection.min,max:selection.max},...selection.slots};return {key:(negative?"exclude:":"wanted:")+m.id,label:m.label,pattern:numericSlotsPattern(m.template,m.numericSlots,ranges,true),copyPattern:numericSlotsPattern(m.template,m.numericSlots,ranges,true),negative,source:"modifier"};}
+      if (m.numericSlots) {
+        const ranges = { "0": { min: selection.min, max: selection.max }, ...selection.slots };
+        return {
+          key: (negative ? "exclude:" : "wanted:") + m.id,
+          label: m.label,
+          pattern: numericSlotsPattern(m.template, m.numericSlots, ranges, true),
+          copyPattern: numericSlotsPattern(m.template, m.numericSlots, ranges, true),
+          negative,
+          source: "modifier",
+        };
+      }
       if (!m.numericDomain && (selection.min.trim() || selection.max.trim()))
         throw new Error(`${m.label}: has no numeric range.`);
       const bounds = m.numericDomain
@@ -318,7 +331,7 @@ export function compileRegexSearch(draft: RegexDraft, catalogue?:RegexCatalogue)
   }
   for (const [id, value] of Object.entries(draft.properties)) {
     if (!hasRegexValue(value)) continue;
-    const p = (catalogue?.properties??REGEX_PROPERTIES).find((p) => p.id === id);
+    const p = (catalogue?.properties ?? REGEX_PROPERTIES).find((p) => p.id === id);
     if (!p) {
       errors.push(`Unknown property: ${id}.`);
       continue;
@@ -333,7 +346,35 @@ export function compileRegexSearch(draft: RegexDraft, catalogue?:RegexCatalogue)
         negative = false;
       if (p.kind === "range") {
         if (typeof value === "string") throw new Error(`${p.label}: enter a range.`);
-        if(p.scale){pattern=numericSlotsPattern(p.templates![0],[{index:0,scale:p.scale,domain:p.numericDomain!,unit:"rate",sign:"positive"}],{"0":value});groups.push({operator:"all",conditions:[{key:"property:"+id,label:p.label,pattern,negative:false,source:"property",propertyId:id}]});continue;}
+        if (p.scale) {
+          pattern = numericSlotsPattern(
+            p.templates![0],
+            [
+              {
+                index: 0,
+                scale: p.scale,
+                domain: p.numericDomain!,
+                unit: "rate",
+                sign: "positive",
+              },
+            ],
+            { "0": value },
+          );
+          groups.push({
+            operator: "all",
+            conditions: [
+              {
+                key: "property:" + id,
+                label: p.label,
+                pattern,
+                negative: false,
+                source: "property",
+                propertyId: id,
+              },
+            ],
+          });
+          continue;
+        }
         const bounds = rangeBounds(value, p.numericDomain!, p.label, draft.roundNumbers);
         if (bounds[0] === p.numericDomain![0] && bounds[1] === p.numericDomain![1]) continue;
         pattern = (p.searchTemplates ?? p.templates)!
@@ -341,6 +382,8 @@ export function compileRegexSearch(draft: RegexDraft, catalogue?:RegexCatalogue)
             templatePattern(t, bounds, 0, false, !!yieldPrefixes[id] && !value.max.trim()),
           )
           .join("|");
+        if (["required-level", "item-level", "quality", "sockets"].includes(id))
+          pattern = "^" + pattern;
         if (id === "tier") copyPattern = "er " + compactRange(...bounds) + "\\)";
         else if (id === "revives") copyPattern = "le: " + compactRange(...bounds);
         else if (yieldPrefixes[id] && !value.max.trim())
@@ -364,7 +407,30 @@ export function compileRegexSearch(draft: RegexDraft, catalogue?:RegexCatalogue)
           pattern = "^Players in area are [0-9]+% Delirious";
           negative = value === "false";
           copyPattern = "delir";
-        } else pattern = id==="item-class"?"^Item Class: *"+escapeRegexLiteral(value.trim())+"$":escapeRegexLiteral(value.trim());
+        } else if (id === "item-class") {
+          const classLabels: Record<string, string[]> = {
+            Ring: ["Rings"],
+            Amulet: ["Amulets"],
+            Belt: ["Belts"],
+            Helmet: ["Helmets"],
+            "Body Armour": ["Body Armours"],
+            Boots: ["Boots"],
+            Gloves: ["Gloves"],
+            Staff: ["Staves"],
+            Quarterstaff: ["Quarterstaves"],
+            Focus: ["Foci"],
+            Flask: ["Life Flasks", "Mana Flasks"],
+            "One Hand Mace": ["One Hand Maces"],
+            "Two Hand Mace": ["Two Hand Maces"],
+          };
+          const labels = [
+            ...new Set([
+              value,
+              ...(classLabels[value] ?? [value.endsWith("s") ? value : value + "s"]),
+            ]),
+          ];
+          pattern = "^Item Class: *(" + labels.map(escapeRegexLiteral).join("|") + ")$";
+        } else pattern = escapeRegexLiteral(value.trim());
       }
       groups.push({
         operator: "all",
