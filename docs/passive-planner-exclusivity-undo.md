@@ -27,4 +27,9 @@ Typecheck, lint, production build and `git diff --check` passed. An independent
 review of `e2e44a5..fcb8441` found no critical, important or minor issues and approved
 merging after the full browser suite completed successfully.
 
-Deployment: pending.
+Deployment: master `8e984e88a869ebdd813f169aca058abac3cc2f97` published and deployed
+successfully in [workflow run 38359664982](https://github.com/MrWinRock/exile-atlas/actions/runs/38359664982).
+All 20 planner desktop/mobile browser stories passed against
+[production](https://poe2.nonglabs.cloud/planner). Separate real-data smoke checks
+rendered the official tree, verified always-visible set controls and fresh Undo
+state, and found no page errors or viewport overflow on desktop or mobile.
