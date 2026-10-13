@@ -93,7 +93,26 @@ export function CraftingWorkbench() {
   }
   function editStep(id: string, patch: Partial<CraftStep>, actual = false) {
     const key = actual ? "actualSpend" : "steps";
-    update({ [key]: recipe[key].map((s) => (s.id === id ? { ...s, ...patch } : s)) });
+    update({
+      [key]: recipe[key].map((s) => {
+        if (s.id !== id) return s;
+        const currencyChanged = patch.currency !== undefined && patch.currency !== s.currency;
+        return {
+          ...s,
+          ...patch,
+          ...(currencyChanged
+            ? {
+                unitCost: "",
+                costSource: "unpriced" as const,
+                league: undefined,
+                quotedAt: undefined,
+                rateLow: undefined,
+                rateHigh: undefined,
+              }
+            : {}),
+        };
+      }),
+    });
   }
   function readStart(text: string) {
     const item = parseItemText(text);

@@ -132,9 +132,25 @@ function ComparisonContent() {
           <p className={styles.facts}>{e.additional_text}</p>
         )}
         {Array.isArray(e.support_skills) && (
-          <p>
-            Supports: {e.support_skills.map((s) => (typeof s === "string" ? s : s.id)).join(" · ")}
-          </p>
+          <div>
+            <p>Supports</p>
+            {e.support_skills.map((s, i) => (
+              <div key={i} className={styles.facts}>
+                <strong>{typeof s === "string" ? s : s.id}</strong>
+                {typeof s !== "string" && s.level_interval !== undefined && (
+                  <p>
+                    Support level:{" "}
+                    {Array.isArray(s.level_interval)
+                      ? s.level_interval.join("–")
+                      : String(s.level_interval)}
+                  </p>
+                )}
+                {typeof s !== "string" && typeof s.additional_text === "string" && (
+                  <p>{s.additional_text}</p>
+                )}
+              </div>
+            ))}
+          </div>
         )}
         {section === "inventory" && (
           <>

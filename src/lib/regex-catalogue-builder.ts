@@ -46,6 +46,7 @@ export function buildRegexCatalogue(snapshot: GameSnapshot): RegexCatalogue {
           ];
         }
       });
+      previous.numericDomain = previous.numericSlots?.[0]?.domain;
       continue;
     }
     const slots = structuredClone(m.numericSlots);

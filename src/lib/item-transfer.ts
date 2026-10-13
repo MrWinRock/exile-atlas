@@ -62,16 +62,31 @@ export function prepareItemTransfer(itemText: string, snapshot: GameSnapshot): I
     quality: "quality",
     itemRarity: "iir",
     waystoneTier: "tier",
+    attackRate: "attack-rate",
+    sockets: "sockets",
   };
-  for (const [key, id] of Object.entries(headers))
-    if (
-      item.properties[key] !== undefined &&
-      catalogue.properties.find((p) => p.id === id && p.categories.includes(category))
-    )
+  for (const [key, value] of Object.entries(item.properties)) {
+    const id = headers[key];
+    if (id && catalogue.properties.find((p) => p.id === id && p.categories.includes(category)))
       draft.properties[id] = {
-        min: String(item.properties[key]),
-        max: String(item.properties[key]),
+        min: String(value),
+        max: String(value),
       };
+    else unresolved.push(`${key}: ${value} (search property unavailable)`);
+  }
+  if (item.requiredLevel !== undefined) {
+    if (
+      catalogue.properties.some((p) => p.id === "required-level" && p.categories.includes(category))
+    )
+      draft.properties["required-level"] = {
+        min: String(item.requiredLevel),
+        max: String(item.requiredLevel),
+      };
+    else unresolved.push(`Required level: ${item.requiredLevel} (search property unavailable)`);
+  }
+  for (const [key, value] of Object.entries(item.requirements))
+    if (key !== "Level")
+      unresolved.push(`Requirement ${key}: ${value} (search property unavailable)`);
   if (item.itemLevel !== undefined && category === "equipment")
     draft.properties["item-level"] = { min: String(item.itemLevel), max: String(item.itemLevel) };
   return {

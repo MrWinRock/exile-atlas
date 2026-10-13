@@ -253,6 +253,11 @@ export function compileRegexSearch(
       return;
     }
     try {
+      if (
+        !m.numericSlots &&
+        Object.values(selection.slots ?? {}).some((range) => hasRegexValue(range))
+      )
+        throw new Error(`${m.label}: numeric slot constraints are unavailable for this modifier.`);
       if (m.numericSlots) {
         const ranges = { "0": { min: selection.min, max: selection.max }, ...selection.slots };
         return {
