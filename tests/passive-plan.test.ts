@@ -82,7 +82,37 @@ describe("weapon-set passive planning", () => {
   });
   test("never bridges a weapon set through the other set's exclusive nodes", () => {
     const result = allocatePassive(tree, 0, "", { ...empty, weapon1: ["a", "b", "c"] }, 2, "d");
-    expect(result.plan.weapon2).toEqual(["a", "b", "c", "d"]);
+    expect(result.plan.weapon2).toEqual([]);
+    expect(result.added).toBe(0);
+    expect(result.error).toBeDefined();
+  });
+  test("a node owned by the other weapon set cannot be allocated again", () => {
+    const result = allocatePassive(tree, 0, "", plan, 2, "c");
+    expect(result.plan).toEqual(plan);
+    expect(result.added).toBe(0);
+    expect(result.error).toContain("Weapon set I");
+  });
+  test("automatic paths choose an alternative to the other set's exclusive nodes", () => {
+    const alternate = normalizeTree({
+      nodes: {
+        root: { id: "root", classStartIndex: 0, x: 0, y: 0, out: ["a", "b"] },
+        a: { id: "a", x: 1, y: 0, out: ["t"] },
+        b: { id: "b", x: 0, y: 1, out: ["c"] },
+        c: { id: "c", x: 1, y: 1, out: ["t"] },
+        t: { id: "t", x: 2, y: 1 },
+      },
+    });
+    const result = allocatePassive(
+      alternate,
+      0,
+      "",
+      { shared: [], weapon1: ["a"], weapon2: [] },
+      2,
+      "t",
+    );
+    expect(result.plan.weapon1).toEqual(["a"]);
+    expect(result.plan.weapon2).toEqual(["b", "c", "t"]);
+    expect(result.error).toBeUndefined();
   });
   test("promoting a path to shared removes duplicate set charges", () => {
     const result = allocatePassive(tree, 0, "", plan, 0, "d");

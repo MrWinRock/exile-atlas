@@ -1,24 +1,64 @@
 import { expect, test } from "@playwright/test";
 import { normalizeTree } from "../src/lib/tree";
-const tree=normalizeTree({nodes:{r:{id:"root",name:"Start",classStartIndex:6,x:0,y:0,out:["a"]},a:{id:"a",name:"Bridge",x:300,y:0,out:["b","c"]},b:{id:"b",name:"Red branch",x:600,y:0},c:{id:"c",name:"Green branch",x:300,y:300}},classes:Array.from({length:7},(_,i)=>({name:`Class ${i}`,ascendancies:[]}))});
-test("persistent controls preserve both plans, memberships and renderer",async({page})=>{
-  await page.route("**/api/tree",r=>r.fulfill({json:tree}));
-  await page.addInitScript(()=>{if(!localStorage.getItem("exile-atlas-workspace-v1"))localStorage.setItem("exile-atlas-workspace-v1",JSON.stringify({state:{builds:[],filters:[],classIndex:6,ascendancy:"",allocations:["a"],weaponSet1Allocations:["b"],weaponSet2Allocations:["b","c"],weaponSet:1},version:0}));});
+const tree = normalizeTree({
+  nodes: {
+    r: { id: "root", name: "Start", classStartIndex: 6, x: 0, y: 0, out: ["a"] },
+    a: { id: "a", name: "Bridge", x: 300, y: 0, out: ["b", "c"] },
+    b: { id: "b", name: "Red branch", x: 600, y: 0 },
+    c: { id: "c", name: "Green branch", x: 300, y: 300 },
+  },
+  classes: Array.from({ length: 7 }, (_, i) => ({ name: `Class ${i}`, ascendancies: [] })),
+});
+test("persistent controls preserve both plans, memberships and renderer", async ({ page }) => {
+  await page.route("**/api/tree", (r) => r.fulfill({ json: tree }));
+  await page.addInitScript(() => {
+    if (!localStorage.getItem("exile-atlas-workspace-v1"))
+      localStorage.setItem(
+        "exile-atlas-workspace-v1",
+        JSON.stringify({
+          state: {
+            builds: [],
+            filters: [],
+            classIndex: 6,
+            ascendancy: "",
+            allocations: ["a"],
+            weaponSet1Allocations: ["b"],
+            weaponSet2Allocations: ["b", "c"],
+            weaponSet: 1,
+          },
+          version: 0,
+        }),
+      );
+  });
   await page.goto("/planner");
-  await expect(page.locator(".tree-canvas")).toHaveAttribute("data-renderer-builds","1");
-  const canvas=page.locator(".tree-canvas canvas"); const original=await canvas.elementHandle();
-  await page.getByRole("button",{name:"Show both sets",exact:true}).click();
+  await expect(page.locator(".tree-canvas")).toHaveAttribute("data-renderer-builds", "1");
+  const canvas = page.locator(".tree-canvas canvas");
+  const original = await canvas.elementHandle();
+  await expect(page.locator(".tree-legend [data-set='1']")).toBeVisible();
+  await expect(page.locator(".tree-legend [data-set='2']")).toBeVisible();
   await page.getByLabel("Search passive nodes").fill("Red branch");
-  await page.getByRole("button",{name:"Select passive: Red branch",exact:true}).click();
+  await page.getByRole("button", { name: "Select passive: Red branch", exact: true }).click();
   await expect(page.getByTestId("passive-membership")).toHaveText("Weapon set I · Weapon set II");
-  await page.getByRole("button",{name:"View weapon set II",exact:true}).click();
+  await page.getByRole("button", { name: "View weapon set II", exact: true }).click();
   await expect(page.getByTestId("editing-set")).toHaveText("Editing: Weapon set II");
-  await expect(page.locator(".tree-legend [data-set='1']")).toHaveCSS("background-color","rgb(230, 120, 120)");
-  await expect(page.locator(".tree-legend [data-set='2']")).toHaveCSS("background-color","rgb(116, 201, 154)");
-  expect(await original?.evaluate(el=>el.isConnected)).toBe(true);
-  expect(await page.evaluate(()=>JSON.parse(localStorage.getItem("exile-atlas-workspace-v1")!).state.weaponSet1Allocations)).toEqual(["b"]);
+  await expect(page.locator(".tree-legend [data-set='1']")).toHaveCSS(
+    "background-color",
+    "rgb(230, 120, 120)",
+  );
+  await expect(page.locator(".tree-legend [data-set='2']")).toHaveCSS(
+    "background-color",
+    "rgb(116, 201, 154)",
+  );
+  expect(await original?.evaluate((el) => el.isConnected)).toBe(true);
+  expect(
+    await page.evaluate(
+      () =>
+        JSON.parse(localStorage.getItem("exile-atlas-workspace-v1")!).state.weaponSet1Allocations,
+    ),
+  ).toEqual(["b"]);
   await page.reload();
-  await expect(page.getByRole("button",{name:"Show both sets",exact:true})).toHaveAttribute("aria-pressed","true");
+  await expect(page.locator(".tree-legend [data-set='1']")).toBeVisible();
+  await expect(page.locator(".tree-legend [data-set='2']")).toBeVisible();
   await expect(page.getByTestId("weapon-set-1-count")).toHaveText("1 / 24");
   await expect(page.getByTestId("weapon-set-2-count")).toHaveText("2 / 24");
 });

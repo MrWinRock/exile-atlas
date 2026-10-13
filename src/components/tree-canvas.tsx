@@ -174,7 +174,7 @@ export function TreeCanvas({
         </span>
         <span>
           <i className="allocated" />
-          {weaponSet ? "Shared" : "Allocated"}
+          {display || weaponSet ? "Shared" : "Allocated"}
         </span>
         {([1, 2] as const)
           .filter((set) => display?.showBoth || weaponSet === set)

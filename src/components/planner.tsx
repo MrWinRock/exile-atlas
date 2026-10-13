@@ -16,12 +16,18 @@ import {
   normalizePassivePlan,
   passiveBudget,
   passiveRoots,
+  passiveOverlaps,
   refundPassive,
   type AllocationMode,
 } from "@/lib/passive-plan";
 import { PlannerSelect } from "./planner-select";
 import styles from "./planner.module.css";
 import { passiveMembership } from "@/lib/passive-display";
+import {
+  rememberPlannerChange,
+  undoPlannerChange,
+  type PlannerCheckpoint,
+} from "@/lib/planner-history";
 
 const emptyPlan = { shared: [], weapon1: [], weapon2: [] };
 const modes = ["Shared", "Weapon set I", "Weapon set II"] as const;
@@ -30,6 +36,7 @@ export function Planner() {
     [name, setName] = useState("My passive plan"),
     [search, setSearch] = useState(""),
     [selected, setSelected] = useState<string>(),
+    [history, setHistory] = useState<PlannerCheckpoint[]>([]),
     [message, setMessage] = useState("");
   const query = useQuery({
     queryKey: ["tree"],
@@ -79,6 +86,13 @@ export function Planner() {
   const budget = query.data
     ? passiveBudget(query.data, plan)
     : { shared: 0, weapon1: 0, weapon2: 0, regular: 0, ascendancy: 0 };
+  const overlaps = passiveOverlaps(plan);
+  const otherOwner =
+    selected && mode === 1 && plan.weapon2.includes(selected)
+      ? 2
+      : selected && mode === 2 && plan.weapon1.includes(selected)
+        ? 1
+        : undefined;
   const selectedNode = query.data?.nodes.find((n) => n.hash === selected),
     results = (visibleTree?.nodes ?? [])
       .filter(isAllocatablePassive)
@@ -86,10 +100,43 @@ export function Planner() {
         `${n.name} ${n.stats.join(" ")} ${n.id}`.toLowerCase().includes(search.toLowerCase()),
       )
       .slice(0, 40);
+  function remember() {
+    const checkpoint: PlannerCheckpoint = {
+      classIndex: store.classIndex,
+      ascendancy: store.ascendancy,
+      mode,
+      selected,
+      plan: {
+        shared: store.allocations,
+        weapon1: store.weaponSet1Allocations ?? [],
+        weapon2: store.weaponSet2Allocations ?? [],
+      },
+    };
+    setHistory((previous) => rememberPlannerChange(previous, checkpoint));
+  }
+  function undo() {
+    const previous = undoPlannerChange(history);
+    if (!previous.checkpoint) return;
+    const checkpoint = previous.checkpoint;
+    useWorkspace.setState({
+      classIndex: checkpoint.classIndex,
+      ascendancy: checkpoint.ascendancy,
+      weaponSet: checkpoint.mode,
+      allocations: checkpoint.plan.shared,
+      weaponSet1Allocations: checkpoint.plan.weapon1,
+      weaponSet2Allocations: checkpoint.plan.weapon2,
+    });
+    setHistory(previous.history);
+    setSelected(checkpoint.selected);
+    setMessage("Last planner change undone.");
+  }
   function allocate() {
     if (!selected || !visibleTree) return;
     const result = allocatePassive(visibleTree, classIndex, ascendancy, plan, mode, selected);
-    if (result.added) store.setPassivePlan(result.plan);
+    if (result.added) {
+      remember();
+      store.setPassivePlan(result.plan);
+    }
     setMessage(
       result.error ??
         `${result.added} connected passive${result.added === 1 ? "" : "s"} allocated to ${selectedNode?.ascendancy ? "Ascendancy" : modes[mode]}.`,
@@ -98,7 +145,10 @@ export function Planner() {
   function refund() {
     if (!selected || !visibleTree) return;
     const result = refundPassive(visibleTree, classIndex, ascendancy, plan, mode, selected);
-    store.setPassivePlan(result.plan);
+    if (result.removed) {
+      remember();
+      store.setPassivePlan(result.plan);
+    }
     setMessage(
       `${result.removed} passive allocation${result.removed === 1 ? "" : "s"} refunded.${result.removed > 1 ? " Disconnected passives were refunded too." : ""}`,
     );
@@ -122,7 +172,16 @@ export function Planner() {
           <div className="button-group">
             <Button
               variant="secondary"
-              disabled={!query.data}
+              disabled={!query.data || !history.length}
+              onClick={undo}
+              title="Undo the last planner change during this visit"
+            >
+              <Undo2 size={15} />
+              Undo
+            </Button>
+            <Button
+              variant="secondary"
+              disabled={!query.data || overlaps.length > 0}
               onClick={() =>
                 downloadFile(
                   (name || "passive-plan") + ".build",
@@ -135,7 +194,7 @@ export function Planner() {
               Export .build
             </Button>
             <Button
-              disabled={!query.data}
+              disabled={!query.data || overlaps.length > 0}
               onClick={() => {
                 store.saveBuild(build());
                 setMessage("Passive plan saved to your build library.");
@@ -173,6 +232,8 @@ export function Planner() {
                     label: c.name,
                   }))}
                   onChange={(value) => {
+                    if (Number(value) === classIndex) return;
+                    remember();
                     store.setClassIndex(Number(value));
                     setSelected(undefined);
                     setMessage("");
@@ -190,6 +251,8 @@ export function Planner() {
                       ?.ascendancies.map((a) => ({ value: a.id, label: a.name })) ?? []),
                   ]}
                   onChange={(next) => {
+                    if (next === ascendancy) return;
+                    remember();
                     store.setPassivePlan(normalizePassivePlan(query.data!, classIndex, next, plan));
                     store.setAscendancy(next);
                     setSelected(undefined);
@@ -204,6 +267,12 @@ export function Planner() {
               <Button
                 variant="ghost"
                 onClick={() => {
+                  if (
+                    store.allocations.length ||
+                    store.weaponSet1Allocations?.length ||
+                    store.weaponSet2Allocations?.length
+                  )
+                    remember();
                   store.setPassivePlan(emptyPlan);
                   setMessage("All passive allocations reset.");
                 }}
@@ -269,10 +338,35 @@ export function Planner() {
                 ))}
               </div>
               <p className={styles.weaponHint}>
-                Shared passives stay active in both sets. Each weapon set can specialise up to 24
-                regular points. Keystones, jewel sockets, and ascendancy passives stay shared.
+                Both sets stay visible. Each exclusive node belongs to one weapon set. Shared
+                passives stay active in both sets. Each weapon set can specialise up to 24 regular
+                points. Keystones, jewel sockets, and ascendancy passives stay shared.
               </p>
             </section>
+            {overlaps.length > 0 && (
+              <Notice error>
+                Weapon sets share {overlaps.length} exclusive node{overlaps.length === 1 ? "" : "s"}
+                . Refund one membership, or select Shared and allocate its connected path there.
+                Saving and exporting are unavailable until these overlaps are resolved.
+                <div className="button-group">
+                  {overlaps.slice(0, 20).map((id) => (
+                    <Button
+                      key={id}
+                      variant="ghost"
+                      onClick={() => {
+                        setSelected(id);
+                        setSearch(query.data!.nodes.find((n) => n.hash === id)?.name ?? id);
+                      }}
+                    >
+                      {query.data!.nodes.find((n) => n.hash === id)?.name ?? id}
+                    </Button>
+                  ))}
+                </div>
+                {overlaps.length > 20 && (
+                  <p>First 20 overlaps shown. Resolve these to see the remaining nodes.</p>
+                )}
+              </Notice>
+            )}
             {message && <Notice>{message}</Notice>}
             <div className="planner-layout">
               <section
@@ -298,10 +392,9 @@ export function Planner() {
                     ...plan,
                     shared: [...plan.shared, ...passiveRoots(visibleTree, classIndex, ascendancy)],
                     mode,
-                    showBoth: store.showBothWeaponSets ?? false,
+                    showBoth: true,
                   }}
                   onModeChange={store.setWeaponSet}
-                  onShowBothChange={store.setShowBothWeaponSets}
                 />
               </section>
               <aside className="panel node-panel">
@@ -361,10 +454,22 @@ export function Planner() {
                         </p>
                       </>
                     ) : isAllocatablePassive(selectedNode) ? (
-                      <Button className="full-width" onClick={allocate}>
-                        <PlusIcon />
-                        Allocate connected path
-                      </Button>
+                      <>
+                        <Button
+                          className="full-width"
+                          onClick={allocate}
+                          disabled={!!otherOwner || (mode !== 0 && overlaps.length > 0)}
+                        >
+                          <PlusIcon />
+                          Allocate connected path
+                        </Button>
+                        {otherOwner && (
+                          <p>
+                            Allocated to Weapon set {otherOwner === 1 ? "I" : "II"}. Switch to that
+                            set to refund it, or allocate its connected path in Shared.
+                          </p>
+                        )}
+                      </>
                     ) : (
                       <Badge>UNAVAILABLE</Badge>
                     )}
@@ -380,7 +485,14 @@ export function Planner() {
                       onClick={() => setSelected(n.hash)}
                     >
                       <PassiveIcon
-                        sprite={allocated.includes(n.hash) ? n.image : (n.inactiveImage ?? n.image)}
+                        sprite={
+                          plan.shared.includes(n.hash) ||
+                          plan.weapon1.includes(n.hash) ||
+                          plan.weapon2.includes(n.hash) ||
+                          n.kind === "start"
+                            ? n.image
+                            : (n.inactiveImage ?? n.image)
+                        }
                         name={n.name}
                       />
                       <div>

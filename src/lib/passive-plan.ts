@@ -7,6 +7,11 @@ export type PassivePlan = { shared: string[]; weapon1: string[]; weapon2: string
 const fields = ["shared", "weapon1", "weapon2"] as const;
 const setLimit = 24;
 
+export function passiveOverlaps(plan: PassivePlan): string[] {
+  const second = new Set(plan.weapon2);
+  return [...new Set(plan.weapon1)].filter((id) => second.has(id));
+}
+
 function sharedOnly(node: TreeNode) {
   return !!node.ascendancy || node.kind === "keystone" || node.kind === "jewel";
 }
@@ -107,6 +112,20 @@ export function allocatePassive(
       error: "Keystones and jewel sockets are shared. Select Shared to allocate this node.",
     };
   const key = fields[effectiveMode];
+  const other = effectiveMode === 1 ? plan.weapon2 : plan.weapon1;
+  if (effectiveMode && other.includes(target))
+    return {
+      plan,
+      added: 0,
+      error: `Allocated to Weapon set ${effectiveMode === 1 ? "II" : "I"}. Refund it there or allocate its connected path in Shared.`,
+    };
+  if (effectiveMode && passiveOverlaps(plan).length)
+    return {
+      plan,
+      added: 0,
+      error:
+        "Resolve overlapping weapon-set nodes before adding new allocations. Refund one membership or move the connected path to Shared.",
+    };
   const active = [
     ...plan.shared,
     ...(effectiveMode ? plan[key] : []),
@@ -117,7 +136,11 @@ export function allocatePassive(
   if (effectiveMode) {
     const ids = new Set(
       graph.nodes
-        .filter((n) => !sharedOnly(n) || plan.shared.includes(n.hash) || n.kind === "start")
+        .filter(
+          (n) =>
+            !other.includes(n.hash) &&
+            (!sharedOnly(n) || plan.shared.includes(n.hash) || n.kind === "start"),
+        )
         .map((n) => n.hash),
     );
     graph = {
@@ -132,7 +155,7 @@ export function allocatePassive(
       plan,
       added: 0,
       error:
-        "No connected path is available. Allocate any connecting keystones or jewel sockets in Shared first.",
+        "No connected path is available without using another set's exclusive nodes. Allocate required connecting nodes, keystones or jewel sockets in Shared first.",
     };
   if (effectiveMode && plan[key].length + path.length > setLimit)
     return {
