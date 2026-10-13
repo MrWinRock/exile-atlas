@@ -23,6 +23,9 @@ export EXILE_ATLAS_IMAGE
 exec 9>"$stack/.deploy.lock"
 flock -w 600 9
 script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+if [[ -n "${UMAMI_WEBSITE_ID:-}" ]]; then
+  python3 "$script_dir/configure-analytics.py" "$stack"
+fi
 install -m 644 "$script_dir/compose.yaml" "$stack/docker-compose.yml"
 # Compose prefers compose.yaml; retire the legacy name after installing the
 # requested filename so plain commands always use the current definition.

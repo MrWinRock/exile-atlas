@@ -58,6 +58,23 @@ docker compose logs --tail 50 web worker db-setup
 
 After a **failed deployment**, `.env` still records the most recent healthy release; `docker compose up -d --wait web worker` can restore it. After a **successful deployment**, roll back to the earlier healthy release using `previous-image.env`. Supply the chosen digest to `deploy/update.sh`. A locally cached digest needs no registry token; an uncached private image requires registry credentials. If the first-ever deployment fails there is no earlier release to restore. Do not use `down -v`: database/history volumes are persistent. Back up PostgreSQL before schema-changing deployments. Browser drafts remain in each browser's local storage; they are not copied from the development machine to the VPS.
 
+## Umami analytics
+
+Set the repository's encrypted `UMAMI_WEBSITE_ID` secret to enable analytics on
+automatic deployment. CI passes it through encrypted SSH stdin and writes only
+that setting into the existing server `.env` atomically with mode 600. Other
+environment entries are preserved; an absent CI secret leaves server settings
+unchanged. For manual configuration, set `UMAMI_WEBSITE_ID` in the server `.env`
+and recreate web. Clear the server value to disable tracking (and remove the CI
+secret to keep later deployments from restoring it).
+
+Next reads the ID on the server at request time, so it is not bundled as a
+`NEXT_PUBLIC_` value or baked into the Docker image. The tracker loads once after
+hydration and handles client navigation. Query strings and hashes are excluded
+from pageview URLs. The ID remains visible in the browser's script element;
+environment storage keeps it out of source control, rather than making it secret
+from visitors. The script host is `https://analytics.nonglabs.cloud/script.js`.
+
 ## Current setup state
 
 Public site: https://poe2.nonglabs.cloud/. Private site: https://labs.tail262442.ts.net:3211/ (connect to the tailnet for this URL). Stack: `/opt/stacks/exile-atlas/docker-compose.yml`.

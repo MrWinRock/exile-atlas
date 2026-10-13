@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Providers } from "@/components/providers";
 import { Shell } from "@/components/shell";
+import { UmamiAnalytics } from "@/components/umami-analytics";
 import "./globals.css";
 export const metadata: Metadata = {
   title: "Exile Atlas · Your PoE2 workspace",
@@ -14,6 +15,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Providers>
           <Shell>{children}</Shell>
         </Providers>
+        <UmamiAnalytics />
       </body>
     </html>
   );
