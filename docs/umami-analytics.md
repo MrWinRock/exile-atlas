@@ -24,4 +24,9 @@ that runtime setting, and preserved one script across desktop/mobile navigation.
 Analytics requests were blocked during tests. All 110 disabled-runtime desktop/mobile
 browser stories passed. Independent review of `fb6a0b3..e95e704` found no Critical,
 Important or Minor issues; focused environment-helper checks passed independently.
-Production rollout and actual collector acceptance are pending.
+Master `bc2c419d22e50752997da5b2819bfefc88aecee8` deployed successfully in
+[workflow run 38447271886](https://github.com/MrWinRock/exile-atlas/actions/runs/38447271886).
+Live tracker and pageview collector both returned HTTP 200; the script and payload
+matched the supplied runtime ID, and the verification query/hash were excluded.
+Both desktop/mobile production navigation stories passed with collection blocked
+for those regression tests. One real pageview was sent for collector acceptance.
