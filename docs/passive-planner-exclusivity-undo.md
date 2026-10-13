@@ -22,4 +22,9 @@ failures before implementation and passed afterwards. Desktop/mobile stories cov
 always-visible colors, ownership guards, reset/refund/allocation undo, context undo,
 legacy repair and recovery. Final suite/review/deployment results are recorded below.
 
-Final verification and deployment: pending.
+Final verification: 306 unit tests and all 96 desktop/mobile browser stories passed.
+Typecheck, lint, production build and `git diff --check` passed. An independent
+review of `e2e44a5..fcb8441` found no critical, important or minor issues and approved
+merging after the full browser suite completed successfully.
+
+Deployment: pending.
