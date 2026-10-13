@@ -31,7 +31,7 @@ available build facts, without inferred combat statistics.
 ## Verification before independent review
 
 - Full unit suite: 302 passing tests, 10,486 assertions after the review fix pass.
-- Full desktop/mobile suite: 88 passing stories, including review regressions, import/recovery and
+- Full desktop/mobile suite: 90 passing stories, including delayed initialization, review regressions, import/recovery and
   explicit inspector handoffs.
 - Typecheck, lint and production build passed after the final semantic corrections.
 - The data generator reproduced content ID
@@ -83,4 +83,13 @@ Additional review rulings:
 - Support-detail display was upgraded to Important. Cost if wrong: extra explanatory
   text appears in comparisons.
 
-Master deployment/live results: pending.
+The first master release `cb303e2` was published and deployed by
+[run 38353851624](https://github.com/MrWinRock/exile-atlas/actions/runs/38353851624).
+Live source endpoints and staging passed. Live browser verification exposed a
+comparison initialization race (20/24 stories passed): immediate file selection
+could precede client event-handler initialization. The import inputs now stay
+unavailable until initialized, with delayed-JavaScript tests RED-to-GREEN on both
+layouts. The complete post-correction suite passed 302 unit tests and 90 browser
+stories; typecheck, lint and production build passed.
+
+Corrected release deployment and final live verification: pending.

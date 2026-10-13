@@ -10,51 +10,44 @@ test("comparison imports stay in memory until explicit save; invalid files retai
     r.fulfill({ json: { ...tree, source: "Fixture", revision: "fixture" } }),
   );
   await page.goto("/compare");
+  await expect(page.getByLabel("Import left build", { exact: true })).toBeEnabled();
   const before = await page.evaluate(() => localStorage.getItem("exile-atlas-workspace-v1"));
   const build = {
     name: "Imported left",
     passives: [{ id: "a", weapon_set: 1 }],
     skills: [{ id: "fire", support_skills: ["support-a"], additional_text: "Keep note" }],
   };
-  await page
-    .getByLabel("Import left build", { exact: true })
-    .setInputFiles({
-      name: "left.build",
-      mimeType: "application/json",
-      buffer: Buffer.from(JSON.stringify(build)),
-    });
-  await page
-    .getByLabel("Import right build", { exact: true })
-    .setInputFiles({
-      name: "right.build",
-      mimeType: "application/json",
-      buffer: Buffer.from(
-        JSON.stringify({
-          ...build,
-          name: "Imported right",
-          passives: [{ id: "a", weapon_set: 2 }],
-          skills: [{ id: "fire", support_skills: ["support-b"], additional_text: "New note" }],
-        }),
-      ),
-    });
+  await page.getByLabel("Import left build", { exact: true }).setInputFiles({
+    name: "left.build",
+    mimeType: "application/json",
+    buffer: Buffer.from(JSON.stringify(build)),
+  });
+  await page.getByLabel("Import right build", { exact: true }).setInputFiles({
+    name: "right.build",
+    mimeType: "application/json",
+    buffer: Buffer.from(
+      JSON.stringify({
+        ...build,
+        name: "Imported right",
+        passives: [{ id: "a", weapon_set: 2 }],
+        skills: [{ id: "fire", support_skills: ["support-b"], additional_text: "New note" }],
+      }),
+    ),
+  });
   await expect(page.getByText(/support-a/)).toBeVisible();
   await expect(page.getByText(/support-b/)).toBeVisible();
   const left = await page.getByLabel("Left build", { exact: true }).inputValue();
-  await page
-    .getByLabel("Import left build", { exact: true })
-    .setInputFiles({
-      name: "bad.build",
-      mimeType: "application/json",
-      buffer: Buffer.from("broken"),
-    });
+  await page.getByLabel("Import left build", { exact: true }).setInputFiles({
+    name: "bad.build",
+    mimeType: "application/json",
+    buffer: Buffer.from("broken"),
+  });
   await expect(page.getByLabel("Left build", { exact: true })).toHaveValue(left);
-  await page
-    .getByLabel("Import left build", { exact: true })
-    .setInputFiles({
-      name: "huge.build",
-      mimeType: "application/json",
-      buffer: Buffer.alloc(1048577, 65),
-    });
+  await page.getByLabel("Import left build", { exact: true }).setInputFiles({
+    name: "huge.build",
+    mimeType: "application/json",
+    buffer: Buffer.alloc(1048577, 65),
+  });
   await expect(
     page.getByText("Build imports must be at most 1 MiB", { exact: true }),
   ).toBeVisible();

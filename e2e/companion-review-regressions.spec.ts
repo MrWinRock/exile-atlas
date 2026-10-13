@@ -75,6 +75,7 @@ test("comparison displays changed support levels and notes", async ({ page }) =>
     r.fulfill({ json: { nodes: [], edges: [], classes: [] } }),
   );
   await page.goto("/compare");
+  await expect(page.getByLabel("Import left build", { exact: true })).toBeEnabled();
   const build = (name: string, level: number[], note: string) => ({
     name,
     skills: [

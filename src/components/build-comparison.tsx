@@ -1,5 +1,5 @@
 "use client";
-import { Suspense, useMemo, useState } from "react";
+import { Suspense, useMemo, useState, useSyncExternalStore } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { useWorkspace } from "@/lib/workspace-store";
@@ -20,6 +20,9 @@ import { TreeCanvas } from "./tree-canvas";
 import { Button, Field, Notice, PageTitle, SectionHeader } from "./ui";
 import styles from "./build-comparison.module.css";
 type ImportCopy = { id: string; build: Build; fileName: string };
+const subscribeReady = () => () => {};
+const clientReadySnapshot = () => true;
+const serverReadySnapshot = () => false;
 export function BuildComparison() {
   return (
     <Suspense fallback={<p>Loading comparison…</p>}>
@@ -32,6 +35,11 @@ function ComparisonContent() {
     data = useGameData(),
     params = useSearchParams(),
     router = useRouter();
+  const clientReady = useSyncExternalStore(
+    subscribeReady,
+    clientReadySnapshot,
+    serverReadySnapshot,
+  );
   const [leftSelection, setLeftSelection] = useState<string>(),
     [rightSelection, setRightSelection] = useState(""),
     [imports, setImports] = useState<ImportCopy[]>([]),
@@ -234,6 +242,7 @@ function ComparisonContent() {
               <Field label={`Import ${side === 0 ? "left" : "right"} build`}>
                 <input
                   type="file"
+                  disabled={!clientReady}
                   accept=".build,.json"
                   onChange={(e) => {
                     const f = e.target.files?.[0];
