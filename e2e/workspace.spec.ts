@@ -51,12 +51,15 @@ test("build drafts survive reload and export the documented object", async ({ pa
 test("filter generation, persistence and disconnected sync state", async ({ page }) => {
   await page.goto("/filters");
   await page.getByLabel("Filter name", { exact: true }).fill("My leveling filter");
-  await page.getByRole("button", { name: "Apply settings to rules" }).click();
+  await page.getByRole("tab", { name: "Export", exact: true }).click();
   await expect(page.getByLabel("Filter rules", { exact: true })).toHaveValue(/My leveling filter/);
   await page.getByRole("button", { name: "Save draft", exact: true }).click();
   await page.reload();
-  await page.getByRole("button", { name: "My leveling filter", exact: true }).click();
+  await page
+    .getByLabel("Saved filters", { exact: true })
+    .selectOption({ label: "My leveling filter" });
   await expect(page.getByLabel("Filter name", { exact: true })).toHaveValue("My leveling filter");
+  await page.getByRole("tab", { name: "Export", exact: true }).click();
   await expect(page.getByRole("button", { name: "Sync to GGG", exact: true })).toBeDisabled();
 });
 test("unauthenticated account tools show visitor settings without developer setup notes", async ({
