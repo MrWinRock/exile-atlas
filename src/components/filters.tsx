@@ -468,6 +468,20 @@ export function Filters() {
         </span>
       </div>
       {message && <Notice error={error}>{message}</Notice>}
+      <details>
+        <summary>Current filter summary</summary>
+        {custom ? (
+          <p>Custom text is active; the visual builder settings below do not describe its rules.</p>
+        ) : (
+          <p>
+            Strictness: {settings.strictness ?? "regular"} / Normal items:{" "}
+            {getFilterStyle(settings, "normal").visible ? "shown" : "hidden"} / Magic items:{" "}
+            {getFilterStyle(settings, "magic").visible ? "shown" : "hidden"} / Default sounds:{" "}
+            {settings.sounds ? "on" : "off"}. Use field testing to inspect the rule applied to each
+            sample item.
+          </p>
+        )}
+      </details>
       {custom && (
         <div className={styles.customNotice}>
           <Code2 size={17} />

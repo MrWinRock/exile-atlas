@@ -109,7 +109,11 @@ export function Leagues() {
                   />
                 </label>
                 <span className="muted text-small">
-                  Ranks {offset + 1}–{offset + 500}
+                  {ladder.data && !ladder.data.ladder.entries.length
+                    ? "No ranks on this page"
+                    : ladder.data
+                      ? `Ranks ${offset + 1}–${offset + ladder.data.ladder.entries.length} of ${ladder.data.ladder.total} · ${rows.length} shown`
+                      : "Loading ranks…"}
                 </span>
               </div>
               {ladder.isLoading ? (

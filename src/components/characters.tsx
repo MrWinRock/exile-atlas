@@ -72,6 +72,8 @@ export function Characters() {
   const { find } = useItemImages();
   const { data: status, isLoading: statusLoading } = useStatus(),
     [selected, setSelected] = useState(""),
+    [search, setSearch] = useState(""),
+    [league, setLeague] = useState(""),
     [message, setMessage] = useState(""),
     [importing, setImporting] = useState(false);
   const saveBuild = useWorkspace((s) => s.saveBuild);
@@ -158,27 +160,61 @@ export function Characters() {
                 description="Create a character in PoE2, then refresh this list."
               />
             )}
-            {list.data?.characters.map((c) => (
-              <button
-                key={c.id}
-                className={`character-row ${selected === c.name ? "selected" : ""}`}
-                onClick={() => setSelected(c.name)}
-              >
-                <span className="character-avatar">
-                  <UserRound size={22} />
-                </span>
-                <div>
-                  <strong>{c.name}</strong>
-                  <small>
-                    {c.class} · {c.league}
-                  </small>
-                </div>
-                <span className="level">
-                  {c.level}
-                  <small>LEVEL</small>
-                </span>
-              </button>
-            ))}
+            {!!list.data?.characters.length && (
+              <div className="button-group">
+                <input
+                  aria-label="Search characters"
+                  placeholder="Search characters..."
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                />
+                <select
+                  aria-label="Character league"
+                  value={league}
+                  onChange={(e) => setLeague(e.target.value)}
+                >
+                  <option value="">All leagues</option>
+                  {[...new Set(list.data.characters.map((c) => c.league))].sort().map((name) => (
+                    <option key={name} value={name}>
+                      {name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
+            {!!list.data?.characters.length &&
+              !list.data.characters.some(
+                (c) =>
+                  (!league || c.league === league) &&
+                  `${c.name} ${c.class}`.toLowerCase().includes(search.toLowerCase()),
+              ) && <p className="muted">No characters match these filters.</p>}
+            {list.data?.characters
+              .filter(
+                (c) =>
+                  (!league || c.league === league) &&
+                  `${c.name} ${c.class}`.toLowerCase().includes(search.toLowerCase()),
+              )
+              .map((c) => (
+                <button
+                  key={c.id}
+                  className={`character-row ${selected === c.name ? "selected" : ""}`}
+                  onClick={() => setSelected(c.name)}
+                >
+                  <span className="character-avatar">
+                    <UserRound size={22} />
+                  </span>
+                  <div>
+                    <strong>{c.name}</strong>
+                    <small>
+                      {c.class} · {c.league}
+                    </small>
+                  </div>
+                  <span className="level">
+                    {c.level}
+                    <small>LEVEL</small>
+                  </span>
+                </button>
+              ))}
           </section>
           <section className="panel character-detail">
             {!selected ? (
@@ -198,6 +234,10 @@ export function Characters() {
                     title={detail.data.character.name}
                     aside={<Badge tone="amber">LEVEL {detail.data.character.level}</Badge>}
                   />
+                  <p className="fine-print">
+                    Saving imports passive allocations. Equipment remains here; skills and guide
+                    notes can be added in the build editor.
+                  </p>
                   <div className="toolbar">
                     <Badge>{detail.data.character.class}</Badge>
                     <Button disabled={importing} onClick={importBuild}>

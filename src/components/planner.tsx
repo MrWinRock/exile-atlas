@@ -1,5 +1,6 @@
 "use client";
 import { useMemo, useState } from "react";
+import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
 import { Download, GitBranch, Save, Search, Trash2, Undo2, Swords } from "lucide-react";
 import { api } from "@/lib/client";
@@ -367,7 +368,16 @@ export function Planner() {
                 )}
               </Notice>
             )}
-            {message && <Notice>{message}</Notice>}
+            {message && (
+              <Notice>
+                {message}{" "}
+                {message === "Passive plan saved to your build library." && (
+                  <Link className="text-link" href="/builds">
+                    Open build library
+                  </Link>
+                )}
+              </Notice>
+            )}
             <div className="planner-layout">
               <section
                 className="panel tree-panel"

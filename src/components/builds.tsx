@@ -25,10 +25,12 @@ import { useWorkspace } from "@/lib/workspace-store";
 import { Badge, Button, Field, Notice, PageTitle, SectionHeader } from "./ui";
 import { ItemImage, useItemImages } from "./artwork";
 export function Builds() {
-  const { find } = useItemImages();
+  const { find, data: artwork } = useItemImages();
   const store = useWorkspace(),
     [activeId, setActiveId] = useState<string>(),
     [draft, setDraft] = useState<Build>(emptyBuild),
+    [librarySearch, setLibrarySearch] = useState(""),
+    [librarySort, setLibrarySort] = useState("recent"),
     [message, setMessage] = useState(""),
     [error, setError] = useState(false),
     [raw, setRaw] = useState(""),
@@ -110,6 +112,24 @@ export function Builds() {
       <div className="build-layout">
         <aside className="panel build-library">
           <SectionHeader title="Your library" aside={<Badge>{store.builds.length}</Badge>} />
+          {store.builds.length > 0 && (
+            <div className="button-group">
+              <input
+                aria-label="Search builds"
+                placeholder="Search builds..."
+                value={librarySearch}
+                onChange={(e) => setLibrarySearch(e.target.value)}
+              />
+              <select
+                aria-label="Sort builds"
+                value={librarySort}
+                onChange={(e) => setLibrarySort(e.target.value)}
+              >
+                <option value="recent">Recently updated</option>
+                <option value="name">Name</option>
+              </select>
+            </div>
+          )}
           {store.builds.length === 0 ? (
             <div className="small-empty">
               <BookOpen size={29} />
@@ -117,32 +137,59 @@ export function Builds() {
               <p>Create your first build or import a .build file.</p>
             </div>
           ) : (
-            store.builds.map((b) => (
-              <div className={`build-list-item ${activeId === b.id ? "active" : ""}`} key={b.id}>
-                <button onClick={() => open(b.build, b.id)}>
-                  <span className="small-icon">
-                    <GitBranch size={18} />
-                  </span>
-                  <strong>{b.build.name}</strong>
-                  <small>
-                    {b.build.passives?.length ?? 0} passives · {b.build.skills?.length ?? 0} skills
-                  </small>
-                </button>
-                <Link className="button ghost" href={`/compare?left=${encodeURIComponent(b.id)}`}>
-                  Compare
-                </Link>
-                <button
-                  className="icon-button"
-                  aria-label={`Delete build ${b.build.name}`}
-                  onClick={() => {
-                    store.deleteBuild(b.id);
-                    if (activeId === b.id) open(emptyBuild);
-                  }}
-                >
-                  <Trash2 size={15} />
-                </button>
-              </div>
-            ))
+            [...store.builds]
+              .filter((b) =>
+                `${b.build.name} ${b.build.ascendancy ?? ""} ${(b.tags ?? []).join(" ")}`
+                  .toLowerCase()
+                  .includes(librarySearch.toLowerCase()),
+              )
+              .sort((a, b) =>
+                librarySort === "name"
+                  ? a.build.name.localeCompare(b.build.name)
+                  : b.updatedAt.localeCompare(a.updatedAt),
+              )
+              .map((b) => (
+                <div className={`build-list-item ${activeId === b.id ? "active" : ""}`} key={b.id}>
+                  <button onClick={() => open(b.build, b.id)}>
+                    <span className="small-icon">
+                      <GitBranch size={18} />
+                    </span>
+                    <strong>{b.build.name}</strong>
+                    <small>
+                      {b.build.ascendancy || "No ascendancy"} / {b.build.passives?.length ?? 0}{" "}
+                      passives / {b.build.skills?.length ?? 0} skills / Updated{" "}
+                      {new Date(b.updatedAt).toLocaleDateString()}
+                    </small>
+                  </button>
+                  <label className="fine-print">
+                    Tags{" "}
+                    <input
+                      aria-label={`Tags for ${b.build.name}`}
+                      defaultValue={(b.tags ?? []).join(", ")}
+                      onBlur={(e) =>
+                        store.setBuildTags(
+                          b.id,
+                          e.target.value.split(",").map((tag) => tag.slice(0, 100)),
+                        )
+                      }
+                      placeholder="e.g. starter, mapping"
+                    />
+                  </label>
+                  <Link className="button ghost" href={`/compare?left=${encodeURIComponent(b.id)}`}>
+                    Compare
+                  </Link>
+                  <button
+                    className="icon-button"
+                    aria-label={`Delete build ${b.build.name}`}
+                    onClick={() => {
+                      store.deleteBuild(b.id);
+                      if (activeId === b.id) open(emptyBuild);
+                    }}
+                  >
+                    <Trash2 size={15} />
+                  </button>
+                </div>
+              ))
           )}
           <div className="library-tip">
             <GitBranch size={19} />
@@ -198,16 +245,45 @@ export function Builds() {
             <Field label="Skill metadata ID">
               <input
                 value={skillId}
+                list="build-skill-options"
                 onChange={(e) => setSkillId(e.target.value)}
                 placeholder="Metadata/Items/Gems/SkillGemEarthquake"
               />
             </Field>
+            <datalist id="build-skill-options">
+              {artwork?.items
+                .filter((item) => item.id.includes("SkillGem"))
+                .map((item) => (
+                  <option value={item.id} key={item.id}>
+                    {item.name}
+                  </option>
+                ))}
+            </datalist>
             <Field label="Support metadata IDs" hint="Separate multiple IDs with commas.">
               <input
                 value={supportIds}
                 onChange={(e) => setSupportIds(e.target.value)}
                 placeholder="Metadata/Items/Gems/SupportGemFastForward"
               />
+            </Field>
+            <Field label="Find a support gem">
+              <select
+                aria-label="Find a support gem"
+                value=""
+                onChange={(e) => {
+                  if (e.target.value)
+                    setSupportIds((old) => [old, e.target.value].filter(Boolean).join(", "));
+                }}
+              >
+                <option value="">Choose a support</option>
+                {artwork?.items
+                  .filter((item) => item.id.includes("SupportGem"))
+                  .map((item) => (
+                    <option key={item.id} value={item.id}>
+                      {item.name}
+                    </option>
+                  ))}
+              </select>
             </Field>
             <Button
               type="button"

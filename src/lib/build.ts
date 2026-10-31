@@ -63,7 +63,7 @@ export const buildSchema = z.object({
     .optional(),
 });
 export type Build = z.infer<typeof buildSchema>;
-export type SavedBuild = { id: string; updatedAt: string; build: Build };
+export type SavedBuild = { id: string; updatedAt: string; build: Build; tags?: string[] };
 export const emptyBuild: Build = {
   name: "Untitled build",
   author: "",

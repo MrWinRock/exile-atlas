@@ -24,6 +24,7 @@ type WorkspaceStore = {
   classIndex: number;
   saveBuild: (build: Build, id?: string) => string;
   deleteBuild: (id: string) => void;
+  setBuildTags: (id: string, tags: string[]) => void;
   saveFilter: (draft: Omit<FilterDraft, "id" | "updatedAt">, id?: string) => string;
   deleteFilter: (id: string) => void;
   setAllocations: (ids: string[]) => void;
@@ -50,13 +51,30 @@ export const useWorkspace = create<WorkspaceStore>()(
         const key = id ?? crypto.randomUUID();
         set((state) => ({
           builds: [
-            { id: key, build, updatedAt: new Date().toISOString() },
+            {
+              id: key,
+              build,
+              updatedAt: new Date().toISOString(),
+              tags: state.builds.find((b) => b.id === key)?.tags,
+            },
             ...state.builds.filter((b) => b.id !== key),
           ],
         }));
         return key;
       },
       deleteBuild: (id) => set((state) => ({ builds: state.builds.filter((b) => b.id !== id) })),
+      setBuildTags: (id, tags) =>
+        set((state) => ({
+          builds: state.builds.map((b) =>
+            b.id === id
+              ? {
+                  ...b,
+                  tags: [...new Set(tags.map((tag) => tag.trim()).filter(Boolean))].slice(0, 20),
+                  updatedAt: new Date().toISOString(),
+                }
+              : b,
+          ),
+        })),
       saveFilter: (draft, id) => {
         const key = id ?? crypto.randomUUID();
         set((state) => ({

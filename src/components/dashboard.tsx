@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import { useSyncExternalStore } from "react";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -114,11 +115,86 @@ const tools = [
     tag: "GGG ACCESS",
   },
 ];
+const shortcutsKey = "exile-atlas:shortcuts";
+const shortcutsEvent = "exile-atlas:shortcuts-changed";
+const defaultShortcuts = JSON.stringify(["/planner", "/regex", "/currency"]);
+function subscribeShortcuts(listener: () => void) {
+  window.addEventListener("storage", listener);
+  window.addEventListener(shortcutsEvent, listener);
+  return () => {
+    window.removeEventListener("storage", listener);
+    window.removeEventListener(shortcutsEvent, listener);
+  };
+}
+function shortcutSnapshot() {
+  try {
+    return localStorage.getItem(shortcutsKey) ?? defaultShortcuts;
+  } catch {
+    return defaultShortcuts;
+  }
+}
+function serverShortcuts() {
+  return defaultShortcuts;
+}
 export function Dashboard() {
-  const presetCount = useRegexWorkspace((s) => s.presets.length);
-  const genesisPlanCount = useGenesisWorkspace((s) => s.plans.length);
+  const presets = useRegexWorkspace((s) => s.presets);
+  const presetCount = presets.length;
+  const rawShortcuts = useSyncExternalStore(subscribeShortcuts, shortcutSnapshot, serverShortcuts);
+  let shortcuts: string[] = [];
+  try {
+    const parsed: unknown = JSON.parse(rawShortcuts);
+    if (Array.isArray(parsed))
+      shortcuts = parsed.filter((value): value is string => typeof value === "string");
+  } catch {
+    shortcuts = [];
+  }
+  function toggleShortcut(href: string) {
+    const next = shortcuts.includes(href)
+      ? shortcuts.filter((value) => value !== href)
+      : [...shortcuts, href];
+    try {
+      localStorage.setItem(shortcutsKey, JSON.stringify(next));
+      window.dispatchEvent(new Event(shortcutsEvent));
+    } catch {
+      /* Browser storage can be unavailable. */
+    }
+  }
+  const genesisPlans = useGenesisWorkspace((s) => s.plans);
+  const genesisPlanCount = genesisPlans.length;
   const { builds, filters } = useWorkspace(),
     { data: status } = useStatus();
+  const recent = [
+    ...builds.map((b) => ({
+      id: `build-${b.id}`,
+      name: b.build.name,
+      updatedAt: b.updatedAt,
+      href: "/builds",
+      type: "Build",
+    })),
+    ...filters.map((f) => ({
+      id: `filter-${f.id}`,
+      name: f.name,
+      updatedAt: f.updatedAt,
+      href: "/filters",
+      type: "Loot filter",
+    })),
+    ...genesisPlans.map((p) => ({
+      id: `genesis-${p.id}`,
+      name: p.name,
+      updatedAt: p.updatedAt,
+      href: "/genesis",
+      type: "Genesis plan",
+    })),
+    ...presets.map((p) => ({
+      id: `regex-${p.id}`,
+      name: p.name,
+      updatedAt: p.updatedAt,
+      href: "/regex",
+      type: "Search preset",
+    })),
+  ]
+    .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt))
+    .slice(0, 5);
   return (
     <div className="dashboard">
       <div className="dashboard-intro">
@@ -195,6 +271,45 @@ export function Dashboard() {
           <Badge tone="green">PUBLIC</Badge>
         </Link>
       </div>
+      <section className="panel" style={{ padding: "20px", marginBottom: "24px" }}>
+        <SectionHeader title="Your shortcuts" />
+        <div className="button-group">
+          {tools
+            .filter((tool) => shortcuts.includes(tool.href))
+            .map((tool) => (
+              <Link key={tool.href} href={tool.href} className="button secondary">
+                {tool.title} <ArrowUpRight size={14} />
+              </Link>
+            ))}
+        </div>
+        <details>
+          <summary>Choose shortcuts</summary>
+          <div className="button-group">
+            {tools.map((tool) => (
+              <label key={tool.href}>
+                <input
+                  type="checkbox"
+                  checked={shortcuts.includes(tool.href)}
+                  onChange={() => toggleShortcut(tool.href)}
+                />{" "}
+                {tool.title}
+              </label>
+            ))}
+          </div>
+        </details>
+      </section>
+      {recent.length > 0 && (
+        <section className="panel" style={{ padding: "20px", marginBottom: "24px" }}>
+          <SectionHeader title="Recently updated" />
+          <div className="button-group">
+            {recent.map((item) => (
+              <Link className="button secondary" key={item.id} href={item.href}>
+                {item.type}: {item.name} <ArrowUpRight size={14} />
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
       <SectionHeader
         title="A toolkit for your next chapter"
         aside={
@@ -210,7 +325,7 @@ export function Dashboard() {
               <div className="tool-icon">
                 <Icon size={22} />
               </div>
-              <span className="tool-number">0{index + 1}</span>
+              <span className="tool-number">{String(index + 1).padStart(2, "0")}</span>
             </div>
             <h3>{title}</h3>
             <p>{description}</p>

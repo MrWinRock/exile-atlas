@@ -1,13 +1,19 @@
 "use client";
 import { useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useTradeWorkspace } from "@/lib/trade-store";
 import { Search, ChevronLeft, ChevronRight } from "lucide-react";
 import { ItemImage, useItemImages } from "./artwork";
 import { Badge, Button, Field, Loading, Notice, PageTitle } from "./ui";
 export function Items() {
   const catalogue = useItemImages();
+  const router = useRouter();
+  const trade = useTradeWorkspace();
   const [search, setSearch] = useState(""),
     [category, setCategory] = useState("all"),
     [kind, setKind] = useState("all"),
+    [artworkOnly, setArtworkOnly] = useState(false),
+    [size, setSize] = useState(""),
     [page, setPage] = useState(0);
   const categories = useMemo(
     () => [...new Set(catalogue.data?.items.map((i) => i.itemClass) ?? [])].sort(),
@@ -19,9 +25,11 @@ export function Items() {
         (i) =>
           (category === "all" || i.itemClass === category) &&
           (kind === "all" || i.kind === kind) &&
+          (!artworkOnly || !!i.icon) &&
+          (!size || `${i.width}x${i.height}` === size) &&
           `${i.name} ${i.id}`.toLowerCase().includes(search.toLowerCase()),
       ),
-    [catalogue.data, category, kind, search],
+    [catalogue.data, category, kind, search, artworkOnly, size],
   );
   const pages = Math.max(1, Math.ceil(results.length / 60)),
     current = Math.min(page, pages - 1);
@@ -83,6 +91,40 @@ export function Items() {
                 <option value="unique">Unique items</option>
               </select>
             </Field>
+            <Field label="Inventory size">
+              <select
+                aria-label="Inventory size"
+                value={size}
+                onChange={(e) => {
+                  setSize(e.target.value);
+                  setPage(0);
+                }}
+              >
+                <option value="">All sizes</option>
+                {[
+                  ...new Set(
+                    (catalogue.data.items ?? []).map((item) => `${item.width}x${item.height}`),
+                  ),
+                ]
+                  .sort()
+                  .map((value) => (
+                    <option key={value} value={value}>
+                      {value.replace("x", " x ")}
+                    </option>
+                  ))}
+              </select>
+            </Field>
+            <label>
+              <input
+                type="checkbox"
+                checked={artworkOnly}
+                onChange={(e) => {
+                  setArtworkOnly(e.target.checked);
+                  setPage(0);
+                }}
+              />{" "}
+              With artwork only
+            </label>
           </div>
           <div className="artwork-summary">
             <span>
@@ -97,7 +139,27 @@ export function Items() {
                 <ItemImage src={i.icon} name={i.name} size={100} />
                 <small>{i.itemClass}</small>
                 <h2>{i.name}</h2>
-                <code>{i.id}</code>
+                <details>
+                  <summary>Item details</summary>
+                  <p>
+                    {i.kind === "unique" ? "Unique item" : "Base item"} x {i.width} x {i.height}{" "}
+                    inventory spaces
+                  </p>
+                  <code>{i.id}</code>
+                  <Button
+                    variant="secondary"
+                    onClick={() => {
+                      trade.setDraft({
+                        ...trade.draft,
+                        name: i.kind === "unique" ? i.name : "",
+                        type: i.kind === "base" ? i.name : "",
+                      });
+                      router.push("/trade");
+                    }}
+                  >
+                    Search in trade
+                  </Button>
+                </details>
               </article>
             ))}
           </div>

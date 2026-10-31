@@ -77,20 +77,46 @@ export function Shell({ children }: { children: React.ReactNode }) {
           </div>
           <ChevronsUpDown size={14} />
         </div>
-        <div className="nav-label">WORKSPACE</div>
         <nav aria-label="Main navigation">
-          {nav.map(({ href, label, icon: Icon }) => (
-            <Link
-              key={href}
-              href={href}
-              onClick={() => setOpen(false)}
-              className={`nav-item ${pathname === href ? "active" : ""}`}
-              aria-current={pathname === href ? "page" : undefined}
-            >
-              <Icon size={18} />
-              {label}
-              {pathname === href && <span className="nav-active-dot" />}
-            </Link>
+          {[
+            { label: "Workspace", paths: ["/", "/characters"] },
+            {
+              label: "Planning",
+              paths: [
+                "/planner",
+                "/atlas",
+                "/genesis",
+                "/builds",
+                "/compare",
+                "/crafting",
+                "/safety",
+              ],
+            },
+            {
+              label: "Trading & loot",
+              paths: ["/trade", "/currency", "/regex", "/filters", "/inspect"],
+            },
+            { label: "Reference", paths: ["/items", "/leagues"] },
+          ].map((group) => (
+            <div key={group.label}>
+              <div className="nav-label">{group.label}</div>
+              {group.paths.map((path) => {
+                const { href, label, icon: Icon } = nav.find((item) => item.href === path)!;
+                return (
+                  <Link
+                    key={href}
+                    href={href}
+                    onClick={() => setOpen(false)}
+                    className={`nav-item ${pathname === href ? "active" : ""}`}
+                    aria-current={pathname === href ? "page" : undefined}
+                  >
+                    <Icon size={18} />
+                    {label}
+                    {pathname === href && <span className="nav-active-dot" />}
+                  </Link>
+                );
+              })}
+            </div>
           ))}
         </nav>
         <div className="sidebar-bottom">

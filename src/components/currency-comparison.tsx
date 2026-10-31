@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { ArrowLeftRight, ChevronDown, Search, X } from "lucide-react";
 import { compareExchangePair, currencyName, type Market } from "@/lib/currency";
 import {
@@ -10,9 +10,30 @@ import {
   type CurrencyPickerItem,
 } from "@/lib/currency-picker";
 import { ItemImage, useItemImages } from "./artwork";
-import { Badge } from "./ui";
+import { Badge, Button } from "./ui";
 import styles from "./currency-comparison.module.css";
 
+type FavoritePair = { buyId: string; sellId: string; league: string };
+const pairsKey = "exile-atlas:currency-pairs";
+const pairsEvent = "exile-atlas:currency-pairs-changed";
+function pairSnapshot() {
+  try {
+    return localStorage.getItem(pairsKey) ?? "[]";
+  } catch {
+    return "[]";
+  }
+}
+function subscribePairs(listener: () => void) {
+  window.addEventListener("storage", listener);
+  window.addEventListener(pairsEvent, listener);
+  return () => {
+    window.removeEventListener("storage", listener);
+    window.removeEventListener(pairsEvent, listener);
+  };
+}
+function emptyPairs() {
+  return "[]";
+}
 type ExchangeItem = CurrencyPickerItem;
 type Side = "buy" | "sell";
 const priceFormat = new Intl.NumberFormat("en-US", { maximumSignificantDigits: 6 });
@@ -159,6 +180,35 @@ export function CurrencyComparison({ markets, hour }: { markets: Market[]; hour:
   const [selection, setSelection] = useState({ buyId: "", sellId: "", league: "" });
   const [picker, setPicker] = useState<Side | null>(null);
   const [buyAmount, setBuyAmount] = useState("1");
+  const [pairError, setPairError] = useState("");
+  const pairsText = useSyncExternalStore(subscribePairs, pairSnapshot, emptyPairs);
+  const pairs: FavoritePair[] = useMemo(() => {
+    try {
+      const parsed: unknown = JSON.parse(pairsText);
+      return Array.isArray(parsed)
+        ? parsed
+            .filter(
+              (pair): pair is FavoritePair =>
+                !!pair &&
+                typeof pair.buyId === "string" &&
+                typeof pair.sellId === "string" &&
+                typeof pair.league === "string",
+            )
+            .slice(0, 30)
+        : [];
+    } catch {
+      return [];
+    }
+  }, [pairsText]);
+  function savePairs(next: FavoritePair[]) {
+    try {
+      localStorage.setItem(pairsKey, JSON.stringify(next));
+      window.dispatchEvent(new Event(pairsEvent));
+      setPairError("");
+    } catch {
+      setPairError("Could not save favorite pairs in this browser.");
+    }
+  }
   const { items, leagues, defaultMarket } = useMemo(() => {
     const unique = new Map<string, ExchangeItem>();
     for (const market of markets) {
@@ -317,6 +367,37 @@ export function CurrencyComparison({ markets, hour }: { markets: Market[]; hour:
           </p>
         </div>
       )}
+      <div className="button-group">
+        <Button
+          variant="secondary"
+          disabled={
+            !buyId ||
+            !sellId ||
+            pairs.length >= 30 ||
+            pairs.some(
+              (pair) => pair.buyId === buyId && pair.sellId === sellId && pair.league === league,
+            )
+          }
+          onClick={() => savePairs([...pairs, { buyId, sellId, league }])}
+        >
+          Save favorite pair
+        </Button>
+        {pairs.map((pair) => (
+          <span key={`${pair.league}:${pair.buyId}:${pair.sellId}`}>
+            <Button variant="ghost" onClick={() => setSelection(pair)}>
+              {currencyName(pair.buyId)} / {currencyName(pair.sellId)} ({pair.league})
+            </Button>
+            <button
+              type="button"
+              aria-label={`Remove favorite ${currencyName(pair.buyId)} / ${currencyName(pair.sellId)} in ${pair.league}`}
+              onClick={() => savePairs(pairs.filter((entry) => entry !== pair))}
+            >
+              <X size={14} />
+            </button>
+          </span>
+        ))}
+      </div>
+      {pairError && <p role="status">{pairError}</p>}
       <div className={styles.footer}>
         <span>{timestamp} UTC · Completed hourly trades. Actual offers can change.</span>
         <Badge tone="amber">HOURLY HISTORY</Badge>

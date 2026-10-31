@@ -4,6 +4,8 @@ import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { ArrowUpRight, LockKeyhole, LogOut, ShieldCheck, Trash2 } from "lucide-react";
 import { api, useStatus } from "@/lib/client";
+import { createWorkspaceBackup, restoreWorkspaceBackup } from "@/lib/workspace-backup";
+import { downloadFile } from "@/lib/build";
 import { useWorkspace } from "@/lib/workspace-store";
 import { useTradeWorkspace } from "@/lib/trade-store";
 import { useRegexWorkspace } from "@/lib/regex-store";
@@ -25,6 +27,7 @@ export function Settings() {
     atlasPlans = useAtlasPlans(),
     [message, setMessage] = useState(""),
     [confirmClear, setConfirmClear] = useState(false),
+    [backupText, setBackupText] = useState(""),
     [busy, setBusy] = useState(false);
   async function disconnect() {
     setBusy(true);
@@ -119,6 +122,71 @@ export function Settings() {
           plans, {safetyStore.records.length} safety profiles and {craftingStore.records.length}{" "}
           crafting recipes are stored in this browser. Export files to keep a portable backup.
         </p>
+        <div className="button-group">
+          <Button
+            variant="secondary"
+            onClick={() => {
+              try {
+                downloadFile(
+                  "exile-atlas-backup.json",
+                  createWorkspaceBackup(localStorage),
+                  "application/json",
+                );
+                setMessage("Workspace backup downloaded.");
+              } catch (error) {
+                setMessage(error instanceof Error ? error.message : "Could not export backup.");
+              }
+            }}
+          >
+            Download workspace backup
+          </Button>
+          <label>
+            Restore backup{" "}
+            <input
+              aria-label="Choose workspace backup"
+              type="file"
+              accept=".json,application/json"
+              onChange={async (event) => {
+                const file = event.target.files?.[0];
+                event.target.value = "";
+                if (!file) return;
+                if (file.size > 10 * 1048576) {
+                  setMessage("Backup exceeds 10 MiB.");
+                  return;
+                }
+                try {
+                  setBackupText(await file.text());
+                  setMessage("");
+                } catch {
+                  setMessage("Could not read the backup file.");
+                }
+              }}
+            />
+          </label>
+        </div>
+        {backupText && (
+          <div className="button-group">
+            <Notice>
+              Restoring replaces the included browser data and reloads this page. Data from tools
+              absent in the backup is kept.
+            </Notice>
+            <Button
+              onClick={() => {
+                try {
+                  restoreWorkspaceBackup(backupText, localStorage);
+                  window.location.reload();
+                } catch (error) {
+                  setMessage(error instanceof Error ? error.message : "Could not restore backup.");
+                }
+              }}
+            >
+              Restore and reload
+            </Button>
+            <Button variant="secondary" onClick={() => setBackupText("")}>
+              Cancel restore
+            </Button>
+          </div>
+        )}
         {confirmClear ? (
           <div className="button-group">
             <Notice error>This removes all drafts from this browser.</Notice>

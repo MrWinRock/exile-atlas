@@ -25,6 +25,22 @@ import { RegexTradePreview } from "./regex-trade-preview";
 import styles from "./regex-toolkit.module.css";
 import { useGameData } from "@/lib/game-data-store";
 import { buildRegexCatalogue, defaultRegexCatalogue } from "@/lib/regex-catalogue-builder";
+function modifierGroup(label: string): string {
+  if (/\bmonsters?\b/i.test(label)) return "Monster modifiers";
+  if (/\bplayers?\b/i.test(label)) return "Player modifiers";
+  if (/\barea\b|ground/i.test(label)) return "Area modifiers";
+  if (/resistance/i.test(label)) return "Resistances";
+  if (/life|mana|energy shield|honour/i.test(label)) return "Defences and resources";
+  if (/damage|attack|spell|critical/i.test(label)) return "Offence";
+  return "Other modifiers";
+}
+const waystoneSliders = new Set([
+  "iir",
+  "pack-size",
+  "effectiveness",
+  "monster-rarity",
+  "drop-chance",
+]);
 export function RegexToolkit() {
   const snapshot = useGameData((s) => s.snapshot);
   const catalogue = useMemo(
@@ -50,6 +66,11 @@ export function RegexToolkit() {
   const options = REGEX_MODIFIERS.filter(
     (m) => m.categories.includes(category) && m.label.toLowerCase().includes(search.toLowerCase()),
   );
+  const groups = new Map<string, typeof options>();
+  for (const modifier of options.slice(0, 300)) {
+    const group = modifierGroup(modifier.label);
+    groups.set(group, [...(groups.get(group) ?? []), modifier]);
+  }
   useEffect(() => {
     const timer = setTimeout(() => setLive(announcement), 250);
     return () => clearTimeout(timer);
@@ -189,6 +210,54 @@ export function RegexToolkit() {
                       return (
                         <fieldset className={styles.rangeField} key={p.id}>
                           <legend>{p.label}</legend>
+                          {p.numericDomain && (
+                            <div className={styles.sliderRow}>
+                              <input
+                                type="range"
+                                aria-label={`${p.label} slider`}
+                                aria-valuetext={
+                                  typeof value === "string" || !value.min ? "No minimum" : value.min
+                                }
+                                title={`Slider range ${p.numericDomain[0]} to ${Math.min(p.numericDomain[1], 100)}. Use the fields for precise values.`}
+                                min={p.numericDomain[0]}
+                                max={Math.min(p.numericDomain[1], 100)}
+                                step={p.scale ? 1 / p.scale : waystoneSliders.has(p.id) ? 10 : 1}
+                                value={
+                                  typeof value === "string"
+                                    ? p.numericDomain[0]
+                                    : Math.min(
+                                        Math.min(p.numericDomain[1], 100),
+                                        Math.max(
+                                          p.numericDomain[0],
+                                          Number(value.min) || p.numericDomain[0],
+                                        ),
+                                      )
+                                }
+                                onChange={(e) =>
+                                  setAuthoredDraft({
+                                    ...draft,
+                                    properties: {
+                                      ...draft.properties,
+                                      [p.id]: {
+                                        min:
+                                          waystoneSliders.has(p.id) && e.target.value === "0"
+                                            ? ""
+                                            : e.target.value,
+                                        max: typeof value === "string" ? "" : value.max,
+                                      },
+                                    },
+                                  })
+                                }
+                              />
+                              <output>
+                                {typeof value === "string" || !value.min
+                                  ? waystoneSliders.has(p.id)
+                                    ? "0%"
+                                    : "Any"
+                                  : `${value.min}${waystoneSliders.has(p.id) || p.templates?.some((t) => t.includes("%")) ? "%" : ""}`}
+                              </output>
+                            </div>
+                          )}
                           <div className={styles.range}>
                             <input
                               aria-label={`${p.label} minimum`}
@@ -294,6 +363,10 @@ export function RegexToolkit() {
               </section>
               <section className="panel">
                 <SectionHeader title="Modifiers to keep. Modifiers to avoid." />
+                <p className="fine-print">
+                  Sliders set minimums. Use the minimum and maximum fields for precise values
+                  outside a slider’s range.
+                </p>
                 <div className={styles.modifierTools}>
                   <Field label="Search modifiers">
                     <input
@@ -314,100 +387,155 @@ export function RegexToolkit() {
                     </select>
                   </Field>
                 </div>
+                {options.length > 300 && (
+                  <p className="fine-print">
+                    Showing the first 300 of {options.length} modifiers. Search to narrow the list.
+                  </p>
+                )}
                 <div className={styles.modifiers}>
-                  {options.slice(0, 300).map((m) => {
-                    const selected = [...draft.wanted, ...draft.unwanted].find(
-                      (s) => s.id === m.id,
-                    );
-                    const mode = draft.wanted.some((s) => s.id === m.id)
-                      ? "want"
-                      : draft.unwanted.some((s) => s.id === m.id)
-                        ? "exclude"
-                        : "ignore";
-                    return (
-                      <div
-                        key={m.id}
-                        className={`${styles.modifier} ${mode === "want" ? styles.wanted : mode === "exclude" ? styles.excluded : ""}`}
-                      >
-                        <div>
-                          <span>{m.label}</span>
-                          <small>
-                            {m.rollRange
-                              ? `Rolls ${m.rollRange[0]} to ${m.rollRange[1]} · optional inclusive range`
-                              : m.numericDomain
-                                ? "Optional inclusive range"
-                                : "Presence only"}
-                          </small>
-                        </div>
-                        <select
-                          aria-label={`Action for ${m.label}`}
-                          value={mode}
-                          onChange={(e) => chooseModifier(m.id, e.target.value)}
-                        >
-                          <option value="ignore">Ignore</option>
-                          <option value="want">Want</option>
-                          <option value="exclude">Avoid</option>
-                        </select>
-                        {selected &&
-                          (m.numericSlots?.length ?? 0) > 1 &&
-                          m.numericSlots!.slice(1).map((slot) => (
-                            <div className={styles.modRange} key={slot.index}>
-                              <span>Roll {slot.index + 1}</span>
-                              {(["min", "max"] as const).map((bound) => (
-                                <input
-                                  key={bound}
-                                  aria-label={`${m.label} roll ${slot.index + 1} ${bound}`}
-                                  placeholder={bound}
-                                  inputMode="decimal"
-                                  value={selected.slots?.[String(slot.index)]?.[bound] ?? ""}
-                                  onChange={(e) => {
-                                    const update = (s: ModifierSelection) =>
-                                      s.id === m.id
-                                        ? {
-                                            ...s,
-                                            slots: {
-                                              ...s.slots,
-                                              [String(slot.index)]: {
-                                                min: s.slots?.[String(slot.index)]?.min ?? "",
-                                                max: s.slots?.[String(slot.index)]?.max ?? "",
-                                                [bound]: e.target.value,
-                                              },
-                                            },
-                                          }
-                                        : s;
-                                    setAuthoredDraft({
-                                      ...draft,
-                                      snapshotId: snapshot?.id,
-                                      wanted: draft.wanted.map(update),
-                                      unwanted: draft.unwanted.map(update),
-                                    });
-                                  }}
-                                />
-                              ))}
+                  {Array.from(groups, ([group, modifiers]) => (
+                    <details className={styles.modifierGroup} key={group} open>
+                      <summary>
+                        <h3>
+                          {group}{" "}
+                          <span>
+                            {modifiers.length} shown ·{" "}
+                            {
+                              modifiers.filter((m) =>
+                                [...draft.wanted, ...draft.unwanted].some(
+                                  (selected) => selected.id === m.id,
+                                ),
+                              ).length
+                            }{" "}
+                            selected
+                          </span>
+                        </h3>
+                      </summary>
+                      {modifiers.map((m) => {
+                        const selected = [...draft.wanted, ...draft.unwanted].find(
+                          (s) => s.id === m.id,
+                        );
+                        const mode = draft.wanted.some((s) => s.id === m.id)
+                          ? "want"
+                          : draft.unwanted.some((s) => s.id === m.id)
+                            ? "exclude"
+                            : "ignore";
+                        return (
+                          <div
+                            key={m.id}
+                            className={`${styles.modifier} ${mode === "want" ? styles.wanted : mode === "exclude" ? styles.excluded : ""}`}
+                          >
+                            <div>
+                              <span>{m.label}</span>
+                              <small>
+                                {m.rollRange
+                                  ? `Rolls ${m.rollRange[0]} to ${m.rollRange[1]} · optional inclusive range`
+                                  : m.numericDomain
+                                    ? "Optional inclusive range"
+                                    : "Presence only"}
+                              </small>
                             </div>
-                          ))}
-                        {selected && m.numericDomain && (
-                          <div className={styles.modRange}>
-                            <input
-                              aria-label={`${m.label} minimum`}
-                              placeholder="Min"
-                              inputMode="numeric"
-                              value={selected.min}
-                              onChange={(e) => setRange(m.id, "min", e.target.value)}
-                            />
-                            <span>to</span>
-                            <input
-                              aria-label={`${m.label} maximum`}
-                              placeholder="Max"
-                              inputMode="numeric"
-                              value={selected.max}
-                              onChange={(e) => setRange(m.id, "max", e.target.value)}
-                            />
+                            <select
+                              aria-label={`Action for ${m.label}`}
+                              value={mode}
+                              onChange={(e) => chooseModifier(m.id, e.target.value)}
+                            >
+                              <option value="ignore">Ignore</option>
+                              <option value="want">Want</option>
+                              <option value="exclude">Avoid</option>
+                            </select>
+                            {selected &&
+                              (m.numericSlots?.length ?? 0) > 1 &&
+                              m.numericSlots!.slice(1).map((slot) => (
+                                <div className={styles.modRange} key={slot.index}>
+                                  <span>Roll {slot.index + 1}</span>
+                                  {(["min", "max"] as const).map((bound) => (
+                                    <input
+                                      key={bound}
+                                      aria-label={`${m.label} roll ${slot.index + 1} ${bound}`}
+                                      placeholder={bound}
+                                      inputMode="decimal"
+                                      value={selected.slots?.[String(slot.index)]?.[bound] ?? ""}
+                                      onChange={(e) => {
+                                        const update = (s: ModifierSelection) =>
+                                          s.id === m.id
+                                            ? {
+                                                ...s,
+                                                slots: {
+                                                  ...s.slots,
+                                                  [String(slot.index)]: {
+                                                    min: s.slots?.[String(slot.index)]?.min ?? "",
+                                                    max: s.slots?.[String(slot.index)]?.max ?? "",
+                                                    [bound]: e.target.value,
+                                                  },
+                                                },
+                                              }
+                                            : s;
+                                        setAuthoredDraft({
+                                          ...draft,
+                                          snapshotId: snapshot?.id,
+                                          wanted: draft.wanted.map(update),
+                                          unwanted: draft.unwanted.map(update),
+                                        });
+                                      }}
+                                    />
+                                  ))}
+                                </div>
+                              ))}
+                            {selected && (
+                              <button
+                                type="button"
+                                className={styles.clearModifier}
+                                onClick={() => chooseModifier(m.id, "ignore")}
+                              >
+                                Clear {m.label}
+                              </button>
+                            )}
+                            {selected && m.numericDomain && (
+                              <div className={`${styles.sliderRow} ${styles.modifierSlider}`}>
+                                <input
+                                  type="range"
+                                  aria-label={`${m.label} slider`}
+                                  aria-valuetext={selected.min || "No minimum"}
+                                  title={`Slider range ${m.rollRange?.[0] ?? m.numericDomain[0]} to ${m.rollRange?.[1] ?? Math.max(m.numericDomain[0], Math.min(m.numericDomain[1], 100))}. Use the fields for precise values.`}
+                                  min={m.rollRange?.[0] ?? m.numericDomain[0]}
+                                  max={
+                                    m.rollRange?.[1] ??
+                                    Math.max(m.numericDomain[0], Math.min(m.numericDomain[1], 100))
+                                  }
+                                  step={
+                                    m.numericSlots?.[0]?.scale ? 1 / m.numericSlots[0].scale : 1
+                                  }
+                                  value={selected.min || m.rollRange?.[0] || m.numericDomain[0]}
+                                  onChange={(e) => setRange(m.id, "min", e.target.value)}
+                                />
+                                <output>{selected.min || "Any"}</output>
+                              </div>
+                            )}
+                            {selected && m.numericDomain && (
+                              <div className={styles.modRange}>
+                                <input
+                                  aria-label={`${m.label} minimum`}
+                                  placeholder="Min"
+                                  inputMode="numeric"
+                                  value={selected.min}
+                                  onChange={(e) => setRange(m.id, "min", e.target.value)}
+                                />
+                                <span>to</span>
+                                <input
+                                  aria-label={`${m.label} maximum`}
+                                  placeholder="Max"
+                                  inputMode="numeric"
+                                  value={selected.max}
+                                  onChange={(e) => setRange(m.id, "max", e.target.value)}
+                                />
+                              </div>
+                            )}
                           </div>
-                        )}
-                      </div>
-                    );
-                  })}
+                        );
+                      })}
+                    </details>
+                  ))}
                   {!options.length && <p className="muted">No modifiers match your search.</p>}
                 </div>
                 {[...draft.wanted, ...draft.unwanted]

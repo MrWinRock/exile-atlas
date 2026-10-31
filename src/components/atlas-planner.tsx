@@ -15,6 +15,7 @@ import {
 import { useAtlasDraft, useAtlasPlans } from "@/lib/atlas-store";
 import { downloadFile } from "@/lib/build";
 import { PassiveIcon } from "./artwork";
+import { PlanDifference } from "./plan-difference";
 import { PlanningGraph } from "./planning-graph";
 import { Badge, Button, Field, Loading, Notice, PageTitle, SectionHeader } from "./ui";
 import styles from "./atlas-planner.module.css";
@@ -295,6 +296,24 @@ export function AtlasPlanner() {
         </section>
         <aside className={styles.details}>
           <section className="panel">
+            <SectionHeader title="Allocated effects" />
+            {plan.allocated.length ? (
+              <ul className={styles.effects}>
+                {data.nodes
+                  .filter((n) => plan.allocated.includes(n.id))
+                  .flatMap((n) =>
+                    n.effects.map((effect, index) => (
+                      <li key={`${n.id}-${index}`}>
+                        <strong>{n.name}:</strong> {effect}
+                      </li>
+                    )),
+                  )}
+              </ul>
+            ) : (
+              <p className="muted">Allocate nodes to see their effects here.</p>
+            )}
+          </section>
+          <section className="panel">
             <SectionHeader title="Your next Atlas choice" />
             {node ? (
               <>
@@ -485,6 +504,14 @@ export function AtlasPlanner() {
             <article key={p.id}>
               <h3>{p.name}</h3>
               <p>{p.plan.allocated.length} planned nodes</p>
+              <PlanDifference
+                current={plan.allocated}
+                saved={p.plan.allocated}
+                nodes={data.nodes}
+                differentDataset={plan.dataset !== p.plan.dataset}
+                currentBudgets={plan.budgets}
+                savedBudgets={p.plan.budgets}
+              />
               {p.plan.dataset !== data.identity && (
                 <p className={styles.error}>Different dataset · review before use</p>
               )}

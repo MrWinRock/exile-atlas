@@ -368,6 +368,19 @@ export function Trade() {
                     </button>
                   )}
                 </div>
+                <p className="fine-print">
+                  {
+                    {
+                      and: "All enabled stats in this group must match.",
+                      or: "At least one enabled stat must match.",
+                      not: "Exclude items matching the enabled stats.",
+                      count: "Match the specified number of enabled stats.",
+                      weight:
+                        "Add weighted stat values and compare the total with the group bounds.",
+                      if: "Conditional group: review the result on the official trade site.",
+                    }[group.type]
+                  }
+                </p>
                 {group.filters.map((stat, index) => (
                   <div
                     className={`${styles.statRow} ${stat.disabled ? styles.disabled : ""}`}
@@ -514,6 +527,32 @@ export function Trade() {
               </span>
               <span>PoE2</span>
             </div>
+            {activeFields > 0 && (
+              <div aria-label="Active filters" className="button-group">
+                {TRADE_FILTER_SECTIONS.flatMap((section) => section.fields).map((field) => {
+                  const value = draft.fields[field.key];
+                  const active =
+                    typeof value === "string" ? !!value.trim() : !!(value?.min || value?.max);
+                  if (!active) return null;
+                  const display =
+                    typeof value === "string"
+                      ? (field.options?.find((option) => option.value === value)?.label ?? value)
+                      : `${value.min || "Any"} - ${value.max || "Any"}`;
+                  return (
+                    <Button
+                      key={field.key}
+                      variant="secondary"
+                      aria-label={`Remove ${field.label} filter`}
+                      onClick={() =>
+                        setField(field.key, field.kind === "range" ? { min: "", max: "" } : "")
+                      }
+                    >
+                      {field.label}: {display} <X size={14} />
+                    </Button>
+                  );
+                })}
+              </div>
+            )}
             {errors.length > 0 && <Notice error>{errors.join(" ")}</Notice>}
             {handoff.error && !errors.length && <Notice error>{handoff.error.message}</Notice>}
             {!errors.length && handoff.data ? (

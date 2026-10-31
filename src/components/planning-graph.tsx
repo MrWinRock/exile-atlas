@@ -210,6 +210,46 @@ export function PlanningGraph({
           </g>
         ))}
       </svg>
+      <div className={styles.overview}>
+        <svg
+          aria-label={`${branch} ${label} overview`}
+          role="img"
+          viewBox={`${fit().x} ${fit().y} ${fit().w} ${fit().h}`}
+        >
+          {data.edges
+            .filter(([a, b]) => byId.has(a) && byId.has(b))
+            .map(([a, b]) => (
+              <line
+                key={`${a}:${b}`}
+                x1={byId.get(a)!.x}
+                y1={byId.get(a)!.y}
+                x2={byId.get(b)!.x}
+                y2={byId.get(b)!.y}
+                stroke="#657b6e"
+                strokeWidth={12}
+              />
+            ))}
+          {nodes.map((node) => (
+            <circle
+              key={node.id}
+              cx={node.x}
+              cy={node.y}
+              r={28}
+              fill={active.has(node.id) ? "#dfb87d" : "#90b6a1"}
+            />
+          ))}
+          <rect
+            x={view.x}
+            y={view.y}
+            width={view.w}
+            height={view.h}
+            fill="none"
+            stroke="#f6e0ba"
+            strokeWidth={15}
+          />
+        </svg>
+        <span>Branch overview · outline shows the current view</span>
+      </div>
       <div className={styles.graphCaption}>
         Drag to pan · scroll or use + / − to zoom · select a node to inspect
       </div>

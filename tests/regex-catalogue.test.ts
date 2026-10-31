@@ -22,3 +22,13 @@ test("five generators have sourced, unique, usable definitions", () => {
     if (mod.template.includes("#")) expect(mod.numericDomain).toBeDefined();
   }
 });
+
+test("verified base options contain each selectable name only once", async () => {
+  const { buildRegexCatalogue } = await import("../src/lib/regex-catalogue-builder");
+  const { validateGameSnapshot } = await import("../src/lib/game-data");
+  const gameData = validateGameSnapshot(await Bun.file("public/data/poe2-game-data.json").json());
+  const options = buildRegexCatalogue(gameData).properties.find(
+    (p) => p.id === "verified-base",
+  )!.options!;
+  expect(new Set(options.map((option) => option.value)).size).toBe(options.length);
+});

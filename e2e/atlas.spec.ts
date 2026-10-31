@@ -117,6 +117,10 @@ test("Atlas plans allocate, refund, undo, save, reload and back up separately", 
   await page.reload();
   await expect(page.getByTestId("atlas-Core-count")).toHaveText("2");
   await expect(page.getByRole("button", { name: "Load Endgame route", exact: true })).toBeVisible();
+  await expect(page.getByRole("img", { name: "Core Atlas overview" })).toBeVisible();
+  await page.getByLabel("Core planning budget", { exact: true }).fill("5");
+  await page.getByText("Compare with current plan", { exact: true }).click();
+  await expect(page.getByText("Core budget: current 5 / saved no limit")).toBeVisible();
   const download = page.waitForEvent("download");
   await page.getByRole("button", { name: "Export Atlas plans", exact: true }).click();
   const file = await (await download).path();

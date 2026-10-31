@@ -17,6 +17,7 @@ import { exportGenesisPlans } from "@/lib/genesis-presets";
 import { downloadFile } from "@/lib/build";
 import { GenesisGraph } from "./genesis-graph";
 import { PassiveIcon } from "./artwork";
+import { PlanDifference } from "./plan-difference";
 import { Badge, Button, Field, Loading, Notice, PageTitle, SectionHeader } from "./ui";
 import styles from "./genesis.module.css";
 export function Genesis() {
@@ -456,6 +457,14 @@ export function Genesis() {
               <article key={p.id}>
                 <h3>{p.name}</h3>
                 <p className="muted">{p.plan.allocated.length} planned nodes</p>
+                <PlanDifference
+                  current={plan.allocated}
+                  saved={p.plan.allocated}
+                  nodes={data.nodes}
+                  differentDataset={plan.dataset !== p.plan.dataset}
+                  currentBudgets={plan.budgets}
+                  savedBudgets={p.plan.budgets}
+                />
                 {validateGenesisPlan(data, p.plan).length > 0 && (
                   <p className={styles.warning}>Needs review · dataset or allocation mismatch</p>
                 )}

@@ -148,6 +148,47 @@ export function MapSafety() {
             )}
           </div>
           <details>
+            <summary>Add a starter risk rule</summary>
+            <p className="fine-print">
+              These examples flag a modifier for review. Adjust the severity and conditions for your
+              build.
+            </p>
+            {[
+              ["life-recovery", "Reduced recovery"],
+              ["maximum-resistances", "Reduced maximum resistances"],
+              ["monster-damage", "Increased monster damage"],
+            ].map(([id, label]) => (
+              <Button
+                key={id}
+                variant="secondary"
+                disabled={
+                  profile.rules.length >= 100 ||
+                  profile.rules.some((r) =>
+                    r.conditions.some((c) => c.kind === "modifier" && c.id === id),
+                  )
+                }
+                onClick={() =>
+                  update({
+                    ...profile,
+                    rules: [
+                      ...profile.rules,
+                      {
+                        id: crypto.randomUUID(),
+                        label,
+                        severity: "caution",
+                        operator: "all",
+                        conditions: [{ kind: "modifier", id }],
+                        reason: "Review this modifier against your build.",
+                      },
+                    ],
+                  })
+                }
+              >
+                Add {label}
+              </Button>
+            ))}
+          </details>
+          <details>
             <summary>Build traits you want rules to reference</summary>
             <div className={styles.row}>
               <Field label="Trait name">

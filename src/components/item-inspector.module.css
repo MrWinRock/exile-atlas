@@ -75,3 +75,25 @@
     min-height: 220px;
   }
 }
+
+.lineReview {
+  margin: 12px 0;
+  padding: 12px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  background: var(--bg);
+  font-family: var(--mono);
+  font-size: 12px;
+}
+.lineReview span {
+  display: inline-block;
+  min-width: 85px;
+  color: var(--muted);
+}
+.lineReview .exact span {
+  color: var(--green);
+}
+.lineReview .ambiguous span,
+.lineReview .unknown span {
+  color: var(--accent);
+}

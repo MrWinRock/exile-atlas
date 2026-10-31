@@ -89,7 +89,12 @@ export function ItemInspector() {
             <textarea
               aria-label="Item text"
               value={text}
-              onChange={(e) => setText(e.target.value)}
+              onChange={(e) => {
+                setText(e.target.value);
+                setAnalysis(undefined);
+                setPreview(false);
+                setTrade(false);
+              }}
               placeholder="Paste the item’s copied English text…"
             />
           </Field>
@@ -105,7 +110,12 @@ export function ItemInspector() {
               onClick={() =>
                 void navigator.clipboard
                   .readText()
-                  .then(setText)
+                  .then((value) => {
+                    setText(value);
+                    setAnalysis(undefined);
+                    setPreview(false);
+                    setTrade(false);
+                  })
                   .catch(() => setError("Clipboard access unavailable; paste manually."))
               }
             >
@@ -145,6 +155,31 @@ export function ItemInspector() {
                 {data.snapshot?.id !== analysis.transfer.snapshotId &&
                   " · Dataset changed; analyse again before transferring."}
               </p>
+              <details>
+                <summary>Review recognized and unresolved lines</summary>
+                <p className="fine-print">
+                  Only modifier lines are classified. Other item text is shown without a status.
+                </p>
+                <div className={styles.lineReview}>
+                  {text.split(/\r?\n/).map((line, index) => {
+                    const match = analysis.matches.find((entry) => entry.line.line === index);
+                    return (
+                      <div key={index} className={match ? styles[match.status] : undefined}>
+                        <span>
+                          {match
+                            ? match.status === "exact"
+                              ? "Recognized"
+                              : match.status === "ambiguous"
+                                ? "Ambiguous"
+                                : "Unknown"
+                            : ""}
+                        </span>{" "}
+                        {line || " "}
+                      </div>
+                    );
+                  })}
+                </div>
+              </details>
               {analysis.matches.map((m, i) => (
                 <div className={styles.modifier} key={i}>
                   <strong>{m.line.text}</strong>

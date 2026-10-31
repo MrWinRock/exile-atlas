@@ -122,6 +122,10 @@ export function Currency() {
               </div>
               <Badge tone="green">GGG PUBLIC DATA</Badge>
             </div>
+            <p className="fine-print">
+              Digest fetched {new Date(query.data.fetchedAt).toLocaleString()}. Prices describe the
+              completed hour and can differ from current offers.
+            </p>
             <CurrencyComparison markets={query.data.markets} hour={hour} />
             <CurrencyMarkets
               markets={query.data.markets}

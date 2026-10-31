@@ -83,3 +83,49 @@ test("clipboard failures retain a selectable result and show recovery", async ({
   await expect(page.getByRole("status").filter({ hasText: "Copy failed" })).toBeVisible();
   await expect(page.getByLabel("Generated search", { exact: true })).toHaveValue('"boots"');
 });
+
+test("waystone sliders set minimums and modifiers are grouped", async ({ page }) => {
+  await page.goto("/regex");
+  const slider = page.getByLabel("Item rarity yield slider", { exact: true });
+  await slider.fill("40");
+  await expect(page.getByLabel("Item rarity yield minimum", { exact: true })).toHaveValue("40");
+  await expect(page.getByLabel("Generated search", { exact: true })).not.toHaveValue("");
+  await slider.fill("0");
+  await expect(page.getByLabel("Item rarity yield minimum", { exact: true })).toHaveValue("");
+  await expect(page.getByRole("heading", { name: "Monster modifiers" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Area modifiers" })).toBeVisible();
+});
+
+test("numeric modifiers have sliders across generators", async ({ page }) => {
+  await page.goto("/regex");
+  for (const [tab, modifier] of [
+    ["Tablets", "#% increased Pack Size in Map"],
+    ["Relics", "#% to Honour Resistance"],
+    ["Vendor", "# to maximum Life"],
+    ["Equipment", "# to maximum Life"],
+  ]) {
+    await page.getByRole("tab", { name: tab, exact: true }).click();
+    await page.getByLabel(`Action for ${modifier}`, { exact: true }).selectOption("want");
+    await page.getByLabel(`${modifier} slider`, { exact: true }).fill("20");
+    await expect(page.getByLabel(`${modifier} minimum`, { exact: true })).toHaveValue("20");
+    await expect(page.getByLabel("Generated search", { exact: true })).not.toHaveValue("");
+  }
+});
+
+test("navigation is grouped and modifier groups show selections", async ({ page }) => {
+  await page.goto("/regex");
+  const nav = page.getByRole("navigation", { name: "Main navigation" });
+  for (const label of ["Workspace", "Planning", "Trading & loot", "Reference"])
+    await expect(nav.getByText(label, { exact: true })).toBeVisible();
+  const group = page
+    .locator("details")
+    .filter({ has: page.getByRole("heading", { name: /Area modifiers/ }) });
+  await page
+    .getByLabel("Action for Area has patches of Chilled Ground", { exact: true })
+    .selectOption("exclude");
+  await expect(group.locator("summary")).toContainText("1 selected");
+  await group.locator("summary").click();
+  await expect(
+    page.getByLabel("Action for Area has patches of Chilled Ground", { exact: true }),
+  ).toBeHidden();
+});

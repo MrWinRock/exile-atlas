@@ -44,6 +44,7 @@ function ComparisonContent() {
     [rightSelection, setRightSelection] = useState(""),
     [imports, setImports] = useState<ImportCopy[]>([]),
     [differencesOnly, setDifferencesOnly] = useState(true),
+    [sectionFilter, setSectionFilter] = useState("all"),
     [message, setMessage] = useState(""),
     [mode, setMode] = useState<AllocationMode>(0),
     [both, setBoth] = useState(true),
@@ -287,6 +288,28 @@ function ComparisonContent() {
       {diff && left && right && (
         <>
           <div className="button-group">
+            <Button
+              variant="secondary"
+              onClick={() => {
+                setLeftSelection(rightId);
+                setRightSelection(leftId);
+              }}
+            >
+              Swap builds
+            </Button>
+            <Field label="Comparison section">
+              <select
+                aria-label="Comparison section"
+                value={sectionFilter}
+                onChange={(e) => setSectionFilter(e.target.value)}
+              >
+                <option value="all">All sections</option>
+                <option value="details">Build details</option>
+                <option value="passives">Passives</option>
+                <option value="skills">Skills & supports</option>
+                <option value="equipment">Equipment hints</option>
+              </select>
+            </Field>
             <label>
               <input
                 type="checkbox"
@@ -335,7 +358,7 @@ function ComparisonContent() {
               ))}
             </Notice>
           )}
-          {diff.metadata.length > 0 && (
+          {(sectionFilter === "all" || sectionFilter === "details") && diff.metadata.length > 0 && (
             <section className={`panel ${styles.panel} ${styles.section}`}>
               <SectionHeader title="Build details" />
               {diff.metadata.map((m) => (
@@ -347,7 +370,7 @@ function ComparisonContent() {
               ))}
             </section>
           )}
-          {query.data && (
+          {(sectionFilter === "all" || sectionFilter === "passives") && query.data && (
             <>
               <p className="fine-print">
                 Declared tree: {query.data.source ?? "GGG export"} · revision{" "}
@@ -407,9 +430,12 @@ function ComparisonContent() {
           {query.error && (
             <Notice error>Tree overlay unavailable; all differences remain listed below.</Notice>
           )}
-          {section("Passive allocations", "passive", diff.passives)}
-          {section("Skills & supports", "skill", diff.skills)}
-          {section("Inventory hints", "inventory", diff.inventory)}
+          {(sectionFilter === "all" || sectionFilter === "passives") &&
+            section("Passive allocations", "passive", diff.passives)}
+          {(sectionFilter === "all" || sectionFilter === "skills") &&
+            section("Skills & supports", "skill", diff.skills)}
+          {(sectionFilter === "all" || sectionFilter === "equipment") &&
+            section("Inventory hints", "inventory", diff.inventory)}
           <p className="fine-print">
             Comparison uses available build facts. Combat statistics and full equipment rolls are
             unavailable in the current build format.

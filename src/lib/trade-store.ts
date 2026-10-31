@@ -6,7 +6,7 @@ import { z } from "zod";
 import { createTradeDraft, type TradeDraft } from "./trade-search";
 
 const range = z.object({ min: z.string().max(40), max: z.string().max(40) });
-const draftSchema = z.object({
+export const tradeDraftSchema = z.object({
   league: z.string().max(200),
   name: z.string().max(200),
   type: z.string().max(200),
@@ -36,13 +36,13 @@ const draftSchema = z.object({
     )
     .max(10),
 });
-const savedSchema = z.object({
+export const savedTradeSchema = z.object({
   id: z.string().max(100),
   name: z.string().max(120),
   updatedAt: z.string().max(50),
-  draft: draftSchema,
+  draft: tradeDraftSchema,
 });
-export type SavedTradeSearch = z.infer<typeof savedSchema>;
+export type SavedTradeSearch = z.infer<typeof savedTradeSchema>;
 type TradeWorkspace = {
   draft: TradeDraft;
   searches: SavedTradeSearch[];
@@ -79,8 +79,8 @@ export const useTradeWorkspace = create<TradeWorkspace>()(
       merge: (persisted, current) => {
         if (!persisted || typeof persisted !== "object") return current;
         const data = persisted as { draft?: unknown; searches?: unknown };
-        const draft = draftSchema.safeParse(data.draft);
-        const searches = z.array(savedSchema).max(100).safeParse(data.searches);
+        const draft = tradeDraftSchema.safeParse(data.draft);
+        const searches = z.array(savedTradeSchema).max(100).safeParse(data.searches);
         return {
           ...current,
           draft: draft.success ? draft.data : current.draft,

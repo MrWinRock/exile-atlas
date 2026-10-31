@@ -96,6 +96,11 @@ test("both exchange pickers filter categorized item groups and restore trigger f
   );
   await page.goto("/currency");
   const comparison = page.getByRole("region", { name: "Compare an exchange" });
+  await comparison.getByRole("button", { name: "Save favorite pair" }).click();
+  await page.reload();
+  await expect(comparison.getByRole("button", { name: /Remove favorite/ })).toBeVisible();
+  await comparison.getByRole("button", { name: /Remove favorite/ }).click();
+  await expect(comparison.getByRole("button", { name: /Remove favorite/ })).toHaveCount(0);
   const buy = comparison.getByRole("button", { name: "Item to buy: Divine Orb", exact: true });
   await buy.click();
   const picker = page.getByRole("dialog");

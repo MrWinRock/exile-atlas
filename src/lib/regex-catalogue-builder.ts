@@ -108,7 +108,10 @@ export function buildRegexCatalogue(snapshot: GameSnapshot): RegexCatalogue {
       label: "Verified base",
       categories: equipment,
       kind: "select",
-      options: snapshot.bases.map((b) => ({ value: b.name, label: b.name })),
+      options: [...new Set(snapshot.bases.map((b) => b.name))].map((name) => ({
+        value: name,
+        label: name,
+      })),
       source,
     },
     {
