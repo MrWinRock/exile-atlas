@@ -2654,3 +2654,73 @@ tbody tr:hover {
     font-size: 10px;
   }
 }
+
+/* Overview: shared workspace hierarchy */
+.dashboard-intro {
+  align-items: end;
+  gap: 24px;
+  margin-bottom: 28px;
+}
+.dashboard-intro h1 {
+  font-size: clamp(30px, 3vw, 40px);
+  line-height: 1.15;
+  text-wrap: balance;
+  margin: 0 0 10px;
+}
+.dashboard-intro p { font-size: 14px; color: #b4bebc; }
+.dashboard-intro .button { min-height: 44px; font-size: 13px; }
+.workspace-metrics { margin: 0 0 32px; }
+.workspace-metrics strong { font-variant-numeric: tabular-nums; }
+.workspace-metrics span:not(.badge, .badge-dot, .account-dot) { font-size: 12px; }
+.workspace-metrics .metric-text { font-size: 12px; }
+.dashboard .section-heading { margin-bottom: 14px; }
+.dashboard .tool-grid { gap: 0 28px; }
+.dashboard .tool-card {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr) 18px;
+  column-gap: 12px;
+  align-content: start;
+  padding: 20px 0;
+  border: 0;
+  border-top: 1px solid var(--line);
+  border-radius: 0;
+  background: transparent;
+}
+.dashboard .tool-card:hover { transform: none; background: transparent; }
+.dashboard .tool-card:hover h3, .dashboard .tool-card:hover .tool-card-top > svg { color: var(--accent); }
+.dashboard .tool-card-top { display: contents; }
+.dashboard .tool-icon {
+  grid-column: 1;
+  grid-row: 1 / span 3;
+  width: 28px;
+  height: 28px;
+  border: 0;
+  background: transparent;
+}
+.dashboard .tool-card-top > svg { grid-column: 3; grid-row: 1; color: var(--muted); transition: color .18s; }
+.dashboard .tool-card h3 {
+  grid-column: 2;
+  grid-row: 1;
+  font-family: var(--sans);
+  font-size: 15px;
+  font-weight: 600;
+  margin: 2px 0 7px;
+  transition: color .18s;
+}
+.dashboard .tool-card p { grid-column: 2 / 4; max-width: none; min-height: 0; font-size: 13px; line-height: 1.5; color: #b4bebc; }
+.dashboard .tool-card .fine-print { margin-top: 8px; color: var(--accent); font-size: 12px; }
+.dashboard details { margin-top: 16px; color: #b4bebc; }
+.dashboard details summary { cursor: pointer; }
+.dashboard details .button-group { margin-top: 12px; gap: 12px 20px; }
+.dashboard details label { display: inline-flex; align-items: center; gap: 6px; }
+.dashboard details input { width: auto; accent-color: var(--accent); }
+::selection { background: #745b38; color: #fff; }
+@media (max-width: 760px) {
+  .dashboard-intro { align-items: flex-start; flex-direction: column; }
+  .dashboard-intro h1 { font-size: 30px; }
+  .dashboard .tool-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 20px; }
+}
+@media (max-width: 520px) {
+  .dashboard .tool-grid { grid-template-columns: 1fr; }
+}
+

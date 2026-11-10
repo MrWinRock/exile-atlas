@@ -20,99 +20,85 @@ import { useWorkspace } from "@/lib/workspace-store";
 import { useRegexWorkspace } from "@/lib/regex-store";
 import { useGenesisWorkspace } from "@/lib/genesis-store";
 import { useStatus } from "@/lib/client";
-import { Badge, SectionHeader } from "./ui";
-import { OrbitArt } from "./orbit-art";
+import { SectionHeader } from "./ui";
 const tools = [
   {
     href: "/atlas",
-    title: "Shape your endgame",
+    title: "Atlas planner",
     description: "Plan connected Atlas branches and keep your mapping routes.",
     icon: Compass,
-    tag: "ATLAS PLANNER",
   },
   {
     href: "/inspect",
-    title: "Read your next drop",
+    title: "Item inspector",
     description: "Inspect copied item facts and prepare complete searches.",
     icon: Compass,
-    tag: "LOCAL INSPECTOR",
   },
   {
     href: "/safety",
-    title: "Check your next Waystone",
+    title: "Map safety",
     description: "Apply saved build-risk rules with actual-roll explanations.",
     icon: ShieldCheck,
-    tag: "MAP SAFETY",
   },
   {
     href: "/crafting",
-    title: "Plan your crafting budget",
+    title: "Crafting workbench",
     description: "Browse sourced modifiers and save recipes with actual spend.",
     icon: Coins,
-    tag: "CRAFTING WORKBENCH",
   },
   {
     href: "/compare",
-    title: "Compare your build plans",
+    title: "Build comparison",
     description: "Inspect differences while preserving weapon-set membership.",
     icon: GitBranch,
-    tag: "BUILD COMPARISON",
   },
   {
     href: "/regex",
-    title: "Find what’s worth keeping",
+    title: "Search Toolkit",
     description: "Create in-game searches and keep your favorite presets.",
     icon: Regex,
-    tag: "LOCAL TOOLKIT",
   },
   {
     href: "/genesis",
-    title: "Grow your next reward",
+    title: "Genesis Tree",
     description: "Explore the Genesis crafting tree and save a plan.",
     icon: Sprout,
-    tag: "CRAFTING PLANNER",
   },
   {
     href: "/characters",
-    title: "Your characters",
+    title: "Characters",
     description: "Your gear, gems, and passive choices. All in one place.",
     icon: UserRound,
-    tag: "ACCOUNT",
   },
   {
     href: "/currency",
-    title: "Follow the economy",
+    title: "Currency exchange",
     description: "Explore exchange ratios and volumes from hourly digests.",
     icon: Coins,
-    tag: "PUBLIC DATA",
   },
   {
     href: "/planner",
-    title: "Find your path",
+    title: "Passive planner",
     description: "Explore the passive tree and sketch your next build.",
     icon: GitBranch,
-    tag: "PUBLIC DATA",
   },
   {
     href: "/filters",
-    title: "Make drops matter",
+    title: "Loot filters",
     description: "Craft a loot filter that highlights exactly what you need.",
     icon: Sparkles,
-    tag: "LOCAL EDITOR",
   },
   {
     href: "/builds",
-    title: "Keep your best ideas",
+    title: "Build library",
     description: "Create, save, and export guides for the in-game planner.",
     icon: BookOpen,
-    tag: "LOCAL EDITOR",
   },
   {
     href: "/leagues",
-    title: "Watch the climb",
+    title: "Leagues & ladders",
     description: "Browse leagues and follow the top 1,000 exiles.",
     icon: ChartNoAxesCombined,
-    tag: "GGG ACCESS",
   },
 ];
 const shortcutsKey = "exile-atlas:shortcuts";
@@ -162,7 +148,7 @@ export function Dashboard() {
   const genesisPlans = useGenesisWorkspace((s) => s.plans);
   const genesisPlanCount = genesisPlans.length;
   const { builds, filters } = useWorkspace(),
-    { data: status } = useStatus();
+    { data: status, isLoading: statusLoading, isError: statusError } = useStatus();
   const recent = [
     ...builds.map((b) => ({
       id: `build-${b.id}`,
@@ -199,48 +185,19 @@ export function Dashboard() {
     <div className="dashboard">
       <div className="dashboard-intro">
         <div>
-          <div className="eyebrow">YOUR JOURNEY THROUGH WRAECLAST</div>
-          <h1>Welcome to your Atlas.</h1>
-          <p>A clearer view of your next adventure.</p>
+          <h1>Your Path of Exile 2 workspace</h1>
+          <p>Plan builds, manage loot filters, and explore the economy.</p>
         </div>
-        <Badge tone="amber">PATH OF EXILE 2</Badge>
+        <Link href="/planner" className="button primary">
+          Open passive planner <ArrowUpRight size={17} />
+        </Link>
       </div>
-      <section className="hero-panel">
-        <div className="hero-copy">
-          <div className="hero-overline">
-            <span />
-            PLAN. REFINE. EXPLORE.
-          </div>
-          <h2>
-            Every exile needs
-            <br />a little <em>direction.</em>
-          </h2>
-          <p>
-            Bring your builds, loot filters, and the economy
-            <br className="desktop-break" /> together. Your next great idea starts here.
-          </p>
-          <div className="hero-actions">
-            <Link href="/planner" className="button primary">
-              Plan a build <ArrowUpRight size={17} />
-            </Link>
-            <Link href="/characters" className="button hero-secondary">
-              Explore characters <ArrowRight size={16} />
-            </Link>
-          </div>
-        </div>
-        <div className="hero-art">
-          <OrbitArt />
-          <span className="art-caption">THE PATH IS YOURS TO CHOOSE</span>
-        </div>
-        <div className="hero-corner top-left" />
-        <div className="hero-corner bottom-right" />
-      </section>
       <div className="workspace-metrics">
         <Link href="/builds">
           <BookOpen size={18} />
           <div>
             <span>Saved builds</span>
-            <strong>{String(builds.length).padStart(2, "0")}</strong>
+            <strong>{builds.length}</strong>
           </div>
           <ArrowUpRight size={15} />
         </Link>
@@ -248,7 +205,7 @@ export function Dashboard() {
           <Sparkles size={18} />
           <div>
             <span>Filter drafts</span>
-            <strong>{String(filters.length).padStart(2, "0")}</strong>
+            <strong>{filters.length}</strong>
           </div>
           <ArrowUpRight size={15} />
         </Link>
@@ -257,7 +214,7 @@ export function Dashboard() {
           <div>
             <span>GGG account</span>
             <strong className="metric-text">
-              {status?.connected ? "Connected" : "Not connected"}
+              {statusLoading ? "Checking…" : statusError ? "Unavailable" : status?.connected ? "Connected" : "Not connected"}
             </strong>
           </div>
           <span className={`account-dot ${status?.connected ? "connected" : ""}`} />
@@ -268,7 +225,7 @@ export function Dashboard() {
             <span>Exchange data</span>
             <strong className="metric-text">Hourly history</strong>
           </div>
-          <Badge tone="green">PUBLIC</Badge>
+          <ArrowUpRight size={15} />
         </Link>
       </div>
       <section className="panel" style={{ padding: "20px", marginBottom: "24px" }}>
@@ -310,22 +267,15 @@ export function Dashboard() {
           </div>
         </section>
       )}
-      <SectionHeader
-        title="A toolkit for your next chapter"
-        aside={
-          <span className="muted text-small">
-            BUILT FOR POE2 <span className="tiny-star">✧</span>
-          </span>
-        }
-      />
+      <SectionHeader title="Tools" />
       <div className="tool-grid">
-        {tools.map(({ href, title, description, icon: Icon, tag }, index) => (
+        {tools.map(({ href, title, description, icon: Icon }) => (
           <Link className="tool-card" href={href} key={href}>
             <div className="tool-card-top">
               <div className="tool-icon">
                 <Icon size={22} />
               </div>
-              <span className="tool-number">{String(index + 1).padStart(2, "0")}</span>
+              <ArrowUpRight size={17} />
             </div>
             <h3>{title}</h3>
             <p>{description}</p>
@@ -333,10 +283,6 @@ export function Dashboard() {
             {href === "/genesis" && (
               <p className="fine-print">{genesisPlanCount} saved Genesis plans</p>
             )}
-            <div className="tool-card-bottom">
-              <span>{tag}</span>
-              <ArrowUpRight size={17} />
-            </div>
           </Link>
         ))}
       </div>
@@ -385,15 +331,19 @@ export function Dashboard() {
           <ShieldCheck size={23} />
           <div>
             <h3>
-              {status?.connected ? "Your account is connected." : "Your exile. Your permission."}
+              {statusLoading ? "Checking account connection…" : statusError ? "Account status unavailable" : status?.connected ? "Account connected" : "Connect your account"}
             </h3>
             <p>
-              {status?.connected
-                ? "Characters and online filters are ready to explore."
-                : "Connect securely through GGG to bring your characters and online filters into your workspace."}
+              {statusLoading
+                ? "Checking connection status."
+                : statusError
+                  ? "Account status could not be loaded. Check your connection settings."
+                  : status?.connected
+                  ? "Characters and online filters are ready to explore."
+                  : "Connect through GGG to access your characters and online filters."}
             </p>
             <Link href="/settings" className="text-link">
-              {status?.connected ? "Connection settings" : "Set up your connection"}
+              {statusError || status?.connected ? "Connection settings" : "Set up your connection"}
               <ArrowUpRight size={14} />
             </Link>
           </div>
@@ -402,3 +352,4 @@ export function Dashboard() {
     </div>
   );
 }
+

@@ -16,7 +16,6 @@ import {
   X,
   Coins,
   Images,
-  ChevronsUpDown,
   ShoppingBag,
   Regex,
   Sprout,
@@ -70,13 +69,6 @@ export function Shell({ children }: { children: React.ReactNode }) {
           </span>
           <span className="brand-version">II</span>
         </Link>
-        <div className="realm-switch">
-          <span className="realm-symbol">Ⅱ</span>
-          <div>
-            Path of Exile 2<small>YOUR EXILE WORKSPACE</small>
-          </div>
-          <ChevronsUpDown size={14} />
-        </div>
         <nav aria-label="Main navigation">
           {[
             { label: "Workspace", paths: ["/", "/characters"] },
@@ -120,16 +112,6 @@ export function Shell({ children }: { children: React.ReactNode }) {
           ))}
         </nav>
         <div className="sidebar-bottom">
-          <div className="sidebar-note">
-            <div className="mini-orbit">
-              <Compass size={24} />
-            </div>
-            <h3>A little more direction.</h3>
-            <p>Plan your next build. Make every drop count.</p>
-            <Link href="/planner">
-              Explore the passive tree <ArrowUpRight size={14} />
-            </Link>
-          </div>
           <Link
             href="/settings"
             onClick={() => setOpen(false)}
@@ -138,10 +120,6 @@ export function Shell({ children }: { children: React.ReactNode }) {
             <Settings size={18} />
             Settings
           </Link>
-          <div className="sidebar-footer">
-            <span className="status-light" />
-            Bun powered<span>v0.1</span>
-          </div>
         </div>
       </aside>
       {open && (
@@ -197,3 +175,4 @@ export function Shell({ children }: { children: React.ReactNode }) {
     </div>
   );
 }
+
