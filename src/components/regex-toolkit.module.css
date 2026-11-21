@@ -54,6 +54,41 @@
 .controls > section {
   padding: 24px;
 }
+.recommendations {
+  min-width: 0;
+  border-inline-start-color: var(--accent-deep);
+  background-image: linear-gradient(135deg, #dfb87d0a, transparent 60%);
+}
+.recommendedBonuses {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 14px 0 8px;
+  padding: 0;
+  list-style: none;
+}
+.recommendedBonuses li {
+  padding: 4px 9px;
+  border: 1px solid var(--accent-deep);
+  border-radius: 4px;
+  background: #dfb87d0a;
+  color: var(--accent);
+  font-size: 12px;
+}
+.recommendationDescription {
+  margin-bottom: 16px;
+  color: var(--muted);
+  font-size: 13px;
+}
+.recommendations textarea {
+  min-width: 0;
+  color: var(--accent);
+  font: 12px/1.6 var(--mono);
+  overflow-wrap: anywhere;
+}
+.recommendations .outputButtons {
+  margin-bottom: 8px;
+}
 .properties {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
