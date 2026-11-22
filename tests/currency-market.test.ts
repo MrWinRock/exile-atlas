@@ -3,6 +3,7 @@ import { normalizeMarket, type Market } from "../src/lib/currency";
 import {
   buildCurrencyMarketRows,
   currencyMarketCategory,
+  marketPrice,
   type CurrencySnapshot,
 } from "../src/lib/currency-market";
 
@@ -46,6 +47,8 @@ test("item rows use direct quantity ratios and the selected item's stock and vol
       quoteId: divine,
       low: 2.5,
       high: 3,
+      rate: null,
+      hasMarket: true,
       stock: 90,
       volume: 120,
       history: [{ hour: 3600, price: 2.75 }],
@@ -77,7 +80,43 @@ test("explicit quote lists each league item once without synthesizing an indirec
     history: [],
     change: null,
   });
-  expect(rows.find((row) => row.itemId === chaos)).toMatchObject({ low: 0.1, high: 0.1 });
+  expect(rows.find((row) => row.itemId === chaos)).toMatchObject({
+    low: 0.1,
+    high: 0.1,
+    rate: 0.1,
+    hasMarket: true,
+  });
+  expect(rows.find((row) => row.itemId === essence)?.hasMarket).toBe(false);
+});
+
+test("market quotes invert only below one and keep incomplete rates unavailable", () => {
+  expect(marketPrice(0.2)).toEqual({ amount: 5, itemsPerQuote: true });
+  expect(marketPrice(0.99999999)?.itemsPerQuote).toBe(true);
+  expect(marketPrice(1)).toEqual({ amount: 1, itemsPerQuote: false });
+  expect(marketPrice(2)).toEqual({ amount: 2, itemsPerQuote: false });
+
+  const row = buildCurrencyMarketRows(
+    [market(essence, divine, 2, null)],
+    [],
+    "Standard",
+    divine,
+    3600,
+  )[0];
+  expect(row).toMatchObject({ low: 2, high: 2, rate: null, hasMarket: true });
+  expect(marketPrice(row.rate)).toBeNull();
+
+  const auto = buildCurrencyMarketRows(
+    [market(essence, divine, null, null)],
+    [],
+    "Standard",
+    "",
+    3600,
+  );
+  expect(auto.find((entry) => entry.itemId === essence)).toMatchObject({
+    rate: null,
+    hasMarket: true,
+    history: [],
+  });
 });
 
 test("history keeps the exact item, quote and league despite changing pair orientation", () => {

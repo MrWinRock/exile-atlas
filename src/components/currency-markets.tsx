@@ -2,10 +2,11 @@
 
 import { useMemo, useState, useSyncExternalStore } from "react";
 import { ArrowDown, ArrowUp, Bookmark, Search } from "lucide-react";
-import { currencyName, type Market } from "@/lib/currency";
+import { currencyName, formatExchangeNumber, type Market } from "@/lib/currency";
 import {
   buildCurrencyMarketRows,
   currencyMarketCategory,
+  marketPrice,
   type CurrencySnapshot,
 } from "@/lib/currency-market";
 import { ItemImage, useItemImages } from "./artwork";
@@ -183,7 +184,7 @@ export function CurrencyMarkets({
     const sortPrices = new Map(
       buildCurrencyMarketRows(markets, [], league, quoteId || divineId, hour).map((row) => [
         row.itemId,
-        row.low,
+        row.rate,
       ]),
     );
     if (!quoteId) sortPrices.set(divineId, 1);
@@ -356,12 +357,15 @@ export function CurrencyMarkets({
               {visible.slice(0, 200).map((row) => {
                 const quote = find(row.quoteId);
                 const quoteName = quote?.name ?? currencyName(row.quoteId);
-                const price =
-                  row.low == null
-                    ? "—"
-                    : row.high == null || row.low === row.high
-                      ? number(row.low)
-                      : `${number(row.low)} – ${number(row.high)}`;
+                const price = marketPrice(row.rate);
+                const amount = price ? formatExchangeNumber(price.amount) : null;
+                const priceLabel = price
+                  ? price.itemsPerQuote
+                    ? `${amount} ${row.name} for 1 ${quoteName}`
+                    : `${amount} ${quoteName} per ${row.name}`
+                  : row.hasMarket
+                    ? "A single rate is unavailable during this hour"
+                    : "No direct trades for this quote currency";
                 return (
                   <tr key={row.itemId}>
                     <td>
@@ -372,19 +376,14 @@ export function CurrencyMarkets({
                         <strong title={row.itemId}>{row.name}</strong>
                       </div>
                     </td>
-                    <td>
-                      <div
-                        className={styles.price}
-                        title={
-                          row.low == null
-                            ? "No direct trades for this quote currency"
-                            : `${row.low} – ${row.high} ${quoteName} per item`
-                        }
-                      >
-                        <span data-testid="market-price">{price}</span>
-                        {row.low != null && (
-                          <ItemImage src={quote?.icon} name={quoteName} size={19} />
-                        )}
+                    <td aria-label={priceLabel} title={priceLabel}>
+                      <div className={styles.price} data-testid="market-price">
+                        <span>
+                          {price?.itemsPerQuote
+                            ? `${amount} ↔ 1`
+                            : (amount ?? (row.hasMarket ? "Unavailable" : "—"))}
+                        </span>
+                        {price && <ItemImage src={quote?.icon} name={quoteName} size={19} />}
                       </div>
                     </td>
                     <td
