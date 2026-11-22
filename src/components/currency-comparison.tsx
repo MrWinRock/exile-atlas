@@ -2,7 +2,14 @@
 
 import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { ArrowLeftRight, ChevronDown, Search, X } from "lucide-react";
-import { compareExchangePair, currencyName, type Market } from "@/lib/currency";
+import {
+  compareExchangePair,
+  convertExchangeAmount,
+  currencyName,
+  formatExchangeNumber,
+  singleExchangeRate,
+  type Market,
+} from "@/lib/currency";
 import {
   buildCurrencyPickerGroups,
   currencyPickerCategories,
@@ -36,14 +43,6 @@ function emptyPairs() {
 }
 type ExchangeItem = CurrencyPickerItem;
 type Side = "buy" | "sell";
-const priceFormat = new Intl.NumberFormat("en-US", { maximumSignificantDigits: 6 });
-
-function formatRange(low: number, high: number) {
-  return low === high
-    ? priceFormat.format(low)
-    : `${priceFormat.format(low)} – ${priceFormat.format(high)}`;
-}
-
 function ItemPicker({
   side,
   items,
@@ -179,7 +178,7 @@ export function CurrencyComparison({ markets, hour }: { markets: Market[]; hour:
   const { find } = useItemImages();
   const [selection, setSelection] = useState({ buyId: "", sellId: "", league: "" });
   const [picker, setPicker] = useState<Side | null>(null);
-  const [buyAmount, setBuyAmount] = useState("1");
+  const [amount, setAmount] = useState<{ side: Side; text: string }>({ side: "buy", text: "1" });
   const [pairError, setPairError] = useState("");
   const pairsText = useSyncExternalStore(subscribePairs, pairSnapshot, emptyPairs);
   const pairs: FavoritePair[] = useMemo(() => {
@@ -245,19 +244,27 @@ export function CurrencyComparison({ markets, hour }: { markets: Market[]; hour:
   });
   const comparison = compareExchangePair(markets, buyId, sellId, league);
   const timestamp = new Date(hour * 1000).toISOString().slice(0, 16).replace("T", " ");
-  const price = comparison?.low == null ? null : formatRange(comparison.low, comparison.high!);
-  const quantity = Number(buyAmount);
-  const amountLow = comparison?.low == null ? null : comparison.low * quantity;
-  const amountHigh = comparison?.high == null ? null : comparison.high * quantity;
-  const sellAmount =
-    Number.isSafeInteger(quantity) &&
-    quantity > 0 &&
-    amountLow != null &&
-    amountHigh != null &&
-    Number.isFinite(amountLow) &&
-    Number.isFinite(amountHigh)
-      ? formatRange(amountLow, amountHigh)
-      : "—";
+  const rate = singleExchangeRate(comparison);
+  const converted = convertExchangeAmount(amount.text, rate, amount.side);
+  const convertedText = converted === null ? "" : formatExchangeNumber(converted);
+  const rateText =
+    rate !== null && buy && sell
+      ? `1 ${buy.name} = ${formatExchangeNumber(rate)} ${sell.name}`
+      : null;
+  let conversionStatus = "";
+  if (!rateText) {
+    conversionStatus = !markets.length
+      ? "No exchange items were reported in this digest."
+      : !comparison
+        ? `No trades reported for this pair in ${league} during this hour.`
+        : "A single rate is unavailable for this pair during this hour.";
+  } else if (converted === null) {
+    const quantity = Number(amount.text);
+    conversionStatus =
+      Number.isFinite(quantity) && quantity > 0
+        ? "The converted amount is outside the supported range."
+        : "Enter a positive amount to convert.";
+  }
 
   return (
     <section className={`panel ${styles.panel}`} aria-labelledby="exchange-comparison-heading">
@@ -309,26 +316,21 @@ export function CurrencyComparison({ markets, hour }: { markets: Market[]; hour:
                   <span>{item?.name ?? "Choose an item"}</span>
                   <ChevronDown size={17} aria-hidden="true" />
                 </button>
-                {side === "buy" ? (
-                  <input
-                    className={styles.amount}
-                    type="number"
-                    aria-label="Amount to buy"
-                    min="1"
-                    step="1"
-                    value={buyAmount}
-                    onChange={(event) => setBuyAmount(event.target.value)}
-                  />
-                ) : (
-                  <output
-                    className={`${styles.amount} ${styles.sellAmount}`}
-                    aria-label="Amount to sell"
-                    data-testid="exchange-sell-amount"
-                    aria-live="polite"
-                  >
-                    {sellAmount}
-                  </output>
-                )}
+                <input
+                  className={styles.amount}
+                  type="number"
+                  inputMode="decimal"
+                  aria-label={`Amount to ${side}`}
+                  aria-describedby={
+                    side !== amount.side && conversionStatus ? "exchange-conversion-status" : undefined
+                  }
+                  data-testid={`exchange-${side}-amount`}
+                  min="0"
+                  step="any"
+                  placeholder="—"
+                  value={side === amount.side ? amount.text : convertedText}
+                  onChange={(event) => setAmount({ side, text: event.target.value })}
+                />
               </div>
               <div className={styles.volume}>
                 <span>Traded this hour</span>
@@ -340,7 +342,7 @@ export function CurrencyComparison({ markets, hour }: { markets: Market[]; hour:
         <div className={styles.market}>
           <span className={styles.resultLabel}>Market ratio</span>
           <strong data-testid="exchange-price" aria-live="polite">
-            {price ? `1 : ${price}` : "—"}
+            {rateText ?? "—"}
           </strong>
           <button
             type="button"
@@ -348,25 +350,22 @@ export function CurrencyComparison({ markets, hour }: { markets: Market[]; hour:
             aria-label="Swap buy and sell items"
             title="Swap buy and sell items"
             disabled={!buyId || !sellId}
-            onClick={() => setSelection({ buyId: sellId, sellId: buyId, league })}
+            onClick={() => {
+              setSelection({ buyId: sellId, sellId: buyId, league });
+              setAmount({ ...amount, side: amount.side === "buy" ? "sell" : "buy" });
+            }}
           >
             <ArrowLeftRight size={18} aria-hidden="true" />
           </button>
         </div>
       </div>
-      {(!price || !comparison?.complete) && (
-        <div className={styles.result} aria-live="polite" aria-atomic="true">
-          <p>
-            {price
-              ? "Only one ratio was reported. The price range is incomplete."
-              : !markets.length
-                ? "No exchange items were reported in this digest."
-                : !comparison
-                  ? `No trades reported for this pair in ${league} during this hour.`
-                  : "Price quantities are unavailable for this pair during this hour."}
-          </p>
-        </div>
-      )}
+      <div
+        id="exchange-conversion-status"
+        className={conversionStatus ? styles.result : undefined}
+        role="status"
+      >
+        {conversionStatus && <p>{conversionStatus}</p>}
+      </div>
       <div className="button-group">
         <Button
           variant="secondary"

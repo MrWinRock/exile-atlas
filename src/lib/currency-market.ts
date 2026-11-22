@@ -1,4 +1,9 @@
-import { compareExchangePair, type ExchangeComparison, type Market } from "./currency";
+import {
+  compareExchangePair,
+  singleExchangeRate,
+  type ExchangeComparison,
+  type Market,
+} from "./currency";
 
 export type CurrencySnapshot = { hour: number; markets: Market[] };
 export type CurrencyMarketRow = {
@@ -6,6 +11,8 @@ export type CurrencyMarketRow = {
   quoteId: string;
   low: number | null;
   high: number | null;
+  rate: number | null;
+  hasMarket: boolean;
   stock: number | null;
   volume: number;
   history: { hour: number; price: number }[];
@@ -49,6 +56,14 @@ function representativePrice(pair: ExchangeComparison | null): number | null {
   return pair.low ?? pair.high;
 }
 
+export function marketPrice(rate: number | null) {
+  if (rate === null) return null;
+  if (rate >= 1) return { amount: rate, itemsPerQuote: false };
+
+  const amount = 1 / rate;
+  return Number.isFinite(amount) ? { amount, itemsPerQuote: true } : null;
+}
+
 export function buildCurrencyMarketRows(
   markets: Market[],
   snapshots: CurrencySnapshot[],
@@ -76,23 +91,33 @@ export function buildCurrencyMarketRows(
   return [...itemIds].map((itemId): CurrencyMarketRow => {
     let selectedQuote = quoteId;
     let pair = quoteId ? compareIndexedPair(current, itemId, quoteId, league) : null;
+    let hasMarket = pair !== null;
     if (!quoteId) {
-      let firstValid: { quoteId: string; pair: ExchangeComparison } | null = null;
+      let firstExact: { quoteId: string; pair: ExchangeComparison } | null = null;
+      let fallback: { quoteId: string; pair: ExchangeComparison; price: number } | null = null;
       for (const candidate of automaticQuotes) {
         if (candidate === itemId) continue;
         const candidatePair = compareIndexedPair(current, itemId, candidate, league);
+        if (!candidatePair) continue;
+        hasMarket = true;
+        const rate = singleExchangeRate(candidatePair);
+        if (rate !== null) {
+          firstExact ??= { quoteId: candidate, pair: candidatePair };
+          if (rate >= 1) {
+            firstExact = { quoteId: candidate, pair: candidatePair };
+            break;
+          }
+        }
+
         const price = representativePrice(candidatePair);
-        if (price === null || !candidatePair) continue;
-        firstValid ??= { quoteId: candidate, pair: candidatePair };
-        if (price >= 1) {
-          selectedQuote = candidate;
-          pair = candidatePair;
-          break;
+        if (price !== null && (!fallback || (fallback.price < 1 && price >= 1))) {
+          fallback = { quoteId: candidate, pair: candidatePair, price };
         }
       }
-      if (!pair && firstValid) {
-        selectedQuote = firstValid.quoteId;
-        pair = firstValid.pair;
+      const preferred = firstExact ?? fallback;
+      if (preferred) {
+        selectedQuote = preferred.quoteId;
+        pair = preferred.pair;
       }
     }
 
@@ -114,6 +139,8 @@ export function buildCurrencyMarketRows(
       quoteId: selectedQuote,
       low: pair?.low ?? null,
       high: pair?.high ?? null,
+      rate: singleExchangeRate(pair),
+      hasMarket,
       stock: stock !== undefined && Number.isFinite(stock) && stock >= 0 ? stock : null,
       volume: pair?.buyVolume ?? 0,
       history,

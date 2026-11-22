@@ -97,3 +97,54 @@ export function compareExchangePair(
     complete: ratios.length === 2,
   };
 }
+
+export function singleExchangeRate(comparison: ExchangeComparison | null): number | null {
+  if (!comparison?.complete || comparison.low === null || !Number.isFinite(1 / comparison.low))
+    return null;
+
+  const { baseId, quoteId, raw } = comparison.market;
+  const low = raw.lowest_ratio;
+  const high = raw.highest_ratio;
+  const first = decimalProduct(low[baseId], high[quoteId]);
+  const second = decimalProduct(high[baseId], low[quoteId]);
+  const exponent = Math.min(first.exponent, second.exponent);
+  const firstProduct = first.digits * 10n ** BigInt(first.exponent - exponent);
+  const secondProduct = second.digits * 10n ** BigInt(second.exponent - exponent);
+
+  // Compare the reported quantities before division can collapse distinct bounds.
+  return firstProduct === secondProduct ? comparison.low : null;
+}
+
+function decimalProduct(left: number, right: number) {
+  function decimalParts(value: number) {
+    const [mantissa, exponent = "0"] = value.toString().split("e");
+    const [whole, fraction = ""] = mantissa.split(".");
+    return { digits: BigInt(whole + fraction), exponent: Number(exponent) - fraction.length };
+  }
+
+  const first = decimalParts(left);
+  const second = decimalParts(right);
+  return { digits: first.digits * second.digits, exponent: first.exponent + second.exponent };
+}
+
+export function convertExchangeAmount(
+  amount: string,
+  rate: number | null,
+  from: "buy" | "sell",
+): number | null {
+  const quantity = Number(amount);
+  if (rate === null || !Number.isFinite(quantity) || quantity <= 0) return null;
+
+  const converted = from === "buy" ? quantity * rate : quantity / rate;
+  return Number.isFinite(converted) && converted > 0 ? converted : null;
+}
+
+const exchangeDecimal = new Intl.NumberFormat("en-US", {
+  maximumSignificantDigits: 7,
+  useGrouping: false,
+});
+
+export function formatExchangeNumber(value: number): string {
+  if (value < 0.000001 || value >= 1e9) return value.toExponential(6).replace(/\.?0+e/, "e");
+  return exchangeDecimal.format(value);
+}

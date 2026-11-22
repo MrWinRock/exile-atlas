@@ -107,11 +107,6 @@
   font-variant-numeric: tabular-nums;
   text-align: center;
 }
-.sellAmount {
-  font-size: clamp(16px, 1.65vw, 21px);
-  overflow-wrap: anywhere;
-  line-height: 1.25;
-}
 .volume {
   display: flex;
   align-items: center;
@@ -361,9 +356,6 @@
   .itemRow {
     grid-template-columns: minmax(0, 1fr);
     gap: 8px;
-  }
-  .sellAmount {
-    font-size: 21px;
   }
   .itemList {
     grid-template-columns: repeat(2, minmax(0, 1fr));

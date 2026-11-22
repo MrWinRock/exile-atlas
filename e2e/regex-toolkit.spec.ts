@@ -59,7 +59,7 @@ test("five generators compile, test items, and retain complete over-budget outpu
   await page
     .getByLabel("Pasted item text", { exact: true })
     .fill("Rarity: Rare\nUseful Boots\n+60 to maximum Life");
-  await page.getByRole("button", { name: "Test item", exact: true }).click();
+  await page.getByRole("button", { name: "Test item", exact: true }).press("Enter");
   await expect(page.getByTestId("item-test-result")).toContainText("Match");
   await page.getByLabel("Additional text", { exact: true }).fill("x".repeat(300));
   await expect(page.getByRole("button", { name: "Copy search", exact: true })).toBeDisabled();
@@ -114,9 +114,18 @@ test("numeric modifiers have sliders across generators", async ({ page }) => {
 
 test("navigation is grouped and modifier groups show selections", async ({ page }) => {
   await page.goto("/regex");
+  const openNavigation = page.getByRole("button", { name: "Open navigation", exact: true });
+  const usesDrawer = await openNavigation.isVisible();
+  if (usesDrawer) await openNavigation.click();
   const nav = page.getByRole("navigation", { name: "Main navigation" });
   for (const label of ["Workspace", "Planning", "Trading & loot", "Reference"])
     await expect(nav.getByText(label, { exact: true })).toBeVisible();
+  if (usesDrawer) {
+    await page
+      .locator(".sidebar")
+      .getByRole("button", { name: "Close navigation", exact: true })
+      .click();
+  }
   const group = page
     .locator("details")
     .filter({ has: page.getByRole("heading", { name: /Area modifiers/ }) });

@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { REGEX_CATEGORIES, REGEX_SOURCE } from "@/lib/regex-catalogue";
 import { compileRegexSearch } from "@/lib/regex-search";
+import { REGEX_RECOMMENDATIONS, applyRegexRecommendation } from "@/lib/regex-recommendations";
 import {
   createRegexDraft,
   type ModifierSelection,
@@ -210,6 +211,43 @@ export function RegexToolkit() {
                   recommendation={waystoneRecommendation}
                   onSelect={applyWaystoneRecommendation}
                 />
+              )}
+              {(category === "tablet" || category === "relic") && (
+                <section
+                  className={`panel ${styles.recommendations}`}
+                  aria-labelledby="regex-recommendations-heading"
+                >
+                  <h2 id="regex-recommendations-heading">
+                    {category === "tablet" ? "Tablet recommendations" : "Relic recommendations"}
+                  </h2>
+                  <ul className={styles.recommendationList}>
+                    {REGEX_RECOMMENDATIONS[category].map((recommendation) => {
+                      const next = applyRegexRecommendation(draft, recommendation, catalogue);
+                      return (
+                        <li key={recommendation.modifierId}>
+                          <div>
+                            <strong>{recommendation.label}</strong>
+                            <p>{recommendation.description}</p>
+                          </div>
+                          <Button
+                            type="button"
+                            variant="secondary"
+                            aria-label={`Apply ${recommendation.label}`}
+                            data-testid={`regex-recommendation-${recommendation.modifierId}`}
+                            disabled={!next}
+                            onClick={() => {
+                              if (!next) return;
+                              setAuthoredDraft(next);
+                              setMessage(`${recommendation.label} added to your search.`);
+                            }}
+                          >
+                            {next ? "Apply" : "Unavailable"}
+                          </Button>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </section>
               )}
               <section className="panel">
                 <SectionHeader

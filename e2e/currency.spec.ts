@@ -11,8 +11,8 @@ test("currency comparison keeps buy and sell prices in the selected league", asy
       league: "Standard",
       market_pair: [chaos, divine],
       volume_traded: { [chaos]: 1200, [divine]: 100 },
-      lowest_ratio: { [chaos]: 10, [divine]: 1 },
-      highest_ratio: { [chaos]: 15, [divine]: 1 },
+      lowest_ratio: { [chaos]: 1, [divine]: 5 },
+      highest_ratio: { [chaos]: 2, [divine]: 10 },
       lowest_stock: { [chaos]: 100, [divine]: 10 },
       highest_stock: { [chaos]: 200, [divine]: 20 },
     }),
@@ -74,17 +74,26 @@ test("currency comparison keeps buy and sell prices in the selected league", asy
   await page.getByRole("dialog").getByRole("button", { name: "Divine Orb", exact: true }).click();
   await comparison.getByRole("button", { name: /^Item to sell:/ }).click();
   await page.getByRole("dialog").getByRole("button", { name: "Chaos Orb", exact: true }).click();
-  await expect(comparison.getByTestId("exchange-price")).toHaveText("1 : 10 – 15");
-  await expect(comparison.getByLabel("Amount to buy")).toHaveValue("1");
-  await expect(comparison.getByTestId("exchange-sell-amount")).toHaveText("10 – 15");
-  await comparison.getByLabel("Amount to buy").fill("2");
-  await expect(comparison.getByTestId("exchange-sell-amount")).toHaveText("20 – 30");
-  await expect(comparison.getByTestId("exchange-price")).toHaveText("1 : 10 – 15");
-  await comparison.getByLabel("Amount to buy").fill("0");
-  await expect(comparison.getByTestId("exchange-sell-amount")).toHaveText("—");
-  await comparison.getByLabel("Amount to buy").fill("");
-  await expect(comparison.getByTestId("exchange-sell-amount")).toHaveText("—");
-  await comparison.getByLabel("Amount to buy").fill("1");
+  const buyAmount = comparison.getByLabel("Amount to buy");
+  const sellAmount = comparison.getByLabel("Amount to sell");
+  await expect(comparison.getByTestId("exchange-price")).toHaveText("1 Divine Orb = 0.2 Chaos Orb");
+  await expect(buyAmount).toHaveValue("1");
+  await expect(sellAmount).toHaveValue("0.2");
+  await buyAmount.fill("10");
+  await expect(sellAmount).toHaveValue("2");
+  await sellAmount.fill("3");
+  await expect(buyAmount).toHaveValue("15");
+  await sellAmount.fill("");
+  await expect(buyAmount).toHaveValue("");
+  await expect(buyAmount).toHaveAccessibleDescription("Enter a positive amount to convert.");
+  await buyAmount.fill("0");
+  await expect(sellAmount).toHaveValue("");
+  await expect(sellAmount).toHaveAccessibleDescription("Enter a positive amount to convert.");
+  await buyAmount.fill("1");
+  await buyAmount.fill("");
+  await expect(sellAmount).toHaveValue("");
+  await buyAmount.fill("1");
+  await expect(sellAmount).toHaveAccessibleDescription("");
   await comparison.getByRole("button", { name: /^Item to buy:/ }).click();
   await page.getByRole("dialog").getByLabel("Search items to buy").fill("no matching item");
   await expect(page.getByRole("dialog").getByText("No items match your search.")).toBeVisible();
@@ -93,12 +102,16 @@ test("currency comparison keeps buy and sell prices in the selected league", asy
   await expect(comparison.getByRole("button", { name: /^Item to buy:/ })).toBeFocused();
 
   await comparison.getByRole("button", { name: "Swap buy and sell items" }).click();
-  await expect(comparison.getByTestId("exchange-price")).toHaveText("1 : 0.0666667 – 0.1");
-  await expect(comparison.getByTestId("exchange-sell-amount")).toHaveText("0.0666667 – 0.1");
+  await expect(comparison.getByTestId("exchange-price")).toHaveText("1 Chaos Orb = 5 Divine Orb");
+  await expect(buyAmount).toHaveValue("0.2");
+  await expect(sellAmount).toHaveValue("1");
   await comparison.getByRole("button", { name: "Swap buy and sell items" }).click();
   await comparison.getByLabel("Comparison league").selectOption("Hardcore");
-  await expect(comparison.getByTestId("exchange-price")).toHaveText("1 : 20 – 30");
-  await expect(comparison.getByTestId("exchange-sell-amount")).toHaveText("20 – 30");
+  await expect(comparison.getByTestId("exchange-price")).toHaveText("—");
+  await expect(
+    comparison.getByText("A single rate is unavailable for this pair during this hour."),
+  ).toBeVisible();
+  await expect(sellAmount).toHaveValue("");
 
   await comparison.getByLabel("Comparison league").selectOption("Standard");
   await comparison.getByRole("button", { name: /^Item to sell:/ }).click();
@@ -110,7 +123,7 @@ test("currency comparison keeps buy and sell prices in the selected league", asy
   await expect(
     comparison.getByText("No trades reported for this pair in Standard during this hour."),
   ).toBeVisible();
-  await expect(comparison.getByTestId("exchange-sell-amount")).toHaveText("—");
+  await expect(sellAmount).toHaveValue("");
   await comparison.getByRole("button", { name: /^Item to sell:/ }).click();
   await page.getByRole("dialog").getByRole("button", { name: "Chaos Orb", exact: true }).click();
   digestMarkets = [markets[1]];
@@ -130,6 +143,14 @@ test("currency comparison keeps buy and sell prices in the selected league", asy
   await expect(
     comparison.getByRole("button", { name: "Item to buy: Divine Orb", exact: true }),
   ).toBeVisible();
+
+  digestMarkets = [markets[1]];
+  await page.getByLabel("Completed hour (UTC)").fill("2026-10-05T01:00");
+  await page.getByRole("button", { name: "Load digest", exact: true }).click();
+  await expect(comparison.getByLabel("Comparison league")).toHaveValue("Hardcore");
+  await expect(comparison.getByTestId("exchange-price")).toHaveText("—");
+  await expect(sellAmount).toHaveValue("");
+
   const dimensions = await page.evaluate(() => ({
     width: innerWidth,
     scroll: document.documentElement.scrollWidth,

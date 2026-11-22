@@ -60,11 +60,22 @@ test("item market prices, history and favorites follow league and quote filters"
       },
     }),
   );
+  await page.route("**/test-currency.svg", (route) =>
+    route.fulfill({
+      contentType: "image/svg+xml",
+      body: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"><circle cx="10" cy="10" r="9" fill="gold"/></svg>',
+    }),
+  );
   await page.route("**/api/items", (route) =>
     route.fulfill({
       json: {
         items: [
-          { id: divine, name: "Divine Orb", itemClass: "StackableCurrency" },
+          {
+            id: divine,
+            name: "Divine Orb",
+            itemClass: "StackableCurrency",
+            icon: "/test-currency.svg",
+          },
           { id: chaos, name: "Chaos Orb", itemClass: "StackableCurrency" },
           { id: exalted, name: "Exalted Orb", itemClass: "StackableCurrency" },
           { id: annulment, name: "Orb of Annulment", itemClass: "StackableCurrency" },
@@ -89,7 +100,10 @@ test("item market prices, history and favorites follow league and quote filters"
   const chaosRow = list
     .getByRole("row")
     .filter({ has: page.getByRole("button", { name: /^(?:Favorite|Unfavorite) Chaos Orb$/ }) });
-  await expect(chaosRow.getByTestId("market-price")).toHaveText("0.1");
+  const price = chaosRow.getByTestId("market-price");
+  await expect(price).toHaveText("10 ↔ 1");
+  await expect(chaosRow.getByRole("cell", { name: "10 Chaos Orb for 1 Divine Orb" })).toBeVisible();
+  await expect(price.locator("span + .item-artwork img[alt='Divine Orb']")).toBeVisible();
   await expect(chaosRow.getByTestId("market-stock")).toHaveText("1.2K");
   await expect(chaosRow.getByTestId("market-change")).toHaveText("+100%");
   await expect(chaosRow.getByRole("img", { name: /Collected price history/ })).toBeVisible();
@@ -122,9 +136,13 @@ test("item market prices, history and favorites follow league and quote filters"
   await expect(
     list.getByRole("button", { name: "Favorite Essence of Battle", exact: true }),
   ).toBeVisible();
+  await expect(list.getByTestId("market-price")).toHaveText("2");
+  await expect(
+    list.getByRole("cell", { name: "2 Divine Orb per Essence of Battle" }),
+  ).toBeVisible();
   await list.getByRole("button", { name: "Currency", exact: true }).click();
   await list.getByLabel("Market league").selectOption("Hardcore");
-  await expect(chaosRow.getByTestId("market-price")).toHaveText("0.5");
+  await expect(price).toHaveText("2 ↔ 1");
   await expect(chaosRow.getByTestId("market-change")).toHaveText("—");
   await list.getByLabel("Search market items").fill("no such item");
   await expect(list.getByText("No items match these filters.")).toBeVisible();

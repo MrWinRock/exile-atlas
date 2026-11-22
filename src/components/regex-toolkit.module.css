@@ -59,6 +59,33 @@
   border-inline-start-color: var(--accent-deep);
   background-image: linear-gradient(135deg, #dfb87d0a, transparent 60%);
 }
+.recommendationList {
+  display: grid;
+  gap: 0;
+  margin: 6px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.recommendationList li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+}
+.recommendationList li:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+.recommendationList li p {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+.recommendationList button {
+  flex-shrink: 0;
+}
 .recommendedBonuses {
   display: flex;
   flex-wrap: wrap;

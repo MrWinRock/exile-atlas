@@ -1,5 +1,11 @@
 import { expect, test } from "bun:test";
-import { compareExchangePair, type Market } from "../src/lib/currency";
+import {
+  compareExchangePair,
+  convertExchangeAmount,
+  formatExchangeNumber,
+  singleExchangeRate,
+  type Market,
+} from "../src/lib/currency";
 
 const buyId = "Metadata/Currency/A";
 const sellId = "Metadata/Currency/B";
@@ -95,6 +101,50 @@ test("two equal valid endpoint ratios still provide a complete comparison", () =
     high: 2.5,
     complete: true,
   });
+});
+
+test("one rate requires two agreeing endpoint ratios before display rounding", () => {
+  const equal = market({ [buyId]: 5, [sellId]: 1 }, { [buyId]: 10, [sellId]: 2 });
+  const near = market({ [buyId]: 5, [sellId]: 1 }, { [buyId]: 10, [sellId]: 2.00000001 });
+  const proportionalDecimals = market(
+    { [buyId]: 0.3, [sellId]: 0.1 },
+    { [buyId]: 0.9, [sellId]: 0.3 },
+  );
+  const roundedDuringDivision = market(
+    { [buyId]: 3, [sellId]: 3.1 },
+    { [buyId]: 3, [sellId]: 3.1000000000000005 },
+  );
+  const incomplete = market({}, { [buyId]: 5, [sellId]: 1 });
+
+  expect(singleExchangeRate(compareExchangePair([equal], buyId, sellId, "Standard"))).toBe(0.2);
+  expect(singleExchangeRate(compareExchangePair([equal], sellId, buyId, "Standard"))).toBe(5);
+  expect(singleExchangeRate(compareExchangePair([near], buyId, sellId, "Standard"))).toBeNull();
+  expect(singleExchangeRate(compareExchangePair([near], sellId, buyId, "Standard"))).toBeNull();
+  expect(
+    singleExchangeRate(compareExchangePair([proportionalDecimals], buyId, sellId, "Standard")),
+  ).toBeCloseTo(1 / 3);
+  expect(
+    singleExchangeRate(compareExchangePair([proportionalDecimals], sellId, buyId, "Standard")),
+  ).toBeCloseTo(3);
+  const rounded = compareExchangePair([roundedDuringDivision], buyId, sellId, "Standard");
+  expect(rounded?.low).toBe(rounded?.high);
+  expect(singleExchangeRate(rounded)).toBeNull();
+  expect(
+    singleExchangeRate(compareExchangePair([roundedDuringDivision], sellId, buyId, "Standard")),
+  ).toBeNull();
+  expect(
+    singleExchangeRate(compareExchangePair([incomplete], buyId, sellId, "Standard")),
+  ).toBeNull();
+  expect(singleExchangeRate(null)).toBeNull();
+});
+
+test("either amount can drive the conversion and positive tiny rates stay readable", () => {
+  expect(convertExchangeAmount("10", 0.2, "buy")).toBe(2);
+  expect(convertExchangeAmount("3", 0.2, "sell")).toBe(15);
+  expect(convertExchangeAmount("", 0.2, "sell")).toBeNull();
+  expect(convertExchangeAmount("-1", 0.2, "buy")).toBeNull();
+  expect(convertExchangeAmount("1", null, "buy")).toBeNull();
+  expect(formatExchangeNumber(0.000000001)).toBe("1e-9");
 });
 
 test("matching requires the exact league even when another league has the same pair", () => {
