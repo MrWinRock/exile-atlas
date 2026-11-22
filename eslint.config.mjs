@@ -5,6 +5,9 @@ export default defineConfig([
   ...nextVitals,
   ...nextTs,
   globalIgnores([
+    ".agents/skills/aidlc-*/scripts/**",
+    ".codex/hooks/**",
+    ".codex/tools/**",
     ".next/**",
     "data/**",
     "public/monaco/**",
