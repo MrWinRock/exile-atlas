@@ -18,10 +18,16 @@ import {
   type RegexDraft,
 } from "@/lib/regex-schema";
 import { useRegexWorkspace } from "@/lib/regex-store";
+import {
+  WAYSTONE_BONUS_LABELS,
+  waystoneRecommendationProperties,
+  type WaystoneRecommendation,
+} from "@/lib/waystone-recommendations";
 import { Badge, Button, Field, Notice, PageTitle, SectionHeader } from "./ui";
 import { RegexPresets } from "./regex-presets";
 import { RegexItemTester } from "./regex-item-tester";
 import { RegexTradePreview } from "./regex-trade-preview";
+import { WaystoneRecommendations } from "./waystone-recommendations";
 import styles from "./regex-toolkit.module.css";
 import { useGameData } from "@/lib/game-data-store";
 import { buildRegexCatalogue, defaultRegexCatalogue } from "@/lib/regex-catalogue-builder";
@@ -34,13 +40,6 @@ function modifierGroup(label: string): string {
   if (/damage|attack|spell|critical/i.test(label)) return "Offence";
   return "Other modifiers";
 }
-const waystoneSliders = new Set([
-  "iir",
-  "pack-size",
-  "effectiveness",
-  "monster-rarity",
-  "drop-chance",
-]);
 export function RegexToolkit() {
   const snapshot = useGameData((s) => s.snapshot);
   const catalogue = useMemo(
@@ -56,7 +55,8 @@ export function RegexToolkit() {
     [message, setMessage] = useState(""),
     [preview, setPreview] = useState(false),
     [showOptions, setShowOptions] = useState(false),
-    [live, setLive] = useState("");
+    [live, setLive] = useState(""),
+    [waystoneRecommendation, setWaystoneRecommendation] = useState<WaystoneRecommendation>();
   const category: RegexCategory = store.activeTab === "presets" ? "waystone" : store.activeTab,
     draft = store.drafts[category],
     compiled = compileRegexSearch(draft, catalogue);
@@ -88,6 +88,15 @@ export function RegexToolkit() {
       ...next,
       snapshotId: previous.snapshotId ?? (editedId ? undefined : snapshot?.id),
     });
+  }
+  function applyWaystoneRecommendation(recommendation: WaystoneRecommendation) {
+    setWaystoneRecommendation(recommendation);
+    setAuthoredDraft({
+      ...draft,
+      properties: waystoneRecommendationProperties(recommendation, draft.properties),
+      roundNumbers: false,
+    });
+    setMessage("");
   }
   function chooseModifier(id: string, mode: string) {
     const old = [...draft.wanted, ...draft.unwanted].find((s) => s.id === id) ?? {
@@ -186,6 +195,7 @@ export function RegexToolkit() {
           <RegexPresets
             onLoad={(p) => {
               store.loadPreset(p.id);
+              if (p.draft.category === "waystone") setWaystoneRecommendation(undefined);
               setEditedId(p.id);
               setName(p.name);
               setMessage("Preset loaded. Update it to save your changes.");
@@ -194,6 +204,13 @@ export function RegexToolkit() {
         ) : (
           <div className={styles.workspace}>
             <div className={styles.controls}>
+              {category === "waystone" && (
+                <WaystoneRecommendations
+                  catalogue={catalogue}
+                  recommendation={waystoneRecommendation}
+                  onSelect={applyWaystoneRecommendation}
+                />
+              )}
               <section className="panel">
                 <SectionHeader
                   title="Narrow your search"
@@ -206,32 +223,32 @@ export function RegexToolkit() {
                 <div className={styles.properties}>
                   {REGEX_PROPERTIES.filter((p) => p.categories.includes(category)).map((p) => {
                     const value = draft.properties[p.id] ?? "";
-                    if (p.kind === "range")
+                    if (p.kind === "range") {
+                      const isWaystoneBonus = Object.hasOwn(WAYSTONE_BONUS_LABELS, p.id);
+                      const minimum = typeof value === "string" ? "" : value.min;
+                      const maximum = typeof value === "string" ? "" : value.max;
+                      const slider = p.numericDomain && {
+                        min: p.numericDomain[0],
+                        max: Math.min(p.numericDomain[1], p.id === "drop-chance" ? 140 : 100),
+                      };
+                      const numericMinimum = Number(minimum);
                       return (
                         <fieldset className={styles.rangeField} key={p.id}>
                           <legend>{p.label}</legend>
-                          {p.numericDomain && (
+                          {slider && (
                             <div className={styles.sliderRow}>
                               <input
                                 type="range"
                                 aria-label={`${p.label} slider`}
-                                aria-valuetext={
-                                  typeof value === "string" || !value.min ? "No minimum" : value.min
-                                }
-                                title={`Slider range ${p.numericDomain[0]} to ${Math.min(p.numericDomain[1], 100)}. Use the fields for precise values.`}
-                                min={p.numericDomain[0]}
-                                max={Math.min(p.numericDomain[1], 100)}
-                                step={p.scale ? 1 / p.scale : waystoneSliders.has(p.id) ? 10 : 1}
+                                aria-valuetext={minimum || "No minimum"}
+                                title={`Slider range ${slider.min} to ${slider.max}. Use the fields for precise values.`}
+                                min={slider.min}
+                                max={slider.max}
+                                step={p.scale ? 1 / p.scale : 1}
                                 value={
-                                  typeof value === "string"
-                                    ? p.numericDomain[0]
-                                    : Math.min(
-                                        Math.min(p.numericDomain[1], 100),
-                                        Math.max(
-                                          p.numericDomain[0],
-                                          Number(value.min) || p.numericDomain[0],
-                                        ),
-                                      )
+                                  minimum && Number.isFinite(numericMinimum)
+                                    ? Math.min(slider.max, Math.max(slider.min, numericMinimum))
+                                    : slider.min
                                 }
                                 onChange={(e) =>
                                   setAuthoredDraft({
@@ -240,21 +257,21 @@ export function RegexToolkit() {
                                       ...draft.properties,
                                       [p.id]: {
                                         min:
-                                          waystoneSliders.has(p.id) && e.target.value === "0"
+                                          isWaystoneBonus && e.target.value === "0"
                                             ? ""
                                             : e.target.value,
-                                        max: typeof value === "string" ? "" : value.max,
+                                        max: maximum,
                                       },
                                     },
                                   })
                                 }
                               />
                               <output>
-                                {typeof value === "string" || !value.min
-                                  ? waystoneSliders.has(p.id)
+                                {!minimum
+                                  ? isWaystoneBonus
                                     ? "0%"
                                     : "Any"
-                                  : `${value.min}${waystoneSliders.has(p.id) || p.templates?.some((t) => t.includes("%")) ? "%" : ""}`}
+                                  : `${minimum}${isWaystoneBonus || p.templates?.some((t) => t.includes("%")) ? "%" : ""}`}
                               </output>
                             </div>
                           )}
@@ -263,7 +280,7 @@ export function RegexToolkit() {
                               aria-label={`${p.label} minimum`}
                               placeholder="Min"
                               inputMode="numeric"
-                              value={typeof value === "string" ? "" : value.min}
+                              value={minimum}
                               onChange={(e) =>
                                 setAuthoredDraft({
                                   ...draft,
@@ -271,7 +288,7 @@ export function RegexToolkit() {
                                     ...draft.properties,
                                     [p.id]: {
                                       min: e.target.value,
-                                      max: typeof value === "string" ? "" : value.max,
+                                      max: maximum,
                                     },
                                   },
                                 })
@@ -282,14 +299,14 @@ export function RegexToolkit() {
                               aria-label={`${p.label} maximum`}
                               placeholder="Max"
                               inputMode="numeric"
-                              value={typeof value === "string" ? "" : value.max}
+                              value={maximum}
                               onChange={(e) =>
                                 setAuthoredDraft({
                                   ...draft,
                                   properties: {
                                     ...draft.properties,
                                     [p.id]: {
-                                      min: typeof value === "string" ? "" : value.min,
+                                      min: minimum,
                                       max: e.target.value,
                                     },
                                   },
@@ -299,6 +316,7 @@ export function RegexToolkit() {
                           </div>
                         </fieldset>
                       );
+                    }
                     return (
                       <Field key={p.id} label={p.label}>
                         {p.kind === "text" ? (
@@ -627,6 +645,7 @@ export function RegexToolkit() {
                     variant="secondary"
                     onClick={() => {
                       store.setDraft({ ...createRegexDraft(category), snapshotId: snapshot?.id });
+                      if (category === "waystone") setWaystoneRecommendation(undefined);
                       setEditedId(undefined);
                       setName("");
                       setMessage("Current generator reset. Saved presets are kept.");
