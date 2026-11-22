@@ -217,6 +217,24 @@ test("auto quote falls back to the first valid direct price below one", () => {
   expect(rows.find((row) => row.itemId === essence)).toMatchObject({ quoteId: divine, low: 0.01 });
 });
 
+test("auto quote prefers an exact price over a range in an earlier currency", () => {
+  const rows = buildCurrencyMarketRows(
+    [market(essence, divine, 2, 3), market(essence, chaos, 0.5)],
+    [{ hour: 0, markets: [market(essence, chaos, 0.25)] }],
+    "Standard",
+    "",
+    3600,
+  );
+  expect(rows.find((row) => row.itemId === essence)).toMatchObject({
+    quoteId: chaos,
+    rate: 0.5,
+    history: [
+      { hour: 0, price: 0.25 },
+      { hour: 3600, price: 0.5 },
+    ],
+  });
+});
+
 test("auto quote skips invalid preferred pairs and never prices an item against itself", () => {
   const rows = buildCurrencyMarketRows(
     [market(essence, divine, null), market(essence, annulment, 3), market(divine, chaos, 10)],

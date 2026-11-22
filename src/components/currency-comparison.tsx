@@ -251,6 +251,20 @@ export function CurrencyComparison({ markets, hour }: { markets: Market[]; hour:
     rate !== null && buy && sell
       ? `1 ${buy.name} = ${formatExchangeNumber(rate)} ${sell.name}`
       : null;
+  let conversionStatus = "";
+  if (!rateText) {
+    conversionStatus = !markets.length
+      ? "No exchange items were reported in this digest."
+      : !comparison
+        ? `No trades reported for this pair in ${league} during this hour.`
+        : "A single rate is unavailable for this pair during this hour.";
+  } else if (converted === null) {
+    const quantity = Number(amount.text);
+    conversionStatus =
+      Number.isFinite(quantity) && quantity > 0
+        ? "The converted amount is outside the supported range."
+        : "Enter a positive amount to convert.";
+  }
 
   return (
     <section className={`panel ${styles.panel}`} aria-labelledby="exchange-comparison-heading">
@@ -307,6 +321,9 @@ export function CurrencyComparison({ markets, hour }: { markets: Market[]; hour:
                   type="number"
                   inputMode="decimal"
                   aria-label={`Amount to ${side}`}
+                  aria-describedby={
+                    side !== amount.side && conversionStatus ? "exchange-conversion-status" : undefined
+                  }
                   data-testid={`exchange-${side}-amount`}
                   min="0"
                   step="any"
@@ -342,17 +359,13 @@ export function CurrencyComparison({ markets, hour }: { markets: Market[]; hour:
           </button>
         </div>
       </div>
-      {!rateText && (
-        <div className={styles.result} aria-live="polite" aria-atomic="true">
-          <p>
-            {!markets.length
-              ? "No exchange items were reported in this digest."
-              : !comparison
-                ? `No trades reported for this pair in ${league} during this hour.`
-                : "A single rate is unavailable for this pair during this hour."}
-          </p>
-        </div>
-      )}
+      <div
+        id="exchange-conversion-status"
+        className={conversionStatus ? styles.result : undefined}
+        role="status"
+      >
+        {conversionStatus && <p>{conversionStatus}</p>}
+      </div>
       <div className="button-group">
         <Button
           variant="secondary"

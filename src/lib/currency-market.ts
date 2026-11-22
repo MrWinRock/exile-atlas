@@ -93,23 +93,31 @@ export function buildCurrencyMarketRows(
     let pair = quoteId ? compareIndexedPair(current, itemId, quoteId, league) : null;
     let hasMarket = pair !== null;
     if (!quoteId) {
-      let firstValid: { quoteId: string; pair: ExchangeComparison } | null = null;
+      let firstExact: { quoteId: string; pair: ExchangeComparison } | null = null;
+      let fallback: { quoteId: string; pair: ExchangeComparison; price: number } | null = null;
       for (const candidate of automaticQuotes) {
         if (candidate === itemId) continue;
         const candidatePair = compareIndexedPair(current, itemId, candidate, league);
-        if (candidatePair) hasMarket = true;
+        if (!candidatePair) continue;
+        hasMarket = true;
+        const rate = singleExchangeRate(candidatePair);
+        if (rate !== null) {
+          firstExact ??= { quoteId: candidate, pair: candidatePair };
+          if (rate >= 1) {
+            firstExact = { quoteId: candidate, pair: candidatePair };
+            break;
+          }
+        }
+
         const price = representativePrice(candidatePair);
-        if (price === null || !candidatePair) continue;
-        firstValid ??= { quoteId: candidate, pair: candidatePair };
-        if (price >= 1) {
-          selectedQuote = candidate;
-          pair = candidatePair;
-          break;
+        if (price !== null && (!fallback || (fallback.price < 1 && price >= 1))) {
+          fallback = { quoteId: candidate, pair: candidatePair, price };
         }
       }
-      if (!pair && firstValid) {
-        selectedQuote = firstValid.quoteId;
-        pair = firstValid.pair;
+      const preferred = firstExact ?? fallback;
+      if (preferred) {
+        selectedQuote = preferred.quoteId;
+        pair = preferred.pair;
       }
     }
 

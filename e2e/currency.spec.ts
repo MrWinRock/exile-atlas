@@ -85,12 +85,15 @@ test("currency comparison keeps buy and sell prices in the selected league", asy
   await expect(buyAmount).toHaveValue("15");
   await sellAmount.fill("");
   await expect(buyAmount).toHaveValue("");
+  await expect(buyAmount).toHaveAccessibleDescription("Enter a positive amount to convert.");
   await buyAmount.fill("0");
   await expect(sellAmount).toHaveValue("");
+  await expect(sellAmount).toHaveAccessibleDescription("Enter a positive amount to convert.");
   await buyAmount.fill("1");
   await buyAmount.fill("");
   await expect(sellAmount).toHaveValue("");
   await buyAmount.fill("1");
+  await expect(sellAmount).toHaveAccessibleDescription("");
   await comparison.getByRole("button", { name: /^Item to buy:/ }).click();
   await page.getByRole("dialog").getByLabel("Search items to buy").fill("no matching item");
   await expect(page.getByRole("dialog").getByText("No items match your search.")).toBeVisible();
