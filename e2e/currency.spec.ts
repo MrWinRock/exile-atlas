@@ -107,11 +107,20 @@ test("currency comparison keeps buy and sell prices in the selected league", asy
   await expect(sellAmount).toHaveValue("1");
   await comparison.getByRole("button", { name: "Swap buy and sell items" }).click();
   await comparison.getByLabel("Comparison league").selectOption("Hardcore");
-  await expect(comparison.getByTestId("exchange-price")).toHaveText("—");
-  await expect(
-    comparison.getByText("A single rate is unavailable for this pair during this hour."),
-  ).toBeVisible();
-  await expect(sellAmount).toHaveValue("");
+  await expect(comparison.getByTestId("exchange-price")).toHaveText("1 Divine Orb ≈ 25 Chaos Orb");
+  await expect(sellAmount).toHaveValue("25");
+  await buyAmount.fill("2");
+  await expect(sellAmount).toHaveValue("50");
+  await sellAmount.fill("100");
+  await expect(buyAmount).toHaveValue("4");
+  await comparison.getByRole("button", { name: "Swap buy and sell items" }).click();
+  await expect(comparison.getByTestId("exchange-price")).toHaveText(
+    "1 Chaos Orb ≈ 0.04 Divine Orb",
+  );
+  await expect(buyAmount).toHaveValue("100");
+  await expect(sellAmount).toHaveValue("4");
+  await comparison.getByRole("button", { name: "Swap buy and sell items" }).click();
+  await buyAmount.fill("1");
 
   await comparison.getByLabel("Comparison league").selectOption("Standard");
   await comparison.getByRole("button", { name: /^Item to sell:/ }).click();
@@ -148,8 +157,10 @@ test("currency comparison keeps buy and sell prices in the selected league", asy
   await page.getByLabel("Completed hour (UTC)").fill("2026-10-05T01:00");
   await page.getByRole("button", { name: "Load digest", exact: true }).click();
   await expect(comparison.getByLabel("Comparison league")).toHaveValue("Hardcore");
-  await expect(comparison.getByTestId("exchange-price")).toHaveText("—");
-  await expect(sellAmount).toHaveValue("");
+  await expect(comparison.getByTestId("exchange-price")).toHaveText(
+    "1 Chaos Orb ≈ 0.04 Divine Orb",
+  );
+  await expect(sellAmount).toHaveValue("0.04");
 
   const dimensions = await page.evaluate(() => ({
     width: innerWidth,

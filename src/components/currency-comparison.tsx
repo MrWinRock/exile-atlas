@@ -6,8 +6,8 @@ import {
   compareExchangePair,
   convertExchangeAmount,
   currencyName,
+  exchangeQuote,
   formatExchangeNumber,
-  singleExchangeRate,
   type Market,
 } from "@/lib/currency";
 import {
@@ -242,14 +242,17 @@ export function CurrencyComparison({ markets, hour }: { markets: Market[]; hour:
     const artwork = find(id);
     return item ?? { id, name: artwork?.name ?? currencyName(id), icon: artwork?.icon };
   });
-  const comparison = compareExchangePair(markets, buyId, sellId, league);
+  const { comparison, quote } = useMemo(() => {
+    const comparison = compareExchangePair(markets, buyId, sellId, league);
+    return { comparison, quote: exchangeQuote(comparison, buyId) };
+  }, [markets, buyId, sellId, league]);
   const timestamp = new Date(hour * 1000).toISOString().slice(0, 16).replace("T", " ");
-  const rate = singleExchangeRate(comparison);
+  const rate = quote?.rate ?? null;
   const converted = convertExchangeAmount(amount.text, rate, amount.side);
   const convertedText = converted === null ? "" : formatExchangeNumber(converted);
   const rateText =
     rate !== null && buy && sell
-      ? `1 ${buy.name} = ${formatExchangeNumber(rate)} ${sell.name}`
+      ? `1 ${buy.name} ${quote?.estimated ? "≈" : "="} ${formatExchangeNumber(rate)} ${sell.name}`
       : null;
   let conversionStatus = "";
   if (!rateText) {
@@ -257,7 +260,7 @@ export function CurrencyComparison({ markets, hour }: { markets: Market[]; hour:
       ? "No exchange items were reported in this digest."
       : !comparison
         ? `No trades reported for this pair in ${league} during this hour.`
-        : "A single rate is unavailable for this pair during this hour.";
+        : "No usable rate was reported for this pair during this hour.";
   } else if (converted === null) {
     const quantity = Number(amount.text);
     conversionStatus =
@@ -322,7 +325,9 @@ export function CurrencyComparison({ markets, hour }: { markets: Market[]; hour:
                   inputMode="decimal"
                   aria-label={`Amount to ${side}`}
                   aria-describedby={
-                    side !== amount.side && conversionStatus ? "exchange-conversion-status" : undefined
+                    side !== amount.side && conversionStatus
+                      ? "exchange-conversion-status"
+                      : undefined
                   }
                   data-testid={`exchange-${side}-amount`}
                   min="0"
@@ -340,7 +345,9 @@ export function CurrencyComparison({ markets, hour }: { markets: Market[]; hour:
           );
         })}
         <div className={styles.market}>
-          <span className={styles.resultLabel}>Market ratio</span>
+          <span className={styles.resultLabel}>
+            {quote?.estimated ? "Market estimate" : "Market ratio"}
+          </span>
           <strong data-testid="exchange-price" aria-live="polite">
             {rateText ?? "—"}
           </strong>

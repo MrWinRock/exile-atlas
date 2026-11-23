@@ -41,13 +41,13 @@ test("item rows use direct quantity ratios and the selected item's stock and vol
     divine,
     3600,
   );
-  expect(rows).toEqual([
+  expect(rows).toMatchObject([
     {
       itemId: essence,
       quoteId: divine,
       low: 2.5,
       high: 3,
-      rate: null,
+      estimated: true,
       hasMarket: true,
       stock: 90,
       volume: 120,
@@ -55,6 +55,7 @@ test("item rows use direct quantity ratios and the selected item's stock and vol
       change: null,
     },
   ]);
+  expect(rows[0].rate).toBeCloseTo(30 / 11);
 });
 
 test("explicit quote lists each league item once without synthesizing an indirect price", () => {
@@ -89,7 +90,7 @@ test("explicit quote lists each league item once without synthesizing an indirec
   expect(rows.find((row) => row.itemId === essence)?.hasMarket).toBe(false);
 });
 
-test("market quotes invert only below one and keep incomplete rates unavailable", () => {
+test("market quotes invert below one and use the available endpoint for a partial rate", () => {
   expect(marketPrice(0.2)).toEqual({ amount: 5, itemsPerQuote: true });
   expect(marketPrice(0.99999999)?.itemsPerQuote).toBe(true);
   expect(marketPrice(1)).toEqual({ amount: 1, itemsPerQuote: false });
@@ -102,8 +103,8 @@ test("market quotes invert only below one and keep incomplete rates unavailable"
     divine,
     3600,
   )[0];
-  expect(row).toMatchObject({ low: 2, high: 2, rate: null, hasMarket: true });
-  expect(marketPrice(row.rate)).toBeNull();
+  expect(row).toMatchObject({ low: 2, high: 2, rate: 2, estimated: true, hasMarket: true });
+  expect(marketPrice(row.rate)).toEqual({ amount: 2, itemsPerQuote: false });
 
   const auto = buildCurrencyMarketRows(
     [market(essence, divine, null, null)],
@@ -265,19 +266,22 @@ test("auto quote history keeps today's chosen quote rather than changing quote e
   });
 });
 
-test("items without any supported direct quote remain visible but unpriced", () => {
+test("automatic pricing uses another reported direct quote when preferred currencies are missing", () => {
   const rows = buildCurrencyMarketRows([market(essence, rune, 5)], [], "Standard", "", 3600);
   expect(rows).toHaveLength(2);
-  for (const row of rows) {
-    expect(row).toMatchObject({
-      quoteId: "",
-      low: null,
-      high: null,
-      stock: null,
-      volume: 0,
-      history: [],
-    });
-  }
+  expect(rows.find((row) => row.itemId === essence)).toMatchObject({
+    quoteId: rune,
+    rate: 5,
+    estimated: false,
+    hasMarket: true,
+    stock: 90,
+  });
+  expect(rows.find((row) => row.itemId === rune)).toMatchObject({
+    quoteId: essence,
+    rate: 0.2,
+    estimated: false,
+    hasMarket: true,
+  });
   expect(buildCurrencyMarketRows([], [], "Standard", divine, 3600)).toEqual([]);
 });
 

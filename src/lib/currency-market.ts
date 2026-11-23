@@ -1,6 +1,6 @@
 import {
   compareExchangePair,
-  singleExchangeRate,
+  exchangeQuote,
   type ExchangeComparison,
   type Market,
 } from "./currency";
@@ -12,6 +12,7 @@ export type CurrencyMarketRow = {
   low: number | null;
   high: number | null;
   rate: number | null;
+  estimated: boolean;
   hasMarket: boolean;
   stock: number | null;
   volume: number;
@@ -72,12 +73,15 @@ export function buildCurrencyMarketRows(
   hour: number,
 ): CurrencyMarketRow[] {
   const current = indexMarkets(markets, league);
-  const itemIds = new Set<string>();
+  const marketsByItem = new Map<string, Market[]>();
   for (const market of current.values()) {
-    itemIds.add(market.baseId);
-    itemIds.add(market.quoteId);
+    for (const id of new Set([market.baseId, market.quoteId])) {
+      const entries = marketsByItem.get(id);
+      if (entries) entries.push(market);
+      else marketsByItem.set(id, [market]);
+    }
   }
-  if (quoteId) itemIds.delete(quoteId);
+  if (quoteId) marketsByItem.delete(quoteId);
 
   // A duplicate hour is one snapshot, and the displayed digest is authoritative.
   const snapshotsByHour = new Map<number, Map<string, Market>>();
@@ -88,7 +92,7 @@ export function buildCurrencyMarketRows(
   snapshotsByHour.set(hour, current);
   const historyIndexes = [...snapshotsByHour].sort(([a], [b]) => a - b);
 
-  return [...itemIds].map((itemId): CurrencyMarketRow => {
+  return [...marketsByItem].map(([itemId, itemMarkets]): CurrencyMarketRow => {
     let selectedQuote = quoteId;
     let pair = quoteId ? compareIndexedPair(current, itemId, quoteId, league) : null;
     let hasMarket = pair !== null;
@@ -100,24 +104,37 @@ export function buildCurrencyMarketRows(
         const candidatePair = compareIndexedPair(current, itemId, candidate, league);
         if (!candidatePair) continue;
         hasMarket = true;
-        const rate = singleExchangeRate(candidatePair);
-        if (rate !== null) {
+        const quote = exchangeQuote(candidatePair, itemId);
+        if (quote && !quote.estimated) {
           firstExact ??= { quoteId: candidate, pair: candidatePair };
-          if (rate >= 1) {
+          if (quote.rate >= 1) {
             firstExact = { quoteId: candidate, pair: candidatePair };
             break;
           }
         }
 
-        const price = representativePrice(candidatePair);
-        if (price !== null && (!fallback || (fallback.price < 1 && price >= 1))) {
-          fallback = { quoteId: candidate, pair: candidatePair, price };
+        if (quote && (!fallback || (fallback.price < 1 && quote.rate >= 1))) {
+          fallback = { quoteId: candidate, pair: candidatePair, price: quote.rate };
         }
       }
       const preferred = firstExact ?? fallback;
       if (preferred) {
         selectedQuote = preferred.quoteId;
         pair = preferred.pair;
+      } else {
+        for (const market of itemMarkets) {
+          const candidate = market.baseId === itemId ? market.quoteId : market.baseId;
+          const candidatePair = compareExchangePair([market], itemId, candidate, league);
+          if (!candidatePair) continue;
+          hasMarket = true;
+          if (
+            exchangeQuote(candidatePair, itemId) &&
+            (!pair || candidatePair.buyVolume > pair.buyVolume)
+          ) {
+            selectedQuote = candidate;
+            pair = candidatePair;
+          }
+        }
       }
     }
 
@@ -134,12 +151,14 @@ export function buildCurrencyMarketRows(
     const latest = history[history.length - 1]?.price;
     const change = history.length >= 2 && oldest > 0 ? ((latest - oldest) / oldest) * 100 : null;
     const stock = pair?.market.raw.highest_stock[itemId];
+    const quote = exchangeQuote(pair, itemId);
     return {
       itemId,
       quoteId: selectedQuote,
       low: pair?.low ?? null,
       high: pair?.high ?? null,
-      rate: singleExchangeRate(pair),
+      rate: quote?.rate ?? null,
+      estimated: quote?.estimated ?? false,
       hasMarket,
       stock: stock !== undefined && Number.isFinite(stock) && stock >= 0 ? stock : null,
       volume: pair?.buyVolume ?? 0,

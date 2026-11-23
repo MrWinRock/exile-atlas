@@ -8,13 +8,13 @@ const annulment = "Metadata/Items/Currency/CurrencyRemoveMod";
 const essence = "Metadata/Items/Currency/Essence/EssenceAttack1";
 const hour = Math.floor(Date.now() / 3600000) * 3600 - 3600;
 
-function market(item: string, price: number, league = "Standard") {
+function market(item: string, price: number, league = "Standard", high = price) {
   return normalizeMarket({
     league,
     market_pair: [divine, item],
     volume_traded: { [divine]: 40, [item]: 1000 },
     lowest_ratio: { [divine]: price, [item]: 1 },
-    highest_ratio: { [divine]: price, [item]: 1 },
+    highest_ratio: { [divine]: high, [item]: 1 },
     lowest_stock: { [divine]: 5, [item]: 50 },
     highest_stock: { [divine]: 10, [item]: 1200 },
   });
@@ -27,7 +27,7 @@ test("item market prices, history and favorites follow league and quote filters"
     market(chaos, 0.1),
     market(exalted, 0.01),
     market(essence, 2),
-    market(chaos, 0.5, "Hardcore"),
+    market(chaos, 0.5, "Hardcore", 0.25),
     normalizeMarket({
       league: "Standard",
       market_pair: [exalted, annulment],
@@ -142,7 +142,10 @@ test("item market prices, history and favorites follow league and quote filters"
   ).toBeVisible();
   await list.getByRole("button", { name: "Currency", exact: true }).click();
   await list.getByLabel("Market league").selectOption("Hardcore");
-  await expect(price).toHaveText("2 ↔ 1");
+  await expect(price).toHaveText("≈ 3 ↔ 1");
+  await expect(
+    chaosRow.getByRole("cell", { name: "Approximately 3 Chaos Orb for 1 Divine Orb" }),
+  ).toBeVisible();
   await expect(chaosRow.getByTestId("market-change")).toHaveText("—");
   await list.getByLabel("Search market items").fill("no such item");
   await expect(list.getByText("No items match these filters.")).toBeVisible();

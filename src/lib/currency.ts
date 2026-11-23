@@ -115,6 +115,19 @@ export function singleExchangeRate(comparison: ExchangeComparison | null): numbe
   return firstProduct === secondProduct ? comparison.low : null;
 }
 
+export function exchangeQuote(comparison: ExchangeComparison | null, itemId: string) {
+  if (!comparison || comparison.low === null || comparison.high === null) return null;
+
+  const exact = singleExchangeRate(comparison);
+  if (exact !== null) return { rate: exact, estimated: false };
+
+  const { low, high, market } = comparison;
+  // The midpoint is anchored to the digest's base-to-quote direction. In the
+  // other direction, the reciprocal midpoint is the harmonic mean of the bounds.
+  const rate = itemId === market.baseId ? low + (high - low) / 2 : low / (0.5 + 0.5 * (low / high));
+  return { rate, estimated: true };
+}
+
 function decimalProduct(left: number, right: number) {
   function decimalParts(value: number) {
     const [mantissa, exponent = "0"] = value.toString().split("e");

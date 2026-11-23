@@ -360,11 +360,13 @@ export function CurrencyMarkets({
                 const price = marketPrice(row.rate);
                 const amount = price ? formatExchangeNumber(price.amount) : null;
                 const priceLabel = price
-                  ? price.itemsPerQuote
-                    ? `${amount} ${row.name} for 1 ${quoteName}`
-                    : `${amount} ${quoteName} per ${row.name}`
+                  ? `${row.estimated ? "Approximately " : ""}${
+                      price.itemsPerQuote
+                        ? `${amount} ${row.name} for 1 ${quoteName}`
+                        : `${amount} ${quoteName} per ${row.name}`
+                    }`
                   : row.hasMarket
-                    ? "A single rate is unavailable during this hour"
+                    ? "No usable rate was reported during this hour"
                     : "No direct trades for this quote currency";
                 return (
                   <tr key={row.itemId}>
@@ -379,6 +381,7 @@ export function CurrencyMarkets({
                     <td aria-label={priceLabel} title={priceLabel}>
                       <div className={styles.price} data-testid="market-price">
                         <span>
+                          {price && row.estimated && "≈ "}
                           {price?.itemsPerQuote
                             ? `${amount} ↔ 1`
                             : (amount ?? (row.hasMarket ? "Unavailable" : "—"))}
